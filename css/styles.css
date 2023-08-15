@@ -11066,3 +11066,10 @@ html {
         margin-bottom: 10px;
     }
 }
+.icon-navbar {
+  height: 35px; /* ou a altura que preferir */
+  width: auto; 
+  margin-right: 3px; /* dá um pequeno espaço entre o ícone e o texto */
+  vertical-align: middle; /* alinha verticalmente o ícone ao texto */
+  padding-bottom: 6px;
+}
