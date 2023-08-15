@@ -6,6 +6,21 @@
 //
 // Scripts
 // 
+document.addEventListener('DOMContentLoaded', function() {
+
+    const contactForm = document.getElementById('contactForm');
+    const submitButton = document.getElementById('submitButton');
+
+    contactForm.addEventListener('input', function() {
+
+        // Checar se todos os campos obrigatórios foram preenchidos
+        const isValid = [...contactForm.querySelectorAll('[required]')].every(input => input.value.trim() !== '');
+
+        // Ativar ou desativar o botão "Send" baseado na validade do formulário
+        submitButton.disabled = !isValid;
+
+    });
+});
 
 window.addEventListener('DOMContentLoaded', event => {
 
