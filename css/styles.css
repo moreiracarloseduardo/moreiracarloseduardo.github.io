@@ -11068,11 +11068,16 @@ html {
   width: 20px;  /* Ajuste a largura conforme necessário para o espaçamento desejado entre os botões */
 }
 
-@media (max-width: 768px) { 
-  /* O valor de 768px é apenas um exemplo. Ajuste de acordo com o breakpoint específico de seu design. */
-  .button-spacer {
-      width: auto;
-      height: 20px;  /* Espaçamento vertical entre os botões no modo mobile */
+.custom-button {
+  margin: 0;  /* Garante que não há margem padrão */
+}
+
+@media (max-width: 768px) { /* Ajuste o valor conforme necessário */
+  .custom-button {
+      margin-bottom: 10px; /* Adiciona uma margem na parte inferior do botão */
+  }
+  .custom-button:last-child {
+      margin-bottom: 0; /* Remove a margem do último botão para evitar espaçamento extra no contêiner */
   }
 }
 .icon-navbar {
