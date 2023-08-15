@@ -11050,3 +11050,19 @@ html {
   padding-left: 0;
   list-style-position: inside;
 }
+.btn-xl:first-child {
+    margin-right: 20px;
+}
+.btn-xl:last-child {
+    margin-left: 20px;
+}
+
+@media (max-width: 767px) {
+    .btn-xl {
+        display: block;
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+}
