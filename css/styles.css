@@ -11055,17 +11055,18 @@ html {
   justify-content: center;  /* Centraliza os itens horizontalmente */
   align-items: center;      /* Centraliza os itens verticalmente */
   flex-wrap: wrap;          /* Permite que os itens se quebrem para a próxima linha em telas menores */
+  padding-top: 5px;
 }
 
 .button-spacer {
-  width: 10px;  /* Ajuste a largura conforme necessário para o espaçamento desejado entre os botões */
+  width: 20px;  /* Ajuste a largura conforme necessário para o espaçamento desejado entre os botões */
 }
 
 @media (max-width: 768px) { 
   /* O valor de 768px é apenas um exemplo. Ajuste de acordo com o breakpoint específico de seu design. */
   .button-spacer {
       width: auto;
-      height: 10px;  /* Espaçamento vertical entre os botões no modo mobile */
+      height: 20px;  /* Espaçamento vertical entre os botões no modo mobile */
   }
 }
 .icon-navbar {
