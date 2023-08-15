@@ -11050,6 +11050,12 @@ html {
   padding-left: 0;
   list-style-position: inside;
 }
+.btn-xl:first-child {
+  margin-right: 20px;
+}
+.btn-xl:last-child {
+  margin-left: 20px;
+}
 .button-container {
   display: flex;
   justify-content: center;  /* Centraliza os itens horizontalmente */
