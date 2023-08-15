@@ -11074,16 +11074,16 @@ html {
 
 @media (max-width: 768px) { /* Ajuste o valor conforme necessário */
   .custom-button {
-      margin-bottom: 10px; /* Adiciona uma margem na parte inferior do botão */
+      margin-bottom: 20px; /* Adiciona uma margem na parte inferior do botão */
   }
   .custom-button:last-child {
-      margin-bottom: 0; /* Remove a margem do último botão para evitar espaçamento extra no contêiner */
+      margin-bottom: 20px; /* Remove a margem do último botão para evitar espaçamento extra no contêiner */
   }
 }
 .icon-navbar {
   height: 35px; /* ou a altura que preferir */
   width: auto; 
   margin-right: 3px; /* dá um pequeno espaço entre o ícone e o texto */
-  vertical-align: middle; /* alinha verticalmente o ícone ao texto */
-  padding-bottom: 6px;
+  vertical-align: middle !important; /* alinha verticalmente o ícone ao texto */
+  padding-bottom: 15px;
 }
