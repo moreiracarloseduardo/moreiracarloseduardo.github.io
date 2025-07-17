@@ -148,6 +148,23 @@ a.dotted-link:hover {
   margin-bottom: 15px;
 }
 
+.header .profile-content .logo-image {
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  max-height: 150px;
+  margin-top: 20px;
+  margin-bottom: 15px;
+  margin-left: -30px;
+  transition: filter 0.3s ease;
+  object-fit: contain;
+  /* filter: brightness(0) saturate(100%) invert(27%) sepia(8%) saturate(853%) hue-rotate(169deg) brightness(97%) contrast(89%); */
+}
+
+.header .profile-content .logo-image:hover {
+  /* filter: brightness(0) saturate(100%) invert(52%) sepia(93%) saturate(1352%) hue-rotate(87deg) brightness(119%) contrast(119%); */
+}
+
 .header .profile-content .social a {
   background: #b0b7bf;
   width: 36px;
@@ -717,6 +734,14 @@ body[data-theme="dark"] .header .profile-content .desc {
   color: rgba(255, 255, 255, 0.7);
 }
 
+body[data-theme="dark"] .header .profile-content .logo-image {
+  filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7500%) hue-rotate(194deg) brightness(100%) contrast(100%);
+}
+
+body[data-theme="dark"] .header .profile-content .logo-image:hover {
+  filter: brightness(0) saturate(100%) invert(52%) sepia(93%) saturate(1352%) hue-rotate(87deg) brightness(119%) contrast(119%);
+}
+
 body[data-theme="dark"] .header .profile-content .social a {
   background: #2e3238;
   color: rgba(230, 230, 230, 0.7);
@@ -851,6 +876,52 @@ body[data-theme="dark"] .text-muted {
     text-decoration: none;
 }
 
+.btn-collapse {
+    background-color: #479FC8;
+    border: 1px solid #479FC8;
+    color: #fff;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.btn-collapse:hover {
+    background-color: #3893bd;
+    border: 1px solid #3893bd;
+    color: #fff;
+}
+
+.btn-collapse:focus {
+    box-shadow: 0 0 0 0.2rem rgba(71, 159, 200, 0.25);
+}
+
+/* Responsividade para tablets e telas médias */
+@media (max-width: 991.98px) {
+  .header .profile-content .logo-image {
+    max-width: 260px;
+    max-height: 70px;
+    margin-left: -15px;
+  }
+}
+
+/* Responsividade para telas pequenas */
+@media (max-width: 575.98px) {
+  .header .profile-content .logo-image {
+    max-width: 220px;
+    max-height: 50px;
+    margin-left: 0;
+  }
+}
+
+/* Responsividade para telas muito pequenas */
+@media (max-width: 375px) {
+  .header .profile-content .logo-image {
+    max-width: 180px;
+    max-height: 40px;
+    margin-left: 0;
+  }
+}
+
 @media (max-width: 767.98px) {
   .header {
     text-align: center;
@@ -862,6 +933,12 @@ body[data-theme="dark"] .text-muted {
   .header .profile-content {
     float: none !important;
     text-align: center;
+  }
+  .header .profile-content .logo-image {
+    max-width: 280px;
+    max-height: 60px;
+    margin-left: 0;
+    margin-top: 10px;
   }
   .header .btn {
     margin-top: 30px;
