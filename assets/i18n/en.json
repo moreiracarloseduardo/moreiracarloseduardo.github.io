@@ -1,0 +1,77 @@
+{
+  "nav": {
+    "about": "About",
+    "projects": "Projects",
+    "experience": "Experience",
+    "contact": "Contact"
+  },
+  "header": {
+    "darkMode": "Dark Mode",
+    "contactMe": "Contact Me"
+  },
+  "about": {
+    "heading": "About Me",
+    "p1": "As a Game Developer, my passion lies in creating immersive experiences where game mechanics and narrative organically intertwine. My goal is for every interaction to be so intuitive that players grasp it naturally, allowing the emotion and intention behind the creation to be fully felt.",
+    "p2": "Beyond the technical aspects of game development, I am a storytelling enthusiast, dedicated to crafting engaging narratives, whether for personal exploration or as potential foundations for new game worlds. My curiosity leads me to be an avid reader, exploring everything from philosophy and history to fiction and science. I'm particularly fascinated by astrophysics, unraveling the mysteries of the universe, and I love spending time with my dogs. In my leisure time, I'm an eclectic gamer, with a special fondness for indie games, which I consider true gems in terms of innovation and creativity.",
+    "p3": "I'm seeking new opportunities to contribute to innovative projects, where my passion for creating games I'd love to play can flourish. My differential is the ability to simplify processes and act as a facilitator, always considering how my contributions can optimize teamwork and solve complex challenges. I'm a natural problem-solver and I love to refine every detail to ensure the best possible experience."
+  },
+  "projects": {
+    "current": "Current Project",
+    "mobile": "Mobile Projects",
+    "other": "Other Projects",
+    "upcoming": {
+      "ribbon": "Upcoming",
+      "title": "Every photo tells a story... and hides a secret.",
+      "desc": "I'm brewing up something chilling! A new horror game is in the early stages of development. Stay tuned, I'll share more details once a playable demo is ready."
+    }
+  },
+  "other": {
+    "tennis": {"desc": "Quest 2 game where players try to land the return inside the line. Developed using Unity and Meta Quest 2"},
+    "rhythm": {"desc": "A game like Guitar Hero where you hit the notes as they come down the screen, you could play against other player or against an AI, developed using Unity for a renowned music festival."}
+  },
+  "experience": {
+    "heading": "Work Experience",
+    "nex": {
+      "title": "Game Developer",
+      "years": "(January 2024 – January 2025)",
+      "li1": "Designed and developed custom games for brands and events, including VR and AR games, rhythm games, memory games, marathon simulation, etc.",
+      "li2": "Leveraged advanced technologies such as interactive floors, facial recognition, augmented reality, and virtual reality."
+    },
+    "coruja": {
+      "title": "Game Developer",
+      "years": "(March 2020 – May 2023)",
+      "li1": "Extensive experience in creating prototypes, overseeing the entire game development process from ideation to launch.",
+      "li2": "Implemented dynamic game mechanics and interactive systems using Unity and C#.",
+      "li3": "Debugged and optimized games performance."
+    },
+    "likin": {
+      "title": "Front-End Developer",
+      "years": "(August 2017 – January 2020)",
+      "li1": "Developed and enhanced user-facing features and applications.",
+      "li2": "Integrated front-end interfaces with back-end systems and resolved performance issues.",
+      "li3": "Actively participated in Agile processes, including daily scrum meetings, reviews, and planning sessions."
+    }
+  },
+  "aside": {
+    "info": {"heading": "Basic Information", "location": {"sr": "Location:"}},
+    "skills": {
+      "heading": "Skills",
+      "intro": "As a Game Developer, my expertise ranges from creative conception to technical implementation, with a focus on immersive and intuitive experiences. Below are some of my core technical skills and tools.",
+      "level": {
+        "advanced": "Advanced",
+        "pro": "Pro",
+        "intermediate": "Intermediate"
+      },
+      "moreLinkedIn": "More on my LinkedIn"
+    },
+    "languages": {
+      "heading": "Languages",
+      "portuguese": {"title": "Portuguese:", "level": "Native Speaker"},
+      "spanish": {"title": "Spanish:", "level": "Native Speaker"},
+      "english": {"title": "English:", "level": "B2 (Upper Intermediate):"}
+    },
+    "credits": {"heading": "Credits"}
+  },
+  "footer": {"by": "Designed with love", "for": "developers"},
+  "buttons": {"viewDetails": "View details", "collapse": "Collapse"}
+}

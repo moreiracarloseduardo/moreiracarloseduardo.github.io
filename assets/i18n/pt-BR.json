@@ -1,0 +1,77 @@
+{
+  "nav": {
+    "about": "Sobre",
+    "projects": "Projetos",
+    "experience": "Experiência",
+    "contact": "Contato"
+  },
+  "header": {
+    "darkMode": "Modo escuro",
+    "contactMe": "Fale comigo"
+  },
+  "about": {
+    "heading": "Sobre mim",
+    "p1": "Como Game Developer, minha paixão está em criar experiências imersivas onde mecânicas e narrativa se entrelaçam organicamente. Meu objetivo é que cada interação seja tão intuitiva que o jogador a compreenda naturalmente, permitindo que a emoção e a intenção por trás da criação sejam plenamente sentidas.",
+    "p2": "Além do desenvolvimento técnico de jogos, sou entusiasta de storytelling, dedicado a construir narrativas envolventes, seja para exploração pessoal ou como base para novos mundos de jogos. Minha curiosidade me torna um leitor ávido, explorando desde filosofia e história até ficção e ciência. Tenho particular fascínio por astrofísica, desvendando os mistérios do universo, e adoro passar tempo com meus cães. No meu tempo livre, sou um gamer eclético, com carinho especial por jogos indie, que considero verdadeiras joias de inovação e criatividade.",
+    "p3": "Busco novas oportunidades para contribuir com projetos inovadores, onde minha paixão por criar os jogos que eu adoraria jogar possa florescer. Meu diferencial é a capacidade de simplificar processos e atuar como facilitador, sempre pensando em como minhas contribuições podem otimizar o trabalho em equipe e resolver desafios complexos. Sou um solucionador nato e adoro lapidar cada detalhe para garantir a melhor experiência possível."
+  },
+  "projects": {
+    "current": "Projeto Atual",
+    "mobile": "Projetos Mobile",
+    "other": "Outros Projetos",
+    "upcoming": {
+      "ribbon": "Em breve",
+      "title": "Toda foto conta uma história... e esconde um segredo.",
+      "desc": "Estou preparando algo de arrepiar! Um novo jogo de terror está nas fases iniciais de desenvolvimento. Fique de olho, vou compartilhar mais detalhes assim que uma demo jogável estiver pronta."
+    }
+  },
+  "other": {
+    "tennis": {"desc": "Jogo para Quest 2 onde os jogadores tentam devolver a bola dentro da linha. Desenvolvido usando Unity e Meta Quest 2"},
+    "rhythm": {"desc": "Um jogo no estilo Guitar Hero, em que você acerta as notas conforme descem na tela. É possível jogar contra outro jogador ou contra uma IA, desenvolvido em Unity para um renomado festival de música."}
+  },
+  "experience": {
+    "heading": "Experiência Profissional",
+    "nex": {
+      "title": "Game Developer",
+      "years": "(Janeiro de 2024 – Janeiro de 2025)",
+      "li1": "Concepção e desenvolvimento de jogos sob medida para marcas e eventos, incluindo jogos em VR e AR, jogos de ritmo, memória, simulação de maratona, etc.",
+      "li2": "Uso de tecnologias avançadas como pisos interativos, reconhecimento facial, realidade aumentada e realidade virtual."
+    },
+    "coruja": {
+      "title": "Game Developer",
+      "years": "(Março de 2020 – Maio de 2023)",
+      "li1": "Ampla experiência na criação de protótipos e condução de todo o processo de desenvolvimento de jogos, da ideação ao lançamento.",
+      "li2": "Implementação de mecânicas dinâmicas e sistemas interativos usando Unity e C#.",
+      "li3": "Depuração e otimização de performance de jogos."
+    },
+    "likin": {
+      "title": "Front-End Developer",
+      "years": "(Agosto de 2017 – Janeiro de 2020)",
+      "li1": "Desenvolvimento e melhoria de funcionalidades e aplicações voltadas ao usuário.",
+      "li2": "Integração de interfaces front-end com sistemas back-end e resolução de problemas de performance.",
+      "li3": "Participação ativa em processos Ágeis, incluindo dailies, reviews e planejamentos."
+    }
+  },
+  "aside": {
+    "info": {"heading": "Informações Básicas", "location": {"sr": "Localização:"}},
+    "skills": {
+      "heading": "Habilidades",
+      "intro": "Como Game Developer, minha expertise vai da concepção criativa à implementação técnica, com foco em experiências imersivas e intuitivas. Abaixo estão algumas das minhas principais habilidades e ferramentas.",
+      "level": {
+        "advanced": "Avançado",
+        "pro": "Pro",
+        "intermediate": "Intermediário"
+      },
+      "moreLinkedIn": "Mais no meu LinkedIn"
+    },
+    "languages": {
+      "heading": "Idiomas",
+      "portuguese": {"title": "Português:","level": "Fluente"},
+      "spanish": {"title": "Espanhol:","level": "Fluente"},
+      "english": {"title": "Inglês:","level": "B2 (Upper Intermediate):"}
+    },
+    "credits": {"heading": "Créditos"}
+  },
+  "footer": {"by": "Criado com carinho", "for": "desenvolvedores"},
+  "buttons": {"viewDetails": "Ver detalhes", "collapse": "Recolher"}
+}

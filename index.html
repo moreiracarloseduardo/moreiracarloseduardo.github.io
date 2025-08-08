@@ -44,11 +44,12 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://moreiracarloseduardo.github.io/">
     <meta property="og:title" content="Carlos Eduardo – Game Developer Portfolio">
-    <meta property="og:description" content="Game Developer focado em experiências imersivas, usabilidade impecável e arquitetura sólida. Confira projetos mobile e um novo jogo de terror em desenvolvimento.">
+    <meta property="og:description" content="Game Developer focused on immersive experiences, seamless usability, and solid architecture. Explore mobile projects and a new horror game in development.">
     <meta property="og:image" content="https://moreiracarloseduardo.github.io/assets/images/projects/camera.jpg">
+    <meta property="og:locale" content="en_US">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Carlos Eduardo – Game Developer Portfolio">
-    <meta name="twitter:description" content="Portfólio com projetos mobile, gameplay gifs e um novo jogo de terror em produção.">
+    <meta name="twitter:description" content="Portfolio with mobile projects, gameplay gifs, and a new horror game in production.">
     <meta name="twitter:image" content="https://moreiracarloseduardo.github.io/assets/images/projects/camera.jpg">
 
         <!--Prism.js CSS -->
@@ -62,17 +63,17 @@
         <!-- Top Navigation -->
         <nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary sticky-top" style="background: var(--card); border-bottom: 1px solid var(--border);">
             <div class="container">
-                <a class="navbar-brand" href="#top" style="font-weight:700; color: var(--heading);">Carlos Eduardo</a>
+        <a class="navbar-brand" href="#top" style="font-weight:700; color: var(--heading);">Carlos Eduardo</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topnav"
                     aria-controls="topnav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="topnav">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="#about">Sobre</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#projects">Projetos</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#experience">Experiência</a></li>
-                        <li class="nav-item"><a class="nav-link" href="mailto:moreira.carloseduardo@gmail.com">Contato</a></li>
+            <li class="nav-item"><a class="nav-link" href="#about" data-i18n="nav.about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="#projects" data-i18n="nav.projects">Projects</a></li>
+            <li class="nav-item"><a class="nav-link" href="#experience" data-i18n="nav.experience">Experience</a></li>
+            <li class="nav-item"><a class="nav-link" href="mailto:moreira.carloseduardo@gmail.com" data-i18n="nav.contact">Contact</a></li>
                     </ul>
                 </div>
             </div>
@@ -108,19 +109,32 @@
                         </div><!--//profile-->
                     </div><!--//col-->
                     <div class="col-12 col-md-auto">
+                        <div class="d-flex align-items-center gap-3 justify-content-center justify-content-md-end mb-2">
+                            <!-- Language Selector -->
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="langDropdown" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Language selector">
+                                    <i class="fas fa-globe me-1"></i><span id="lang-current">EN</span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langDropdown">
+                                    <li><button class="dropdown-item" type="button" data-set-lang="en">English (EN)</button></li>
+                                    <li><button class="dropdown-item" type="button" data-set-lang="pt-BR">Português (PT-BR)</button></li>
+                                </ul>
+                            </div>
+                            <!--// Language Selector -->
+                        </div>
                         <div class="dark-mode-switch d-flex">
                             <div class="form-check form-switch mx-auto mx-md-0">
                                 <input type="checkbox"
                                     class="form-check-input me-2"
                                     id="darkSwitch" />
-                                <label class="custom-control-label"
+                                <label class="custom-control-label" data-i18n="header.darkMode"
                                     for="darkSwitch">Dark Mode</label>
                             </div>
                         </div><!--//dark-mode-switch-->
                         <a class="btn btn-cta-primary"
                             href="mailto:moreira.carloseduardo@gmail.com"><i
                                 class="fas fa-envelope fa-lg align-middle"></i>
-                            Contact Me</a>
+                            <span data-i18n="header.contactMe">Contact Me</span></a>
                     </div><!--//col-->
                 </div><!--//row-->
             </div><!--//container-->
@@ -131,9 +145,9 @@
                 <div class="primary col-lg-8 col-12">
                     <section id="about" class="about section">
                         <div class="section-inner shadow-sm rounded">
-                            <h2 class="heading">About Me</h2>
+                            <h2 class="heading" data-i18n="about.heading">About Me</h2>
                             <div class="content">
-                                <p>As a Game Developer, my passion lies in
+                                <p data-i18n="about.p1">As a Game Developer, my passion lies in
                                     creating immersive experiences where game
                                     mechanics and narrative organically
                                     intertwine. My goal is for every interaction
@@ -141,7 +155,7 @@
                                     naturally, allowing the emotion and
                                     intention behind the creation to be fully
                                     felt.</p>
-                                <p>Beyond the technical aspects of game
+                                <p data-i18n="about.p2">Beyond the technical aspects of game
                                     development, I am a storytelling enthusiast,
                                     dedicated to crafting engaging narratives,
                                     whether for personal exploration or as
@@ -156,7 +170,7 @@
                                     special fondness for indie games, which I
                                     consider true gems in terms of innovation
                                     and creativity.</p>
-                                <p>I'm seeking new opportunities to contribute
+                                <p data-i18n="about.p3">I'm seeking new opportunities to contribute
                                     to innovative projects, where my passion for
                                     creating games I'd love to play can
                                     flourish. My differential is the ability to
@@ -173,7 +187,7 @@
 
                     <section id="projects" class="latest section">
                         <div class="section-inner shadow-sm rounded">
-                            <h2 class="heading">Current Project</h2>
+                            <h2 class="heading" data-i18n="projects.current">Current Project</h2>
                             <div class="content">
 
                                 <div class="item featured text-center">
@@ -187,14 +201,14 @@
                                                 loading="lazy" decoding="async" />
                                         </a>
                                         <div class="ribbon">
-                                            <div class="text">Upcoming</div>
+                                            <div class="text" data-i18n="projects.upcoming.ribbon">Upcoming</div>
                                         </div>
                                     </div>
 
-                                    <h3 class="title mb-3">Every photo tells a story... and hides a secret.</h3>
+                                    <h3 class="title mb-3" data-i18n="projects.upcoming.title">Every photo tells a story... and hides a secret.</h3>
 
                                     <div class="desc text-start">
-                                        <p>I'm brewing up something chilling! A
+                                        <p data-i18n="projects.upcoming.desc">I'm brewing up something chilling! A
                                             new horror game is in the early
                                             stages of development. Stay tuned,
                                             I'll share more details once a
@@ -209,7 +223,7 @@
 
                                 <hr class="divider" />
 
-                                <h2 class="heading" style="scroll-margin-top: 90px;">Mobile Projects</h2>
+                                <h2 class="heading" style="scroll-margin-top: 90px;" data-i18n="projects.mobile">Mobile Projects</h2>
                                 <div class="item featured text-center">
                                     <div>
                                         <h3 class="text-bg-secondary">My Candy Shop</h3>
@@ -230,7 +244,7 @@
                                             <button class="btn btn-collapse toggle-details" type="button"
                                                     data-bs-toggle="collapse" data-bs-target="#collapseCandyShop"
                                                     aria-expanded="false" aria-controls="collapseCandyShop">
-                                                <span class="label">Ver detalhes</span>
+                                                <span class="label" data-i18n="buttons.viewDetails">View details</span>
                                                 <i class="fas fa-chevron-down ms-1"></i>
                                             </button>
                                         </div>
@@ -666,7 +680,7 @@ public float machineSpeedValue {
                                         <button class="btn btn-collapse toggle-details" type="button"
                                                 data-bs-toggle="collapse" data-bs-target="#collapseIdleTrain"
                                                 aria-expanded="false" aria-controls="collapseIdleTrain">
-                                            <span class="label">Ver detalhes</span>
+                                            <span class="label" data-i18n="buttons.viewDetails">View details</span>
                                             <i class="fas fa-chevron-down ms-1"></i>
                                         </button>
                                     </div>
@@ -1072,7 +1086,7 @@ audioSource.pitch = pitch;</code></pre>
                                         <button class="btn btn-collapse toggle-details" type="button"
                                                 data-bs-toggle="collapse" data-bs-target="#collapseIceMeltRace"
                                                 aria-expanded="false" aria-controls="collapseIceMeltRace">
-                                            <span class="label">Ver detalhes</span>
+                                                <span class="label" data-i18n="buttons.viewDetails">View details</span>
                                             <i class="fas fa-chevron-down ms-1"></i>
                                         </button>
                                     </div>
@@ -1285,9 +1299,7 @@ if (countToSpawnParticle >= 10) {
 
                                     <hr class="divider" />
 
-                                    <h2
-                                        class="heading">Other
-                                        Projects</h2>
+                                    <h2 class="heading" data-i18n="projects.other">Other Projects</h2>
                                     <div class="item row">
                                         <a
                                             class="col-md-4 col-12">
@@ -1301,8 +1313,7 @@ if (countToSpawnParticle >= 10) {
                                             class="desc col-md-8 col-12">
                                             <h3
                                                 class="title"><a>TenisVR</a></h3>
-                                            <p
-                                                class="mb-2">Quest
+                                            <p class="mb-2" data-i18n="other.tennis.desc">Quest
                                                 2 game where
                                                 players try
                                                 to land the
@@ -1332,8 +1343,7 @@ if (countToSpawnParticle >= 10) {
                                             <h3
                                                 class="title"><a>Rhythm
                                                     game</a></h3>
-                                            <p
-                                                class="mb-2">A
+                                            <p class="mb-2" data-i18n="other.rhythm.desc">A
                                                 game like
                                                 Guitar Hero
                                                 where you
@@ -1364,100 +1374,36 @@ if (countToSpawnParticle >= 10) {
                         <section id="experience" class="experience section">
                             <div
                                 class="section-inner shadow-sm rounded">
-                                <h2 class="heading">Work
-                                    Experience</h2>
+                                <h2 class="heading" data-i18n="experience.heading">Work Experience</h2>
                                 <div class="content">
                                     <div class="item">
-                                        <h3
-                                            class="title">Game Developer
-                                            <span
-                                                class="place"><a>Nex Digital,
-                                                    Brasil</a></span>
-                                            <span
-                                                class="year">(January 2024 –
-                                                January 2025)</span></h3>
+                                        <h3 class="title"><span data-i18n="experience.nex.title">Game Developer</span>
+                                            <span class="place"><a>Nex Digital, Brasil</a></span>
+                                            <span class="year" data-i18n="experience.nex.years">(January 2024 – January 2025)</span></h3>
                                         <ul class="experience-list">
-                                            <li>
-                                                Designed and developed
-                                                custom games
-                                                for brands and events, including
-                                                VR
-                                                and AR games, rhythm games,
-                                                memory
-                                                games, marathon simulation, etc.
-                                            </li>
-                                            <li>
-                                                Leveraged
-                                                advanced technologies
-                                                such as interactive floors,
-                                                facial
-                                                recognition, augmented reality,
-                                                and
-                                                virtual reality.
-                                            </li>
+                                            <li data-i18n="experience.nex.li1">Designed and developed custom games for brands and events, including VR and AR games, rhythm games, memory games, marathon simulation, etc.</li>
+                                            <li data-i18n="experience.nex.li2">Leveraged advanced technologies such as interactive floors, facial recognition, augmented reality, and virtual reality.</li>
                                         </ul>
                                     </div><!--//item-->
                                     <div class="item">
-                                        <h3
-                                            class="title">Game Developer
-                                            <span
-                                                class="place"><a>Coruja Games,
-                                                    Brasil</a></span>
-                                            <span
-                                                class="year">(March 2020 – May
-                                                2023)</span></h3>
+                                        <h3 class="title"><span data-i18n="experience.coruja.title">Game Developer</span>
+                                            <span class="place"><a>Coruja Games, Brasil</a></span>
+                                            <span class="year" data-i18n="experience.coruja.years">(March 2020 – May 2023)</span></h3>
                                         <ul class="experience-list">
-                                            <li>
-                                                Extensive experience in creating
-                                                prototypes, overseeing the
-                                                entire
-                                                game
-                                                development process from
-                                                ideation to
-                                                launch.
-                                            </li>
-                                            <li>
-                                                Implemented dynamic game
-                                                mechanics
-                                                and interactive systems using
-                                                Unity
-                                                and C#.
-                                            </li>
-                                            <li>
-                                                Debugged and optimized games
-                                                performance.
-                                            </li>
+                                            <li data-i18n="experience.coruja.li1">Extensive experience in creating prototypes, overseeing the entire game development process from ideation to launch.</li>
+                                            <li data-i18n="experience.coruja.li2">Implemented dynamic game mechanics and interactive systems using Unity and C#.</li>
+                                            <li data-i18n="experience.coruja.li3">Debugged and optimized games performance.</li>
                                         </ul>
                                     </div><!--//item-->
 
                                     <div class="item">
-                                        <h3
-                                            class="title">Front-End Developer
-                                            <span
-                                                class="place"><a>Likin.do,
-                                                    Brasil</a></span>
-                                            <span
-                                                class="year">(August 2017 –
-                                                January 2020)</span></h3>
+                                        <h3 class="title"><span data-i18n="experience.likin.title">Front-End Developer</span>
+                                            <span class="place"><a>Likin.do, Brasil</a></span>
+                                            <span class="year" data-i18n="experience.likin.years">(August 2017 – January 2020)</span></h3>
                                         <ul class="experience-list">
-                                            <li>
-                                                Developed and enhanced
-                                                user-facing features and
-                                                applications.
-                                            </li>
-                                            <li>
-                                                Integrated front-end interfaces
-                                                with back-end systems and
-                                                resolved
-                                                performance issues.
-                                            </li>
-                                            <li>
-                                                Actively participated in Agile
-                                                processes, including daily scrum
-                                                meetings,
-                                                reviews, and planning sessions.
-
-                                            </li>
+                                            <li data-i18n="experience.likin.li1">Developed and enhanced user-facing features and applications.</li>
+                                            <li data-i18n="experience.likin.li2">Integrated front-end interfaces with back-end systems and resolved performance issues.</li>
+                                            <li data-i18n="experience.likin.li3">Actively participated in Agile processes, including daily scrum meetings, reviews, and planning sessions.</li>
                                         </ul>
                                     </div><!--//item-->
 
@@ -1470,15 +1416,13 @@ if (countToSpawnParticle >= 10) {
                         <aside class="info aside section">
                             <div
                                 class="section-inner shadow-sm rounded reveal-right">
-                                <h2
-                                    class="heading sr-only">Basic
-                                    Information</h2>
+                                <h2 class="heading sr-only" data-i18n="aside.info.heading">Basic Information</h2>
                                 <div class="content">
                                     <ul
                                         class="list-unstyled reveal-stagger">
                                         <li><i
                                                 class="fas fa-map-marker-alt"></i><span
-                                                class="sr-only">Location:</span>Porto
+                                                class="sr-only" data-i18n="aside.info.location.sr">Location:</span>Porto
                                             Alegre, BR</li>
                                         <li><i
                                                 class="fas fa-envelope"></i><span
@@ -1493,36 +1437,19 @@ if (countToSpawnParticle >= 10) {
                         <aside class="skills aside section">
                             <div
                                 class="section-inner shadow-sm rounded reveal-right">
-                                <h2
-                                    class="heading">Skills</h2>
+                                <h2 class="heading" data-i18n="aside.skills.heading">Skills</h2>
                                 <div class="content">
-                                    <p class="intro">
-                                        As a Game Developer,
-                                        my expertise
-                                        ranges from creative
-                                        conception to
-                                        technical
-                                        implementation, with
-                                        a
-                                        focus on immersive
-                                        and intuitive
-                                        experiences. Below
-                                        are some of my
-                                        core technical
-                                        skills and tools.
-                                    </p>
+                                    <p class="intro" data-i18n="aside.skills.intro">As a Game Developer, my expertise ranges from creative conception to technical implementation, with a focus on immersive and intuitive experiences. Below are some of my core technical skills and tools.</p>
 
                                     <div class="skillset reveal-stagger">
 
                                         <div class="item">
-                                            <h3
-                                                class="level-title">Unity3D
-                                                & C#<span
-                                                    class="level-label"
-                                                    data-bs-toggle="tooltip"
-                                                    data-bs-placement="left"
-                                                    data-bs-title="Extensive experience in game development, prototyping, and optimization."><i
-                                                        class="fas fa-info-circle"></i>Advanced</span></h3>
+                                            <h3 class="level-title">Unity3D & C#
+                                                <span class="level-label" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Extensive experience in game development, prototyping, and optimization." data-i18n-attr="data-bs-title">
+                                                    <i class="fas fa-info-circle"></i>
+                                                    <span class="level-text" data-i18n="aside.skills.level.advanced">Advanced</span>
+                                                </span>
+                                            </h3>
                                             <div
                                                 class="level-bar progress">
                                                 <div
@@ -1534,16 +1461,12 @@ if (countToSpawnParticle >= 10) {
                                                     aria-valuemax="100"></div>
                                             </div></div><div
                                             class="item">
-                                            <h3
-                                                class="level-title">Game
-                                                Design
-                                                (2D/3D,
-                                                VR/AR)<span
-                                                    class="level-label"
-                                                    data-bs-toggle="tooltip"
-                                                    data-bs-placement="left"
-                                                    data-bs-title="Creating dynamic mechanics and interactive systems for various platforms."><i
-                                                        class="fas fa-info-circle"></i>Pro</span></h3>
+                                            <h3 class="level-title">Game Design (2D/3D, VR/AR)
+                                                <span class="level-label" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Creating dynamic mechanics and interactive systems for various platforms." data-i18n-attr="data-bs-title">
+                                                    <i class="fas fa-info-circle"></i>
+                                                    <span class="level-text" data-i18n="aside.skills.level.pro">Pro</span>
+                                                </span>
+                                            </h3>
                                             <div
                                                 class="level-bar progress">
                                                 <div
@@ -1555,15 +1478,12 @@ if (countToSpawnParticle >= 10) {
                                                     aria-valuemax="100"></div>
                                             </div></div><div
                                             class="item">
-                                            <h3
-                                                class="level-title">Godot
-                                                &
-                                                GDScript<span
-                                                    class="level-label"
-                                                    data-bs-toggle="tooltip"
-                                                    data-bs-placement="left"
-                                                    data-bs-title="Creating dynamic mechanics and interactive systems for events."><i
-                                                        class="fas fa-info-circle"></i>Intermediate</span></h3>
+                                            <h3 class="level-title">Godot & GDScript
+                                                <span class="level-label" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Creating dynamic mechanics and interactive systems for events." data-i18n-attr="data-bs-title">
+                                                    <i class="fas fa-info-circle"></i>
+                                                    <span class="level-text" data-i18n="aside.skills.level.intermediate">Intermediate</span>
+                                                </span>
+                                            </h3>
                                             <div
                                                 class="level-bar progress">
                                                 <div
@@ -1573,13 +1493,7 @@ if (countToSpawnParticle >= 10) {
                                                     aria-valuenow="55"
                                                     aria-valuemin="0"
                                                     aria-valuemax="100"></div>
-                                            </div></div><p><a
-                                                class="more-link"
-                                                href="https://www.linkedin.com/in/carlos-eduardo-m-31755b134/?locale=en_US"
-                                                target="_blank"><i
-                                                    class="fas fa-external-link-alt"></i>More
-                                                on my
-                                                LinkedIn</a></p>
+                                            </div></div><p><a class="more-link" href="https://www.linkedin.com/in/carlos-eduardo-m-31755b134/?locale=en_US" target="_blank"><i class="fas fa-external-link-alt"></i><span class="ms-1" data-i18n="aside.skills.moreLinkedIn">More on my LinkedIn</span></a></p>
                                     </div>
                                 </div></div></aside>
 
@@ -1587,17 +1501,13 @@ if (countToSpawnParticle >= 10) {
                             class="languages aside section">
                             <div
                                 class="section-inner shadow-sm rounded reveal-right">
-                                <h2
-                                    class="heading">Languages</h2>
+                                <h2 class="heading" data-i18n="aside.languages.heading">Languages</h2>
                                 <div class="content">
                                     <ul
                                         class="list-unstyled reveal-stagger">
                                         <li class="item">
-                                            <span
-                                                class="title"><strong>Portuguese:</strong></span>
-                                            <span
-                                                class="level">Native
-                                                Speaker <br
+                                            <span class="title"><strong data-i18n="aside.languages.portuguese.title">Portuguese:</strong></span>
+                                            <span class="level" data-i18n="aside.languages.portuguese.level">Native Speaker <br
                                                     class="visible-xs" /><i
                                                     class="fas fa-star"></i>
                                                 <i
@@ -1611,11 +1521,8 @@ if (countToSpawnParticle >= 10) {
                                             </span>
                                         </li><!--//item-->
                                         <li class="item">
-                                            <span
-                                                class="title"><strong>Spanish:</strong></span>
-                                            <span
-                                                class="level">Native
-                                                Speaker <br
+                                            <span class="title"><strong data-i18n="aside.languages.spanish.title">Spanish:</strong></span>
+                                            <span class="level" data-i18n="aside.languages.spanish.level">Native Speaker <br
                                                     class="visible-xs" /><i
                                                     class="fas fa-star"></i>
                                                 <i
@@ -1629,12 +1536,8 @@ if (countToSpawnParticle >= 10) {
                                             </span>
                                         </li><!--//item-->
                                         <li class="item">
-                                            <span
-                                                class="title"><strong>English:</strong></span>
-                                            <span
-                                                class="level">B2
-                                                (Upper
-                                                Intermediate):<br
+                                            <span class="title"><strong data-i18n="aside.languages.english.title">English:</strong></span>
+                                            <span class="level" data-i18n="aside.languages.english.level">B2 (Upper Intermediate):<br
                                                     class="visible-xs" /><i
                                                     class="fas fa-star"></i>
                                                 <i
@@ -1654,8 +1557,7 @@ if (countToSpawnParticle >= 10) {
                             class="credits aside section">
                             <div
                                 class="section-inner shadow-sm rounded reveal-right">
-                                <h2
-                                    class="heading">Credits</h2>
+                                <h2 class="heading" data-i18n="aside.credits.heading">Credits</h2>
                                 <div class="content">
                                     <ul
                                         class="list-unstyled pb-2 reveal-stagger">
@@ -1688,11 +1590,11 @@ if (countToSpawnParticle >= 10) {
             <footer id="footer" class="footer">
                 <div class="container text-center">
                     <!--/* This template is free as long as you keep the attribution link below. Thank you for your support. :) If you'd like to use the template without the attribution, you can buy the commercial license via our website: themes.3rdwavemedia.com */-->
-                    <small class="copyright">Designed with love</i> by <a
+                    <small class="copyright"><span data-i18n="footer.by">Designed with love</span></i> by <a
                         href="https://themes.3rdwavemedia.com"
                         target="_blank">Xiaoying
                         Riley</a> for
-                    developers</small>
+                    <span data-i18n="footer.for">developers</span></small>
             </div><!--//container-->
         </footer><!--//footer-->
 
@@ -1710,9 +1612,10 @@ if (countToSpawnParticle >= 10) {
         <!-- github activity plugin -->
         <!-- <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.2/mustache.min.js"></script> -->
         <!-- <script type="text/javascript" src="assets/plugins/github-activity/src/github-activity.js"></script> -->
-        <!-- custom js -->
-        <script type="text/javascript"
-            src="assets/js/main.js"></script>
+    <!-- custom js -->
+    <script type="text/javascript" src="assets/js/main.js"></script>
+    <!-- i18n module -->
+    <script type="text/javascript" src="assets/js/i18n.js"></script>
 
         <!-- Prism.js JavaScript -->
         <script
@@ -1726,6 +1629,14 @@ if (countToSpawnParticle >= 10) {
 
                     // Toggle buttons for project details
                     const toggles = document.querySelectorAll('.toggle-details');
+                    const getI18n = (key, fallback) => {
+                        try {
+                            const code = localStorage.getItem('site_lang') || 'en';
+                            const dict = (window.__i18nDicts && window.__i18nDicts[code]) || null;
+                            if (!dict) return fallback;
+                            return key.split('.').reduce((acc, k) => acc && acc[k] != null ? acc[k] : null, dict) ?? fallback;
+                        } catch { return fallback; }
+                    };
                     toggles.forEach((btn) => {
                         const targetId = btn.getAttribute('data-bs-target');
                         const collapseEl = document.querySelector(targetId);
@@ -1735,7 +1646,7 @@ if (countToSpawnParticle >= 10) {
                             btn.setAttribute('aria-expanded', 'true');
                             const label = btn.querySelector('.label');
                             const icon = btn.querySelector('i');
-                            if (label) label.textContent = 'Recolher';
+                            if (label) label.textContent = getI18n('buttons.collapse','Collapse');
                             if (icon) { icon.classList.remove('fa-chevron-down'); icon.classList.add('fa-chevron-up'); }
                             // Ensure the start of content is visible after expand
                             setTimeout(() => collapseEl.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
@@ -1744,7 +1655,7 @@ if (countToSpawnParticle >= 10) {
                             btn.setAttribute('aria-expanded', 'false');
                             const label = btn.querySelector('.label');
                             const icon = btn.querySelector('i');
-                            if (label) label.textContent = 'Ver detalhes';
+                            if (label) label.textContent = getI18n('buttons.viewDetails','View details');
                             if (icon) { icon.classList.remove('fa-chevron-up'); icon.classList.add('fa-chevron-down'); }
                         });
                     });
