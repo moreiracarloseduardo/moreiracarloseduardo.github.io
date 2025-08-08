@@ -181,7 +181,7 @@
                                     <div class="featured-image has-ribbon">
                                         <a>
                                             <img
-                                                class="img-fluid project-image rounded shadow-sm"
+                                                class="img-fluid project-image rounded shadow-sm hover-lift"
                                                 src="assets/images/projects/camera.jpg"
                                                 alt="project image - upcoming horror game"
                                                 loading="lazy" decoding="async" />
@@ -652,7 +652,7 @@ public float machineSpeedValue {
                                         style="width:fit-content; margin:auto;">
                                         <a>
                                             <img
-                                                class="img-fluid project-image"
+                                                class="img-fluid project-image hover-lift"
                                                 src="assets/images/projects/train.jpg"
                                                 alt="IdleTrain cover image"
                                                 loading="lazy" decoding="async" />
@@ -1110,7 +1110,7 @@ audioSource.pitch = pitch;</code></pre>
                                                 <div class="featured-image">
                                                     <a>
                                                         <img
-                                                            class="img-fluid project-image"
+                                                            class="img-fluid project-image hover-lift"
                                                             src="assets/images/projects/shader.jpg"
                                                             alt="Ice shader preview"
                                                             loading="lazy" decoding="async" />
@@ -1469,13 +1469,13 @@ if (countToSpawnParticle >= 10) {
                     <div class="secondary col-lg-4 col-12">
                         <aside class="info aside section">
                             <div
-                                class="section-inner shadow-sm rounded">
+                                class="section-inner shadow-sm rounded reveal-right">
                                 <h2
                                     class="heading sr-only">Basic
                                     Information</h2>
                                 <div class="content">
                                     <ul
-                                        class="list-unstyled">
+                                        class="list-unstyled reveal-stagger">
                                         <li><i
                                                 class="fas fa-map-marker-alt"></i><span
                                                 class="sr-only">Location:</span>Porto
@@ -1492,7 +1492,7 @@ if (countToSpawnParticle >= 10) {
 
                         <aside class="skills aside section">
                             <div
-                                class="section-inner shadow-sm rounded">
+                                class="section-inner shadow-sm rounded reveal-right">
                                 <h2
                                     class="heading">Skills</h2>
                                 <div class="content">
@@ -1512,7 +1512,7 @@ if (countToSpawnParticle >= 10) {
                                         skills and tools.
                                     </p>
 
-                                    <div class="skillset">
+                                    <div class="skillset reveal-stagger">
 
                                         <div class="item">
                                             <h3
@@ -1586,12 +1586,12 @@ if (countToSpawnParticle >= 10) {
                         <aside
                             class="languages aside section">
                             <div
-                                class="section-inner shadow-sm rounded">
+                                class="section-inner shadow-sm rounded reveal-right">
                                 <h2
                                     class="heading">Languages</h2>
                                 <div class="content">
                                     <ul
-                                        class="list-unstyled">
+                                        class="list-unstyled reveal-stagger">
                                         <li class="item">
                                             <span
                                                 class="title"><strong>Portuguese:</strong></span>
@@ -1653,12 +1653,12 @@ if (countToSpawnParticle >= 10) {
                         <aside
                             class="credits aside section">
                             <div
-                                class="section-inner shadow-sm rounded">
+                                class="section-inner shadow-sm rounded reveal-right">
                                 <h2
                                     class="heading">Credits</h2>
                                 <div class="content">
                                     <ul
-                                        class="list-unstyled pb-2">
+                                        class="list-unstyled pb-2 reveal-stagger">
                                         <li><a
                                                 href="https://getbootstrap.com/"
                                                 target="_blank"><i
@@ -1793,7 +1793,7 @@ if (countToSpawnParticle >= 10) {
                 }, { threshold: 0.12 });
 
                 // Mark sections/cards/headers to reveal
-                document.querySelectorAll('.section .section-inner, .featured-image, h2.heading, h3.text-bg-secondary, .item, .level-bar').forEach(el => {
+                document.querySelectorAll('.section .section-inner, .featured-image, h2.heading, h3.text-bg-secondary, .item, .level-bar, .reveal-right, .reveal-scale').forEach(el => {
                     el.classList.add('reveal');
                     io.observe(el);
                 });
