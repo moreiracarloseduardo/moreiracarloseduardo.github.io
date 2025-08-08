@@ -169,6 +169,7 @@ a.dotted-link:hover {
 html { scroll-padding-top: 80px; }
 .sticky-top { top: 0; z-index: 1030; }
 .navbar { background: var(--card) !important; border-bottom: 1px solid var(--border); box-shadow: 0 6px 18px rgba(2, 6, 23, 0.08); }
+.navbar.scrolled { box-shadow: 0 10px 30px rgba(2,6,23,0.14); }
 .navbar .nav-link { color: var(--text); transition: color .2s ease; }
 .navbar .nav-link:hover { color: var(--primary); }
 .navbar .navbar-brand { color: var(--heading); }
@@ -265,6 +266,39 @@ html { scroll-padding-top: 80px; }
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: 0 8px 24px rgba(2, 6, 23, 0.08);
+}
+
+/* Reveal animations */
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+.reveal.is-visible { opacity: 1; transform: none; }
+.reveal-up { transform: translateY(24px); }
+.reveal-right { transform: translateX(-24px); }
+.reveal-scale { transform: scale(.98); }
+
+/* Hover lift for cards/images/buttons */
+.hover-lift { transition: transform .25s ease, box-shadow .25s ease; }
+.hover-lift:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(2,6,23,0.16); }
+
+/* Animated gradient sheen on labels */
+.text-bg-secondary {
+  position: relative;
+  overflow: hidden;
+}
+.text-bg-secondary::after {
+  content: "";
+  position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.15) 40%, transparent 80%);
+  transform: translateX(-120%);
+  transition: transform .8s ease;
+}
+.text-bg-secondary:hover::after { transform: translateX(120%); }
+
+/* Skills bar animate width */
+.level-bar-inner { transition: width 1s ease; }
+
+/* Reduce motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
 }
 
 .section .heading {

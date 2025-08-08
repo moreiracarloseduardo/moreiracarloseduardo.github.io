@@ -1771,5 +1771,44 @@ if (countToSpawnParticle >= 10) {
                     })();
                 });
             </script>
+        <script>
+            // IntersectionObserver: reveal animations and skill bars
+            (function(){
+                if (!('IntersectionObserver' in window)) return;
+                const io = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+                            // Animate progress bars when visible
+                            if (entry.target.matches('.level-bar')) {
+                                const inner = entry.target.querySelector('.level-bar-inner');
+                                if (inner) {
+                                    const target = inner.getAttribute('aria-valuenow') || inner.style.width.replace('%','') || 0;
+                                    inner.style.width = target + '%';
+                                }
+                            }
+                            io.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.12 });
+
+                // Mark sections/cards/headers to reveal
+                document.querySelectorAll('.section .section-inner, .featured-image, h2.heading, h3.text-bg-secondary, .item, .level-bar').forEach(el => {
+                    el.classList.add('reveal');
+                    io.observe(el);
+                });
+            })();
+
+            // Navbar shadow intensifies on scroll
+            (function(){
+                const nav = document.querySelector('.navbar');
+                if (!nav) return;
+                const onScroll = () => {
+                    if (window.scrollY > 10) nav.classList.add('scrolled'); else nav.classList.remove('scrolled');
+                };
+                onScroll();
+                window.addEventListener('scroll', onScroll, { passive: true });
+            })();
+        </script>
     </body>
 </html>
