@@ -647,6 +647,21 @@ html { scroll-padding-top: 80px; }
   font-weight: 500;
 }
 
+/* Enhanced Education block styling */
+.education-accent {
+  position: relative;
+  padding-left: 1rem;
+  border-left: 4px solid var(--accent);
+  background: linear-gradient(120deg, rgba(6,182,212,0.08), rgba(34,197,94,0.08));
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+.education-accent h2.heading { display:flex; align-items:center; gap:.5rem; }
+.education-accent h2.heading .fa-graduation-cap { color: var(--accent); filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15)); }
+.education-accent p.text-muted.small { color: var(--muted); font-weight:600; letter-spacing:.25px; }
+body[data-theme="dark"] .education-accent { background: linear-gradient(120deg, rgba(6,182,212,0.12), rgba(34,197,94,0.10)); }
+body[data-theme="dark"] .education-accent h2.heading .fa-graduation-cap { color: var(--primary); }
+body[data-theme="dark"] .education-accent p.text-muted.small { color: rgba(255,255,255,0.75); }
+
 /* Language Section */
 .languages .item {
   margin-bottom: 15px;

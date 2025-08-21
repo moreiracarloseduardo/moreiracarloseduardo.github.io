@@ -64,6 +64,11 @@
       },
       "moreLinkedIn": "More on my LinkedIn"
     },
+    "education": {
+      "heading": "Education",
+      "line1": "Estácio, Brasil — Bachelor's degree in Technology, Full Stack Developer",
+      "line2": "Expected December 2027"
+    },
     "languages": {
       "heading": "Languages",
       "portuguese": {"title": "Portuguese:", "level": "Native Speaker"},

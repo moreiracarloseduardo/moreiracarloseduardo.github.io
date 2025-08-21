@@ -64,6 +64,11 @@
       },
       "moreLinkedIn": "Mais no meu LinkedIn"
     },
+    "education": {
+      "heading": "Educação",
+      "line1": "Estácio, Brasil — Bacharelado em Tecnologia, Desenvolvedor Full Stack",
+      "line2": "Conclusão prevista Dezembro 2027"
+    },
     "languages": {
       "heading": "Idiomas",
       "portuguese": {"title": "Português:","level": "Fluente"},
