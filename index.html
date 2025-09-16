@@ -187,39 +187,142 @@
 
                     <section id="projects" class="latest section">
                         <div class="section-inner shadow-sm rounded">
-                            <h2 class="heading" data-i18n="projects.current">Current Project</h2>
+                            <template id="archived-current-project">
+                                <h2 class="heading" data-i18n="projects.current">Current Project</h2>
+                                <div class="content">
+                                    <div class="item featured text-center">
+                                        <div class="featured-image has-ribbon">
+                                            <a>
+                                                <img
+                                                    class="img-fluid project-image rounded shadow-sm hover-lift"
+                                                    src="assets/images/projects/camera.jpg"
+                                                    alt="project image - upcoming horror game"
+                                                    loading="lazy" decoding="async" />
+                                            </a>
+                                            <div class="ribbon">
+                                                <div class="text" data-i18n="projects.upcoming.ribbon">Upcoming</div>
+                                            </div>
+                                        </div>
+                                        <h3 class="title mb-3" data-i18n="projects.upcoming.title">Every photo tells a story... and hides a secret.</h3>
+                                        <div class="desc text-start">
+                                            <p data-i18n="projects.upcoming.desc">I'm brewing up something chilling! A new horror game is in the early stages of development. Stay tuned, I'll share more details once a playable demo is ready.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <!-- New VR Projects section -->
+                            <h2 class="heading" data-i18n="projects.vr">VR Projects</h2>
                             <div class="content">
 
                                 <div class="item featured text-center">
+                                    <div>
+                                        <h3 class="text-bg-secondary">TennisVR</h3>
+                                        <div class="featured-image position-relative" style="width:fit-content; margin:auto;">
+                                            <a>
+                                                <img
+                                                    class="img-fluid project-image"
+                                                    src="assets/images/projects/TennisVr.png"
+                                                    alt="Tennis VR cover image"
+                                                    loading="lazy" decoding="async" />
+                                            </a>
+                                            <img src="assets/images/projects/tenisvr.gif" alt="CandyWorld gameplay gif"
+                                                 class="gif-overlay" loading="lazy" decoding="async" />
+                                        </div>
+                                        <div class="mt-2">
+                                            <button class="btn btn-collapse toggle-details" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#collapseTennisVR"
+                                                    aria-expanded="false" aria-controls="collapseTennisVR">
+                                                <span class="label" data-i18n="buttons.viewDetails">View details</span>
+                                                <i class="fas fa-chevron-down ms-1"></i>
+                                            </button>
+                                        </div>
+                                        <div class="collapse" id="collapseTennisVR" style="scroll-margin-top: 90px;">
+                                            <div class="desc text-start">
+                                                <p class="mb-2" data-i18n="projects.vrTennis.desc">Jogo para Meta Quest 2 onde os jogadores tentam acertar a bola dentro da quadra adversária. Desenvolvido com Unity, o projeto focou em uma simulação de física avançada para garantir uma experiência de rebatida realista e imersiva.</p>
+                                                <p><b class="text-bg-secondary" data-i18n="projects.vrTennis.h1">Análise Técnica: TennisVR - Física Realista para Meta Quest 2</b></p>
+                                                <p data-i18n="projects.vrTennis.p1"><b>TennisVR</b> é um projeto para Meta Quest 2 que explora os limites da simulação de física para criar uma experiência de tênis virtual autêntica. O principal objetivo foi replicar a sensação e o controle de uma raquete real, permitindo que os jogadores executem desde rebatidas simples até jogadas complexas como <i>topspins</i> e <i>slices</i> com naturalidade.</p>
 
-                                    <div class="featured-image has-ribbon">
-                                        <a>
-                                            <img
-                                                class="img-fluid project-image rounded shadow-sm hover-lift"
-                                                src="assets/images/projects/camera.jpg"
-                                                alt="project image - upcoming horror game"
-                                                loading="lazy" decoding="async" />
-                                        </a>
-                                        <div class="ribbon">
-                                            <div class="text" data-i18n="projects.upcoming.ribbon">Upcoming</div>
+                                        <p><b class="text-bg-secondary" data-i18n="projects.vrTennis.h2">O Desafio: A Física da Rebatida em Realidade Virtual</b></p>
+                                        <p data-i18n="projects.vrTennis.p2">
+                                            O maior desafio em qualquer jogo de esporte VR que envolve rebater um objeto é a física. Uma implementação com um único <b>collider</b> na raquete não captura as nuances de uma rebatida real. Nesse cenário, não importa se o jogador acerta a bola com a ponta da raquete ou com o "ponto doce" (sweet spot); a velocidade resultante tenderia a ser a mesma, dependendo apenas da velocidade geral do controle. Isso quebra a <b>imersão</b>, pois um jogador experiente espera que a ponta da raquete, movendo-se em um arco, tenha uma velocidade muito maior que a base próxima à mão.
+                                        </p>
+
+                                        <p><b class="text-bg-secondary" data-i18n="projects.vrTennis.h3">Solução 1: Simulação de Física Multi-Ponto na Raquete</b></p>
+                                        <p data-i18n="projects.vrTennis.p3">
+                                            Para resolver esse problema, implementei uma técnica que simula múltiplos pontos de contato na raquete. Em vez de usar um único collider, a superfície da raquete foi equipada com uma grade de "cápsulas seguidoras" invisíveis, cada uma com seu próprio <b>Rigidbody</b> e <b>Collider</b>.
+                                        </p>
+                                        <p data-i18n="projects.vrTennis.p4">
+                                            Essas cápsulas não fazem parte da raquete em si, mas a seguem em tempo real. No <b>FixedUpdate()</b>, cada cápsula calcula a velocidade necessária para alcançar seu ponto correspondente na raquete. Como resultado, as cápsulas na extremidade da raquete movem-se mais rápido do que aquelas perto do cabo, simulando o arco de movimento. A bola de tênis colide apenas com essas cápsulas, garantindo que o ponto de impacto determine com precisão a velocidade e a direção da rebatida.
+                                        </p>
+<pre><code class="language-csharp">// Script que controla cada cápsula seguidora da raquete
+public class RacketPhysicsProxy : MonoBehaviour
+{
+    private Transform followTarget;
+    private Rigidbody rb;
+
+    [SerializeField]
+    private float sensitivity = 100f; // Ajusta a rapidez com que a cápsula segue a raquete
+
+    void Awake()
+    {
+        rb = GetComponent&lt;Rigidbody&gt;();
+    }
+
+    public void SetFollowTarget(Transform target)
+    {
+        followTarget = target;
+        transform.position = target.position;
+        transform.rotation = target.rotation;
+    }
+
+    void FixedUpdate() // O cálculo de física ocorre aqui
+    {
+        // Calcula a velocidade necessária para mover a cápsula até a posição do alvo na raquete
+        Vector3 destination = followTarget.position;
+        Vector3 velocity = (destination - rb.position) * sensitivity;
+        rb.velocity = velocity; // Aplica a velocidade calculada
+        rb.rotation = followTarget.rotation; // Mantém a rotação alinhada
+    }
+}</code></pre>
+
+                                        <p><b class="text-bg-secondary" data-i18n="projects.vrTennis.h4">Solução 2: Adicionando Rotação com o Efeito Magnus</b></p>
+                                        <p data-i18n="projects.vrTennis.p5">
+                                            Uma rebatida de tênis não se resume apenas à velocidade; a rotação (spin) é fundamental. Para simular os efeitos de <b>topspin</b> e <b>slice</b>, implementei o <b>Efeito Magnus</b>. No momento do impacto, o sistema calcula a velocidade angular (spin) a ser aplicada na bola com base na velocidade e no ângulo da raquete. Em seguida, durante o voo, uma força contínua é aplicada em seu <b>Rigidbody</b>, perpendicular à sua direção de movimento e ao seu eixo de rotação, produzindo uma trajetória autêntica.
+                                        </p>
+<pre><code class="language-csharp">// Script aplicado na bola de tênis para simular o Efeito Magnus
+[RequireComponent(typeof(Rigidbody))]
+public class TennisBallPhysics : MonoBehaviour
+{
+    private Rigidbody rb;
+    [SerializeField] private float magnusCoefficient = 0.05f;
+
+    void Start() { rb = GetComponent&lt;Rigidbody&gt;(); }
+
+    void FixedUpdate()
+    {
+        if (rb.velocity.magnitude &gt; 0.1f)
+        {
+            Vector3 magnusForce = magnusCoefficient * Vector3.Cross(rb.angularVelocity, rb.velocity);
+            rb.AddForce(magnusForce);
+        }
+    }
+
+    // Chamado no momento da colisão
+    public void ApplySpinOnHit(Vector3 racketVelocity, Vector3 hitNormal)
+    {
+        float spinAmount = Vector3.Dot(racketVelocity, hitNormal);
+        Vector3 spinAxis = Vector3.Cross(rb.velocity, racketVelocity).normalized;
+        rb.angularVelocity = spinAxis * spinAmount * 20f; // Multiplicador para efeito visível
+    }
+}</code></pre>
+
+                                                <p><b class="text-bg-secondary" data-i18n="projects.vrTennis.h5">Resultados e Competências Técnicas</b></p>
+                                                <p data-i18n="projects.vrTennis.p6">A combinação dessas técnicas resultou em uma experiência de tênis VR intuitiva e fisicamente precisa. O projeto demonstra proficiência em <b>simulação de física avançada</b>, <b>gameplay para VR</b> e tradução de fenômenos reais em mecânicas interativas na <b>Unity</b>.</p>
+                                            </div>
                                         </div>
                                     </div>
-
-                                    <h3 class="title mb-3" data-i18n="projects.upcoming.title">Every photo tells a story... and hides a secret.</h3>
-
-                                    <div class="desc text-start">
-                                        <p data-i18n="projects.upcoming.desc">I'm brewing up something chilling! A
-                                            new horror game is in the early
-                                            stages of development. Stay tuned,
-                                            I'll share more details once a
-                                            playable demo is ready.</p>
-                                    </div><!--//desc-->
-                                    <!-- <a class="btn btn-cta-secondary"
-                                        href="https://themes.3rdwavemedia.com/bootstrap-templates/startup/launch-bootstrap-4-template-for-saas-businesses/"
-                                        target="_blank"><i
-                                            class="fas fa-thumbs-up"></i> Back
-                                        my project</a> -->
-                                </div><!--//item-->
+                                </div>
 
                                 <hr class="divider" />
 

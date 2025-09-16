@@ -17,12 +17,27 @@
   },
   "projects": {
     "current": "Current Project",
+    "vr": "VR Projects",
     "mobile": "Mobile Projects",
     "other": "Other Projects",
     "upcoming": {
       "ribbon": "Upcoming",
       "title": "Every photo tells a story... and hides a secret.",
       "desc": "I'm brewing up something chilling! A new horror game is in the early stages of development. Stay tuned, I'll share more details once a playable demo is ready."
+    },
+    "vrTennis": {
+      "desc": "Meta Quest 2 game focused on realistic racket physics and immersive, spin-enabled ball behavior using multi-point collision and Magnus effect.",
+      "h1": "Technical Analysis: TennisVR - Realistic Physics for Meta Quest 2",
+      "p1": "TennisVR is a Meta Quest 2 project that pushes the limits of physics simulation to create an authentic virtual tennis experience. The main goal was to replicate the feel and control of a real racket, allowing players to perform everything from simple hits to complex shots like topspins and slices naturally.",
+      "h2": "The Challenge: Realistic Racket Impact in VR",
+      "p2": "The biggest challenge in any VR sports game involving striking an object is physics. A single collider on the racket cannot capture the nuances of a real hit. It doesn't matter if the player hits the ball with the tip or the sweet spot; the resulting speed would tend to be the same, depending only on overall controller velocity. This breaks immersion because an experienced player expects the tip of the racket, moving in an arc, to be much faster than the handle.",
+      "h3": "Solution 1: Multi-Point Racket Physics Simulation",
+      "p3": "To solve this, I implemented a technique that simulates multiple contact points on the racket. Instead of a single collider, the racket surface was equipped with a grid of invisible follower capsules, each with its own Rigidbody and Collider.",
+      "p4": "These capsules are not part of the racket itself but follow it in real time. In FixedUpdate(), each capsule calculates the velocity needed to reach its corresponding point on the racket. As a result, capsules at the extremity move faster than those near the grip, simulating the swing arc. The tennis ball collides only with these capsules, ensuring the impact point precisely determines rebound velocity and direction.",
+      "h4": "Solution 2: Adding Spin with the Magnus Effect",
+      "p5": "A tennis shot is not just about speed; spin is fundamental. To simulate topspin and slice effects, I implemented the Magnus Effect. At impact, the system calculates the angular velocity (spin) applied to the ball based on the racket's speed and angle. During flight, a continuous force is applied to its Rigidbody, perpendicular to its movement direction and spin axis, producing an authentic trajectory.",
+      "h5": "Results and Technical Competencies",
+      "p6": "The combination of these techniques resulted in an intuitive and physically accurate VR tennis experience. The project demonstrates proficiency in advanced physics simulation, VR gameplay, and translating real-world phenomena into interactive mechanics in Unity."
     }
   },
   "other": {

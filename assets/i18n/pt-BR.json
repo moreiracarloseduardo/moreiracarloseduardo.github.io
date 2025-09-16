@@ -17,12 +17,27 @@
   },
   "projects": {
     "current": "Projeto Atual",
+    "vr": "Projetos VR",
     "mobile": "Projetos Mobile",
     "other": "Outros Projetos",
     "upcoming": {
       "ribbon": "Em breve",
       "title": "Toda foto conta uma história... e esconde um segredo.",
       "desc": "Estou preparando algo de arrepiar! Um novo jogo de terror está nas fases iniciais de desenvolvimento. Fique de olho, vou compartilhar mais detalhes assim que uma demo jogável estiver pronta."
+    },
+    "vrTennis": {
+      "desc": "Jogo para Meta Quest 2 com foco em física realista de raquete e comportamento da bola com spin usando colisão multiponto e efeito Magnus.",
+      "h1": "Análise Técnica: TennisVR - Física Realista para Meta Quest 2",
+      "p1": "TennisVR é um projeto para Meta Quest 2 que explora os limites da simulação de física para criar uma experiência de tênis virtual autêntica. O principal objetivo foi replicar a sensação e o controle de uma raquete real, permitindo que os jogadores executem desde rebatidas simples até jogadas complexas como <i>topspins</i> e <i>slices</i> com naturalidade.",
+      "h2": "O Desafio: A Física da Rebatida em Realidade Virtual",
+      "p2": "O maior desafio em qualquer jogo de esporte VR que envolve rebater um objeto é a física. Uma implementação com um único <b>collider</b> na raquete não captura as nuances de uma rebatida real. Nesse cenário, não importa se o jogador acerta a bola com a ponta da raquete ou com o \"ponto doce\" (sweet spot); a velocidade resultante tenderia a ser a mesma, dependendo apenas da velocidade geral do controle. Isso quebra a <b>imersão</b>, pois um jogador experiente espera que a ponta da raquete, movendo-se em um arco, tenha uma velocidade muito maior que a base próxima à mão.",
+      "h3": "Solução 1: Simulação de Física Multi-Ponto na Raquete",
+      "p3": "Para resolver esse problema, implementei uma técnica que simula múltiplos pontos de contato na raquete. Em vez de usar um único collider, a superfície da raquete foi equipada com uma grade de \"cápsulas seguidoras\" invisíveis, cada uma com seu próprio <b>Rigidbody</b> e <b>Collider</b>.",
+      "p4": "Essas cápsulas não fazem parte da raquete em si, mas a seguem em tempo real. No <b>FixedUpdate()</b>, cada cápsula calcula a velocidade necessária para alcançar seu ponto correspondente na raquete. Como resultado, as cápsulas na extremidade da raquete movem-se mais rápido do que aquelas perto do cabo, simulando o arco de movimento. A bola de tênis colide apenas com essas cápsulas, garantindo que o ponto de impacto determine com precisão a velocidade e a direção da rebatida.",
+      "h4": "Solução 2: Adicionando Rotação com o Efeito Magnus",
+      "p5": "Uma rebatida de tênis não se resume apenas à velocidade; a rotação (spin) é fundamental. Para simular os efeitos de <b>topspin</b> e <b>slice</b>, implementei o <b>Efeito Magnus</b>. No momento do impacto, o sistema calcula a velocidade angular (spin) a ser aplicada na bola com base na velocidade e no ângulo da raquete. Em seguida, durante o voo, uma força contínua é aplicada em seu <b>Rigidbody</b>, perpendicular à sua direção de movimento e ao seu eixo de rotação, produzindo uma trajetória autêntica.",
+      "h5": "Resultados e Competências Técnicas",
+      "p6": "A combinação dessas técnicas resultou em uma experiência de tênis VR intuitiva e fisicamente precisa. O projeto demonstra proficiência em <b>simulação de física avançada</b>, <b>gameplay para VR</b> e tradução de fenômenos reais em mecânicas interativas na <b>Unity</b>."
     }
   },
   "other": {
