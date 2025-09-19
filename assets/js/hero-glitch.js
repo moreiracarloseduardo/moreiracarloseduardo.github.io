@@ -28,9 +28,9 @@
 
     // Random glitch loop: each glyph glitches at its own cadence
     // Stronger and longer glitches
-    const GLITCH_MIN = 1100; // ms between glitches
-    const GLITCH_MAX = 4200; // ms
-    const JITTER = [-10, -9, -8, -7, -6, -5, -3, -2, -1, 0, 1, 2, 3, 5, 6, 7, 8, 9, 10]; // px offsets
+    const GLITCH_MIN = 800;  // ms between glitches
+    const GLITCH_MAX = 3600; // ms
+    const JITTER = [-12,-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8,9,10,12]; // px offsets
 
     function scheduleGlyphGlitch(g) {
         const delay = Math.random() * (GLITCH_MAX - GLITCH_MIN) + GLITCH_MIN;
@@ -39,11 +39,13 @@
             const gx = JITTER[Math.floor(Math.random() * JITTER.length)] * (Math.random() < 0.5 ? 2 : 1);
             const gy = JITTER[Math.floor(Math.random() * JITTER.length)] * (Math.random() < 0.5 ? 2 : 1);
             const sk = (Math.random() < 0.7 ? (Math.random() * 2 - 1) * 4.0 : 0); // -4..4 deg
-            const sc = (Math.random() < 0.6 ? (1 + Math.random() * 0.16) : 1); // stronger scale boost
+            const sc = (Math.random() < 0.7 ? (1 + Math.random() * 0.20) : 1); // stronger scale boost
+            const rot = (Math.random() < 0.5 ? (Math.random()*2-1) * 1.5 : 0); // -1.5..1.5 deg
             g.style.setProperty('--gx', gx + 'px');
             g.style.setProperty('--gy', gy + 'px');
             g.style.setProperty('--gskx', sk + 'deg');
             g.style.setProperty('--gs', sc);
+            g.style.setProperty('--grot', rot + 'deg');
             g.classList.add('glitch');
             // Opcional: glitch também a letra vizinha (cluster) para maior percepção
             if (Math.random() < 0.35) {
@@ -74,8 +76,9 @@
                 g.style.removeProperty('--gy');
                 g.style.removeProperty('--gskx');
                 g.style.removeProperty('--gs');
+                g.style.removeProperty('--grot');
                 scheduleGlyphGlitch(g); // reschedule
-            }, 420 + Math.random() * 380);
+            }, 520 + Math.random() * 520);
         }, delay);
     }
 

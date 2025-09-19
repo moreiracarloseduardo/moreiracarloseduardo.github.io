@@ -457,9 +457,9 @@ body[data-theme="dark"] canvas#bg-webgl {
 
 /* Permite micro-transform em cada letra durante glitch */
 .hero-title .glyph { display: inline-block; will-change: transform, text-shadow; }
-.hero-title .glyph { --gx: 0px; --gy: 0px; --gskx: 0deg; --gs: 1; }
+.hero-title .glyph { --gx: 0px; --gy: 0px; --gskx: 0deg; --gs: 1; --grot: 0deg; }
 .hero-title .glyph.glitch {
-  transform: translate(var(--gx), var(--gy)) skewX(var(--gskx)) scale(var(--gs));
+  transform: translate(var(--gx), var(--gy)) rotate(var(--grot)) skewX(var(--gskx)) scale(var(--gs));
   text-shadow:
     3px 0 rgba(255, 60, 120, 0.65),
     -3px 0 rgba(0, 255, 255, 0.65),
