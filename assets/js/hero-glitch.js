@@ -45,6 +45,28 @@
             g.style.setProperty('--gskx', sk + 'deg');
             g.style.setProperty('--gs', sc);
             g.classList.add('glitch');
+            // Opcional: glitch também a letra vizinha (cluster) para maior percepção
+            if (Math.random() < 0.35) {
+                const sib = (Math.random() < 0.5) ? g.previousElementSibling : g.nextElementSibling;
+                if (sib && sib.classList && sib.classList.contains('glyph')) {
+                    // espelhar em menor intensidade
+                    const gx2 = Math.sign(gx) * Math.max(1, Math.abs(gx) - 2);
+                    const gy2 = Math.sign(gy) * Math.max(1, Math.abs(gy) - 2);
+                    const sk2 = sk * 0.6;
+                    sib.style.setProperty('--gx', (-gx2) + 'px');
+                    sib.style.setProperty('--gy', gy2 + 'px');
+                    sib.style.setProperty('--gskx', (-sk2) + 'deg');
+                    sib.style.setProperty('--gs', Math.max(1, sc - 0.06));
+                    sib.classList.add('glitch');
+                    setTimeout(() => {
+                        sib.classList.remove('glitch');
+                        sib.style.removeProperty('--gx');
+                        sib.style.removeProperty('--gy');
+                        sib.style.removeProperty('--gskx');
+                        sib.style.removeProperty('--gs');
+                    }, 300 + Math.random() * 320);
+                }
+            }
             // Longer burst window (more visible)
             setTimeout(() => {
                 g.classList.remove('glitch');
@@ -53,7 +75,7 @@
                 g.style.removeProperty('--gskx');
                 g.style.removeProperty('--gs');
                 scheduleGlyphGlitch(g); // reschedule
-            }, 360 + Math.random() * 240);
+            }, 420 + Math.random() * 380);
         }, delay);
     }
 

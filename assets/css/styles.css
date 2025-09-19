@@ -461,13 +461,13 @@ body[data-theme="dark"] canvas#bg-webgl {
 .hero-title .glyph.glitch {
   transform: translate(var(--gx), var(--gy)) skewX(var(--gskx)) scale(var(--gs));
   text-shadow:
-    2.5px 0 rgba(255, 60, 120, 0.60),
-    -2.5px 0 rgba(0, 255, 255, 0.60),
-    0 0 28px rgba(0,0,0,0.24),
-    0.5px 0 rgba(255, 60, 120, 0.40),
-    -0.5px 0 rgba(0, 255, 255, 0.40);
-  filter: saturate(1.28) contrast(1.10) brightness(1.05) drop-shadow(0 0 1px rgba(255,255,255,0.28));
-  opacity: 0.92;
+    3px 0 rgba(255, 60, 120, 0.65),
+    -3px 0 rgba(0, 255, 255, 0.65),
+    0 0 30px rgba(0,0,0,0.26),
+    0.75px 0 rgba(255, 60, 120, 0.45),
+    -0.75px 0 rgba(0, 255, 255, 0.45),
+    0 0 1px rgba(255,255,255,0.35);
+  filter: saturate(1.30) contrast(1.12) brightness(1.06) drop-shadow(0 0 2px rgba(255,255,255,0.35));
 }
 
 /* Paletas por acento (harmonizadas com GRADS do JS antigo) */
