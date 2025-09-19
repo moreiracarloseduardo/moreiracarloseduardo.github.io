@@ -1,0 +1,66 @@
+<div class="">
+  <div class="case-content">
+    <section class="case-section" aria-labelledby="idletrain-intro">
+      <h2 id="idletrain-intro">Technical Analysis: IdleTrain - Incremental Railway Management System</h2>
+      <p><b>IdleTrain</b> is a sophisticated idle/incremental mobile game focused on railway management, passenger transportation, and exponential progression mechanics. It demonstrates advanced systems implementation, mathematical balancing, and mobile performance optimization while keeping engaging idle gameplay.</p>
+    </section>
+    <section class="case-section" aria-labelledby="idletrain-arch">
+      <h2 id="idletrain-arch">Architecture and Design Patterns</h2>
+      <p><b>State Machine Pattern</b> for core flow (Start → Game → End); <b>Singleton</b> for Game_ providing a unified access point to Audio_, Particle_, UI_, Camera_, and SaveSystem_; <b>Component-Based Architecture</b> with Train_, Wagon_, Passenger_, Station_ as modular components.</p>
+    </section>
+    <section class="case-section" aria-labelledby="idletrain-move">
+      <h2 id="idletrain-move">Procedural Movement and Pathfinding</h2>
+      <p>Bézier curves via <code>LTBezierPath</code> for smooth, natural movement along complex tracks.</p>
+      <div class="featured-image"><img class="img-fluid project-image d-block mx-auto gif-normal" src="assets/images/projects/track.gif" alt="IdleTrain track bezier gif" width="300" loading="lazy" decoding="async" /></div>
+      <p><b>Implements:</b> Ratio-based positioning (0-1), dynamic path recalculation at forks, real-time interpolation.</p>
+<pre><code class="language-csharp">public void CalculateTrack(TrackSegment_ startSegment) {
+    bezier = new LTBezierPath(pathPoints);
+    Game_.instance.rule_.train.ratio = bezier.ratioAtPoint(pointRatio);
+}</code></pre>
+    </section>
+    <section class="case-section" aria-labelledby="idletrain-merge">
+      <h2 id="idletrain-merge">Intelligent Merge and Upgrade System</h2>
+      <p>3-to-1 merge with auto-detection and level progression.</p>
+      <div class="featured-image"><img class="img-fluid project-image d-block mx-auto gif-normal" src="assets/images/projects/merge.gif" alt="IdleTrain merge gif" width="300" loading="lazy" decoding="async" /></div>
+<pre><code class="language-csharp">public bool CanMerge() {
+    for (int i = 0; i &lt;= maxLevel; i++) {
+        for (int j = 0; j &lt; wagons.Count; j++) {
+            if (wagons[j].Level == i &amp;&amp; wagonsToMerge.Count &lt; 3) wagonsToMerge.Add(wagons[j]);
+        }
+    }
+    return wagonsToMerge.Count == 3;
+}</code></pre>
+      <p>Optimized scanning, level-based materials, animated merges with particles/audio.</p>
+    </section>
+    <section class="case-section" aria-labelledby="idletrain-econ">
+      <h2 id="idletrain-econ">Dynamic Economy and Progression</h2>
+      <p>Quadratic pricing with track multiplier; real-time money-per-second sampling; track-based difficulty scaling; exponential passenger value.</p>
+<pre><code class="language-csharp">public ulong PriceFormula(float A, float B, float C, int level, int trackMultiplier) {
+    level = level + (trackMultiplier * Game_.instance.data.track);
+    return (ulong)(A * Mathf.Pow(level, 2) + (B * level) + C);
+}</code></pre>
+    </section>
+    <section class="case-section" aria-labelledby="idletrain-save">
+      <h2 id="idletrain-save">Robust Save/Load and Data Persistence</h2>
+      <p>JSON serialization, validation and migration, debounced autosave, integrity checks.</p>
+    </section>
+    <section class="case-section" aria-labelledby="idletrain-audio">
+      <h2 id="idletrain-audio">Advanced Audio System</h2>
+<pre><code class="language-csharp">float pitch = Mathf.Lerp(minPitch, maxPitch, speed / maxSpeed);
+audioSource.pitch = pitch;</code></pre>
+    </section>
+    <section class="case-section" aria-labelledby="idletrain-opts">
+      <h2 id="idletrain-opts">Optimizations and Performance</h2>
+      <p>Object Pooling; Coroutine-based async operations; Component caching; Dynamic camera transitions.</p>
+    </section>
+    <section class="case-section" aria-labelledby="idletrain-challenges">
+      <h2 id="idletrain-challenges">Complex Technical Challenges Resolved</h2>
+      <p>Exponential progression balancing; Multi-object Bézier positioning; Memory management; Cross-platform data consistency; Efficient money-per-second algorithms.</p>
+    </section>
+    <section class="case-section" aria-labelledby="idletrain-results">
+      <h2 id="idletrain-results">Technical Metrics and Results</h2>
+      <p><b>60 FPS</b> on mid-tier devices; <b>&lt;180MB</b> memory; <b>&lt;3s</b> load times; <b>Zero memory leaks</b> in long sessions; <b>Sub-100ms</b> save operations. Scalable, maintainable, robust architecture.</p>
+    </section>
+  </div>
+  <div class="case-sidebar"></div>
+</div>

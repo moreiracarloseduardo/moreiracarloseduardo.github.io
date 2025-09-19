@@ -93,6 +93,44 @@
     },
     "credits": {"heading": "Créditos"}
   },
-  "footer": {"by": "Criado com carinho", "for": "desenvolvedores"},
-  "buttons": {"viewDetails": "Ver detalhes", "collapse": "Recolher"}
+  "footer": {"by": "Design por"},
+  "buttons": {"viewDetails": "Ver detalhes", "collapse": "Recolher"},
+  "snippet": {"expand":"Expandir","collapse":"Recolher","copy":"Copiar","copied":"Copiado!","error":"Erro"},
+  "aria": {"case": {"expand":"Expandir case study","collapse":"Recolher case study"}},
+  "cta": {"viewProjects":"Ver Projetos","contact":"Contato","caseStudies":"Case Studies","about":"Sobre mim","experience":"Experiência"},
+  "hero": {
+    "title": "Game Developer focado em experiências imersivas, usabilidade fluida e arquitetura sólida",
+    "titlePrefix": "Game Developer focado em",
+    "titleP1": "experiências imersivas,",
+    "titleP2": "usabilidade fluida,",
+    "titleP3": "arquitetura sólida",
+    "and": " e",
+    "sub": "Crio experiências interativas escaláveis unindo engenharia de software avançada, simulação física precisa e design de gameplay intuitivo. Especialista em VR, sistemas autônomos, economia procedural e otimização para mobile."
+  },
+  "highlights": {
+    "title":"Highlights",
+    "vrPhysics":{"title":"VR Physics","desc":"Simulação multi-colisor + efeito Magnus para spin autêntico e sensação real de impacto.","metric":"Precisão <2ms/frame"},
+    "ai":{"title":"AI & Automação","desc":"FSM + análise contextual para priorização dinâmica de tarefas e balanceamento produtivo.","metric":"100% Non-blocking"},
+    "economy":{"title":"Economia","desc":"Curvas exponenciais + sampling em tempo real mantendo progressão engajante.","metric":"0 frame drops"}
+  },
+  "featured": {"title":"Projetos em Destaque","caseStudy":"Case Study","cards":{
+    "tennisvr":{"title":"TennisVR","desc":"Simulação de tênis VR com física multi-ponto (cápsulas seguidoras) + efeito Magnus para spin autêntico e sensação real de impacto."},
+    "candyworld":{"title":"CandyWorld","desc":"Idle management com AI autônoma, economia dinâmica, cadeia produtiva automatizada e balanceamento por curvas."},
+    "idletrain":{"title":"IdleTrain","desc":"Jogo incremental com movimento procedural em Bézier, sistema de merge 3→1, economia escalável e persistência robusta."},
+    "icemelt":{"title":"Ice Melt Race","desc":"Sistema de derretimento dinâmico (RenderTexture heatmap), shader custom e cabo segmentado otimizado com pooling."}
+  }}
+  ,"case": {
+    "tennisvr": {
+      "title":"TennisVR – Física Precisa & Spin Realista em VR",
+      "sub":"Sistema de rebatida multiponto + Efeito Magnus; impacto localizado e custo <0.3ms/frame.",
+      "desafio":"Desafio",
+      "multi":"Raquete Multi-Ponto",
+      "spin":"Magnus Spin",
+      "resultados":"Resultados",
+      "pResultados":"Impacto localizado, spin previsível, custo <0.3ms/frame e pronto para extensões (háptico / deformação)."
+    },
+    "candyworld": {"title":"CandyWorld – Economia Dinâmica & AI Autônoma","sub":"Idle management com cadeia produtiva automatizada, helpers e balanceamento por curvas.","soon":"Detalhes em breve."},
+    "idletrain": {"title":"IdleTrain – Bézier Procedural & Economia Escalável","sub":"Curvas Bézier, merge 3→1, economia escalável e persistência robusta.","soon":"Resumo técnico em preparação."},
+    "icemelt": {"title":"Ice Melt Race – Shader Dinâmico & Física Segmentada","sub":"Heatmap RenderTexture, melting shader e cabo segmentado otimizado.","soon":"Shader breakdown e física segmentada em breve."}
+  }
 }

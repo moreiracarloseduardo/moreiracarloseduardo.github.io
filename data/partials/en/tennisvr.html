@@ -1,0 +1,79 @@
+<div class="">
+  <div class="case-content">
+    <section class="case-section" id="intro">
+      <h2>Technical Analysis: TennisVR – Realistic Physics for Meta Quest 2</h2>
+      <p>Game for Meta Quest 2 where players aim to land the ball inside the opponent’s court. Built with Unity, this project focused on an advanced physics simulation to deliver realistic, immersive racket feel.</p>
+      <p><b>TennisVR</b> explores the limits of physics simulation to create an authentic virtual tennis experience. The goal was to replicate real racket control, enabling actions from simple hits to complex plays like topspins and slices with naturality.</p>
+    </section>
+    <section class="case-section" id="challenge">
+      <h2>The Challenge: Racket‑Ball Physics in VR</h2>
+      <p>The toughest part of any VR sports game that involves hitting an object is physics. A single collider on the racket can’t capture the nuances of a real hit. In such implementation, the result barely changes whether you hit with the tip or the sweet spot; it only depends on controller velocity. That breaks <b>immersion</b>, since an experienced player expects the tip to move faster (arc motion) than the base near the hand.</p>
+    </section>
+    <section class="case-section" id="multipoint">
+      <h2>Solution 1: Multi‑Point Physics via Proxy Capsules</h2>
+      <p>To solve this, I implemented multiple invisible “follower capsules” arranged over the racket surface, each with its own <b>Rigidbody</b> and <b>Collider</b>.</p>
+      <p>These capsules don’t belong to the racket; they follow it in real time. In <b>FixedUpdate()</b>, each capsule computes the velocity needed to reach its target point on the racket. As a result, capsules near the tip move faster than those near the handle, matching the arc movement. The tennis ball collides only with these capsules so the impact point precisely determines rebound speed and direction.</p>
+<pre><code class="language-csharp">public class RacketPhysicsProxy : MonoBehaviour
+{
+    private Transform followTarget;
+    private Rigidbody rb;
+
+    [SerializeField]
+    private float sensitivity = 100f;
+
+    void Awake()
+    {
+        rb = GetComponent&lt;Rigidbody&gt;();
+    }
+
+    public void SetFollowTarget(Transform target)
+    {
+        followTarget = target;
+        transform.position = target.position;
+        transform.rotation = target.rotation;
+    }
+
+    void FixedUpdate()
+    {
+        Vector3 destination = followTarget.position;
+        Vector3 velocity = (destination - rb.position) * sensitivity;
+        rb.velocity = velocity;
+        rb.rotation = followTarget.rotation;
+    }
+}</code></pre>
+    </section>
+    <section class="case-section" id="magnus">
+      <h2>Solution 2: Spin with the Magnus Effect</h2>
+      <p>Topspin and slice are crucial. To simulate spin, I implemented the <b>Magnus Effect</b>. At impact, the system computes the angular velocity to apply to the ball based on racket speed and angle. During flight, a continuous force is applied to the ball’s <b>Rigidbody</b>, perpendicular to its movement direction and rotation axis, yielding authentic trajectories.</p>
+<pre><code class="language-csharp">[RequireComponent(typeof(Rigidbody))]
+public class TennisBallPhysics : MonoBehaviour
+{
+    private Rigidbody rb;
+    [SerializeField] private float magnusCoefficient = 0.05f;
+
+    void Start() { rb = GetComponent&lt;Rigidbody&gt;(); }
+
+    void FixedUpdate()
+    {
+        if (rb.velocity.magnitude &gt; 0.1f)
+        {
+            Vector3 magnusForce = magnusCoefficient * Vector3.Cross(rb.angularVelocity, rb.velocity);
+            rb.AddForce(magnusForce);
+        }
+    }
+
+    public void ApplySpinOnHit(Vector3 racketVelocity, Vector3 hitNormal)
+    {
+        float spinAmount = Vector3.Dot(racketVelocity, hitNormal);
+        Vector3 spinAxis = Vector3.Cross(rb.velocity, racketVelocity).normalized;
+        rb.angularVelocity = spinAxis * spinAmount * 20f;
+    }
+}</code></pre>
+    </section>
+    <section class="case-section" id="results">
+      <h2>Results & Technical Competencies</h2>
+      <p>The combination of these techniques delivers intuitive, physically accurate VR tennis. This project demonstrates expertise in <b>advanced physics simulation</b>, <b>VR gameplay</b>, and translating real phenomena into interactive mechanics in <b>Unity</b>.</p>
+    </section>
+  </div>
+  <div class="case-sidebar"></div>
+  </div>

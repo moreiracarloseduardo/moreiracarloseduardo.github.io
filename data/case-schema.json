@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://moreiracarloseduardo.github.io/schema/case-study.json",
+  "title": "CaseStudy",
+  "type": "object",
+  "required": ["id", "title", "subtitle", "tags", "sections"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+    "title": { "type": "string" },
+    "subtitle": { "type": "string" },
+    "tags": { "type": "array", "items": { "type": "string" } },
+    "metrics": { "type": "array", "items": { "type": "string" } },
+    "sections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "heading"],
+        "properties": {
+          "id": { "type": "string" },
+          "heading": { "type": "string" },
+          "body": { "type": "string" },
+          "code": { "type": "string" },
+          "language": { "type": "string" }
+        }
+      }
+    }
+  }
+}

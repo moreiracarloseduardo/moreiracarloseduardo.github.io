@@ -1,0 +1,16 @@
+{
+  "id": "icemelt",
+  "title": "Ice Melt Race – Shader Dinâmico & Física Segmentada",
+  "subtitle": "Heatmap RenderTexture, melting shader, cabo segmentado e pooling inteligente.",
+  "tags": ["Shader", "Physics", "Optimization"],
+  "metrics": ["60+ FPS", "Heatmap RT", "Pooling 85% GC↓"],
+  "sections": [
+    {"id": "overview", "heading": "Visão Geral", "body": "Sistema de gelo que derrete em tempo real com partículas pintando mapa de calor lido pelo shader."},
+    {"id": "shader", "heading": "Shader & Heatmap", "body": "RenderTexture alimenta cor/transparência conforme threshold de calor.", "code": "// Trecho simplificado\nfloat4 heatData = SampleTexture2D(RenderTexture, screenUV);\nfloat meltThreshold = 0.5;\nfloat3 finalColor = lerp(iceColor, waterColor, heatData.r);", "language": "glsl"},
+    {"id": "grid", "heading": "Geração Modular", "body": "Grid procedural de blocos independentes com regeneração temporizada.", "code": "for (int i = 0; i < widthObject; i++) {\n  for (int j = 0; j < heightObject; j++) {\n    Vector3 pos = CalculateGridPosition(i,j);\n    var ice = InstantiateIceBlock(pos);\n    ConfigurePhysicsAndNavigation(ice);\n  }\n}", "language": "csharp"},
+    {"id": "cable", "heading": "Cabo Segmentado", "body": "20+ segmentos com Rigidbody + ConfigurableJoint e animação em onda.", "code": "void Animate(){\n for(int i=0;i<cableSegments.Length;i++){\n  LeanTween.scale(cableSegments[i].transform.GetChild(0).gameObject, Vector3.one*1.3f,0.3f)\n   .setFrom(Vector3.one*0.9f).setEaseOutSine().setLoopPingPong().setDelay(i*0.05f);\n }\n}", "language": "csharp"},
+    {"id": "collision", "heading": "Colisão Otimizada", "body": "Somente segmentos médios usam ContinuousSpeculative reduzindo custo físico.", "code": "if(i!=0 && i!=(segmentsQuantity-1)){\n  rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;\n}", "language": "csharp"},
+    {"id": "pooling", "heading": "Pooling Inteligente", "body": "Spawn de efeitos condicionado a threshold acumulado para reduzir GC.", "code": "Game_.instance.particle_.countToSpawnParticle++;\nif(countToSpawnParticle>=10){\n LeanPool.Spawn(waterPuddleFx, position, rotation);\n countToSpawnParticle=0;\n}", "language": "csharp"},
+    {"id": "resultados", "heading": "Resultados", "body": "FPS estáveis, redução de 60% no overhead físico e 85% menos GC picos."}
+  ]
+}

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ice Melt Race – Dynamic Shader & Segmented Physics</title>
+  <meta name="theme-color" content="#0B1220">
+  <meta name="description" content="Ice Melt Race: Heatmap RenderTexture, melting shader, and optimized segmented cable physics with pooling." />
+  <link rel="canonical" href="https://moreiracarloseduardo.github.io/case/icemelt/" />
+  <meta property="og:title" content="Ice Melt Race – Dynamic Shader & Segmented Physics">
+  <meta property="og:description" content="Heatmap RenderTexture, melting shader, and optimized segmented cable physics.">
+  <meta property="og:image" content="https://moreiracarloseduardo.github.io/assets/images/projects/ice.jpg">
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://moreiracarloseduardo.github.io/case/icemelt/" />
+  <meta property="og:locale" content="en_US" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Ice Melt Race – Dynamic Shader & Segmented Physics" />
+  <meta name="twitter:description" content="Heatmap RenderTexture, melting shader, and optimized segmented cable physics." />
+  <meta name="twitter:image" content="https://moreiracarloseduardo.github.io/assets/images/projects/ice.jpg" />
+  <link rel="stylesheet" href="../../assets/plugins/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+  <style>
+    :root{ view-transition-name: none; }
+    .case-hero{min-height: 48vh; padding: var(--space-8) 0 var(--space-5); position:relative;}
+    .case-hero::before{content:""; position:absolute; inset:0; background: radial-gradient(circle at 65% 35%, rgba(var(--color-accent-rgb),0.18), transparent 60%), radial-gradient(circle at 25% 70%, rgba(var(--color-accent-alt-rgb),0.15), transparent 65%); filter: blur(24px); opacity:.8;}
+  .case-title{font-size:clamp(1.6rem,1.1rem + 2.2vw,2.6rem); color: var(--color-text-100); margin:0 0 .5rem; letter-spacing:-.5px;}
+    .case-sub{color: var(--color-text-500); max-width: 70ch;}
+    .case-meta{display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1rem}
+    .case-meta .metric-badge{font-size:.65rem}
+    .case-layout{display:grid; grid-template-columns: 260px 1fr; gap: var(--space-5);} 
+  @media (max-width: 992px){ .case-layout{grid-template-columns: 1fr;} .case-toc{position:static!important; margin-bottom: var(--space-4);} }
+    .case-toc{position: sticky; top: 96px; align-self:start; background: linear-gradient(155deg, var(--color-surface-700), var(--color-surface-600)); border:1px solid var(--color-border); border-radius: var(--radius); padding: var(--space-4);}
+    .case-toc h3{font-size:.85rem; text-transform:uppercase; letter-spacing:.8px; color: var(--color-text-300); margin:0 0 .5rem}
+    .case-toc a{display:block; color: var(--color-text-500); padding:.4rem .25rem; border-radius:8px}
+    .case-toc a.active{color:#fff; background: rgba(var(--color-accent-rgb),0.15); border:1px solid rgba(var(--color-accent-rgb),0.35)}
+    .case-content{display:grid; gap: var(--space-6);} 
+    .case-section{background: linear-gradient(160deg, var(--color-surface-700), var(--color-surface-600)); border:1px solid var(--color-border); border-radius: var(--radius); padding: var(--space-5);}
+    .progress-read{position:fixed; top:0; left:0; height:3px; width:0; background: linear-gradient(90deg, var(--color-accent), var(--color-accent-alt)); z-index:9999}
+  .case-hero-media{margin-top:1rem; border-radius: var(--radius); overflow:hidden; border:1px solid var(--color-border)}
+  
+  /* Critical mobile layout fixes */
+  @media (max-width: 768px) {
+    .case-layout {
+      grid-template-columns: 1fr !important;
+      gap: var(--space-3) !important;
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+    
+    .case-toc {
+      position: static !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 0 var(--space-3) 0 !important;
+      padding: var(--space-3) !important;
+    }
+    
+    .case-content {
+      width: 100% !important;
+      max-width: 100% !important;
+      gap: var(--space-3) !important;
+    }
+    
+    .case-section {
+      width: 100% !important;
+      max-width: 100% !important;
+      padding: var(--space-3) !important;
+      margin: 0 !important;
+      box-sizing: border-box !important;
+    }
+    
+    .case-title{font-size:clamp(1.35rem,1.05rem + 1.2vw,1.8rem);} 
+    .case-sub{font-size:clamp(.95rem,.9rem + .3vw,1.05rem);} 
+  }
+  @media (max-width: 576px){ 
+    .case-hero{ padding: var(--space-6) 0 var(--space-4);} 
+    .case-section {
+      padding: var(--space-2) var(--space-3) !important;
+    }
+    .case-toc {
+      padding: var(--space-2) !important;
+    }
+  }
+  @media (max-width: 480px) {
+    .case-title {
+      font-size: clamp(1.25rem, 1rem + 1vw, 1.6rem) !important;
+      line-height: 1.2;
+    }
+    .case-sub {
+      font-size: clamp(0.9rem, 0.85rem + 0.3vw, 1rem) !important;
+    }
+  }
+  @media (max-width: 360px) {
+    .case-title {
+      font-size: clamp(1.1rem, 0.9rem + 0.8vw, 1.4rem) !important;
+      line-height: 1.15;
+    }
+    .case-sub {
+      font-size: clamp(0.85rem, 0.8rem + 0.25vw, 0.95rem) !important;
+      line-height: 1.4;
+    }
+    .case-meta .metric-badge {
+      font-size: 0.6rem;
+    }
+    .case-section {
+      padding: var(--space-2) !important;
+    }
+  }
+  </style>
+  <script type="application/ld+json">{
+    "@context":"https://schema.org",
+    "@type":"Article",
+  "headline":"Ice Melt Race – Dynamic Shader & Segmented Physics",
+  "description":"Heatmap RenderTexture, melting shader, and optimized segmented cable physics.",
+    "url":"https://moreiracarloseduardo.github.io/case/icemelt/",
+  "inLanguage":"en-US",
+  "image":"https://moreiracarloseduardo.github.io/assets/images/projects/ice.jpg",
+    "author": {"@type":"Person","name":"Carlos Eduardo"}
+  }</script>
+</head>
+<body>
+  <div class="progress-read" id="progressRead"></div>
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top" style="background: linear-gradient(140deg, var(--color-surface-700), var(--color-surface-600)); border-bottom:1px solid var(--color-border)">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="../../#top">
+        <img src="../../assets/images/profile.png" alt="Foto" class="nav-avatar" width="28" height="28" />
+        <span>Carlos Eduardo</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topnav" aria-controls="topnav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="topnav">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+          <li class="nav-item"><a class="nav-link" href="../../#featured-projects">Home</a></li>
+          <li class="nav-item nav-social d-flex align-items-center ms-lg-3">
+            <a href="https://www.linkedin.com/in/carlos-eduardo-m-31755b134/?locale=en_US" target="_blank" aria-label="LinkedIn" class="nav-social-link"><svg class="icon" aria-hidden="true"><use href="../../#i-linkedin"/></svg></a>
+            <a href="https://www.instagram.com/kadu_gamedev/" target="_blank" aria-label="Instagram" class="nav-social-link ms-2"><svg class="icon" aria-hidden="true"><use href="../../#i-instagram"/></svg></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <section class="case-hero">
+    <div class="container">
+  <h1 class="case-title" style="view-transition-name: vt-ice-title">Ice Melt Race – Dynamic Shader & Segmented Physics</h1>
+  <p class="case-sub">Heatmap RenderTexture, melting shader, and optimized segmented cable physics.</p>
+      <div class="case-hero-media-wrap case-hero-media">
+        <picture data-opt-image>
+        <source type="image/avif" srcset="../../assets/images/projects/ice.jpg.avif">
+        <source type="image/webp" srcset="../../assets/images/projects/ice.jpg.webp">
+        <img src="../../assets/images/projects/ice.jpg" alt="Ice Melt cover" width="1280" height="720" style="width:100%;height:auto;view-transition-name: vt-ice-cover" loading="eager" decoding="async">
+        </picture>
+        <img class="case-hero-gif" src="../../assets/images/projects/IceMeltGif.gif" alt="Ice Melt gameplay gif" loading="lazy" decoding="async" />
+      </div>
+    </div>
+  </section>
+  <main class="container" style="padding: var(--space-6) 0 var(--space-8)">
+    <div class="case-layout">
+      <aside class="case-toc" id="toc">
+        <h3>Contents</h3>
+        <div class="toc-links">
+          <a href="#overview">Overview</a>
+          <a href="#shader">Shader/Heatmap</a>
+          <a href="#grid">Procedural Grid</a>
+          <a href="#cascades">Cascades</a>
+          <a href="#collision">Collision</a>
+          <a href="#pooling">Pooling</a>
+          <a href="#cable">Cable/Connect</a>
+          <a href="#results">Results</a>
+        </div>
+      </aside>
+      <div class="case-content">
+        <section id="overview" class="case-section">
+          <h2>Technical Analysis: IceMeltRace</h2>
+          <p>Real‑time ice melting combining shader programming, rendering, physics simulation, and performance optimization. Players use flamethrowers to melt ice blocks into water resources while maintaining 60+ FPS.</p>
+        </section>
+        <section id="shader" class="case-section">
+          <h2>Shader/Heatmap</h2>
+          <div class="featured-image" style="margin:.5rem 0 1rem">
+            <img class="img-fluid project-image d-block mx-auto" src="../../assets/images/projects/shader.jpg" alt="Ice shader preview" width="1024" loading="lazy" decoding="async" />
+          </div>
+          <div class="code-snippet-collapsible" data-snippet>
+<pre><code class="language-csharp">// Custom Ice Shader with Real-time Heat Mapping
+float4 heatData = SampleTexture2D(RenderTexture, screenUV);
+float meltThreshold = 0.5;
+float3 finalColor = lerp(iceColor, waterColor, heatData.r);
+float alpha = step(meltThreshold, heatData.r);</code></pre>
+            <button class="snippet-expand-btn" type="button" data-expand>Expand</button>
+          </div>
+          <div class="code-snippet-collapsible" data-snippet>
+<pre><code class="language-csharp">public class HeatmapPainter : MonoBehaviour {
+    public RenderTexture heatmap; public Material drawMat;
+    public void Paint(Vector2 uv, float radius, float power){
+        RenderTexture active = RenderTexture.active; RenderTexture.active = heatmap;
+        GL.PushMatrix(); GL.LoadOrtho(); drawMat.SetVector("_Center", new Vector4(uv.x, uv.y, radius, power));
+        // Draw full-screen quad, shader writes falloff around uv
+        Graphics.Blit(null, heatmap, drawMat);
+        GL.PopMatrix(); RenderTexture.active = active;
+    }
+}</code></pre>
+            <button class="snippet-expand-btn" type="button" data-expand>Expand</button>
+          </div>
+        </section>
+        <section id="grid" class="case-section">
+          <h2>Modular Grid Architecture</h2>
+          <div class="code-snippet-collapsible" data-snippet>
+<pre><code class="language-csharp">// Procedural Ice Block Generation
+for (int i = 0; i &lt; widthObject; i++) {
+    for (int j = 0; j &lt; heightObject; j++) {
+        Vector3 position = CalculateGridPosition(i, j);
+        GameObject iceBlock = InstantiateIceBlock(position);
+        ConfigurePhysicsAndNavigation(iceBlock);
+    }
+}</code></pre>
+            <button class="snippet-expand-btn" type="button" data-expand>Expand</button>
+          </div>
+          <p>Scalable grid where blocks melt independently and auto‑regenerate after 10 seconds.</p>
+        </section>
+        <section id="cascades" class="case-section">
+          <h2>Visual Animation Pipelining</h2>
+          <div class="code-snippet-collapsible" data-snippet>
+<pre><code class="language-csharp">// Cascading Scale Animation
+void Animate() {
+    for (int i = 0; i &lt; cableSegments.Length; i++) {
+        LeanTween.scale(cableSegments[i].transform.GetChild(0).gameObject, 
+                       Vector3.one * 1.3f, 0.3f)
+                .setFrom(Vector3.one * 0.9f)
+                .setEaseOutSine()
+                .setLoopPingPong()
+                .setDelay(i * 0.05f); // Staggered animation
+    }
+}</code></pre>
+            <button class="snippet-expand-btn" type="button" data-expand>Expand</button>
+          </div>
+        </section>
+        <section id="collision" class="case-section">
+          <h2>Collision Detection</h2>
+          <div class="code-snippet-collapsible" data-snippet>
+<pre><code class="language-csharp">// Collision Detection Mode Management
+if (i != 0 &amp;&amp; i != (segmentsQuantity - 1)) {
+    rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
+}
+// Only middle segments use expensive collision detection</code></pre>
+            <button class="snippet-expand-btn" type="button" data-expand>Expand</button>
+          </div>
+        </section>
+        <section id="pooling" class="case-section">
+          <h2>Intelligent Object Pooling</h2>
+          <div class="code-snippet-collapsible" data-snippet>
+<pre><code class="language-csharp">// Threshold-Based Effect Spawning
+Game_.instance.particle_.countToSpawnParticle++;
+if (countToSpawnParticle &gt;= 10) {
+    LeanPool.Spawn(waterPuddleFx, position, rotation);
+    countToSpawnParticle = 0;
+}</code></pre>
+            <button class="snippet-expand-btn" type="button" data-expand>Expand</button>
+          </div>
+        </section>
+        <section id="cable" class="case-section">
+          <h2>Cable System Architecture</h2>
+          <div class="featured-image" style="margin:.5rem 0 1rem">
+            <img class="img-fluid project-image d-block mx-auto gif-normal" src="../../assets/images/projects/IceMeltRope.gif" alt="Ice Melt rope physics gif" width="300" loading="lazy" decoding="async" />
+          </div>
+          <p>Segmented physics chain with 20+ segments (Rigidbody + CapsuleCollider), ConfigurableJoints, alternating materials, and proper collision layers.</p>
+          <div class="code-snippet-collapsible" data-snippet>
+<pre><code class="language-csharp">public void ConnectCable(bool startSegment, Transform newTransform) {
+    AwakeRigidbodies(); // Activate physics
+    int id = startSegment ? 0 : cableSegments.Length - 1;
+    cableSegments[id].GetComponent&lt;Rigidbody&gt;().isKinematic = true;
+    cableSegments[id].transform.parent = newTransform;
+    
+    // Smooth connection animation
+    LeanTween.moveLocal(cableSegments[id].gameObject, Vector3.zero, 0.2f);
+    LeanTween.rotateLocal(cableSegments[id].gameObject, Vector3.zero, 0.2f);
+}</code></pre>
+            <button class="snippet-expand-btn" type="button" data-expand>Expand</button>
+          </div>
+          <div class="featured-image" style="margin:.5rem 0 1rem">
+            <img class="img-fluid project-image d-block mx-auto" src="../../assets/images/projects/rope.png" alt="Rope system architecture" width="300" loading="lazy" decoding="async" />
+          </div>
+          <p>Bidirectional resource flow (fuel forward, water backward), particle jets, 3D spatial audio, smart auto‑disconnect.</p>
+        </section>
+        <section id="results" class="case-section">
+          <h2>Technical Metrics and Results</h2>
+          <ul>
+            <li><b>GPU:</b> 256² heatmap updates in &lt; 0.2 ms.</li>
+            <li><b>CPU:</b> Segmented cable &lt; 0.3 ms/frame, no GC spikes.</li>
+            <li><b>Visual:</b> Smooth melting with predictable behavior, no popping.</li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </main>
+  <script src="../../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+  <script src="../../assets/js/main.js"></script>
+  <script>
+    (function(){
+      const toc = document.getElementById('toc');
+      const links = [...toc.querySelectorAll('a')];
+      const bar = document.getElementById('progressRead');
+      const secs = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+      
+      // TOC Collapsible for mobile
+      const tocHeader = toc.querySelector('h3');
+      
+      function setupMobileTOC() {
+        if (window.innerWidth <= 768) {
+          toc.classList.add('collapsed');
+          if (tocHeader && !tocHeader.onclick) {
+            tocHeader.addEventListener('click', function() {
+              toc.classList.toggle('collapsed');
+            });
+          }
+        } else {
+          toc.classList.remove('collapsed');
+          if (tocHeader) {
+            tocHeader.onclick = null;
+          }
+        }
+      }
+      
+      setupMobileTOC();
+      window.addEventListener('resize', setupMobileTOC);
+      
+      function onScroll() {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        bar.style.width = Math.max(0, (window.scrollY / Math.max(1, max)) * 100) + '%';
+      }
+      
+      const io = new IntersectionObserver(es => {
+        es.forEach(e => {
+          if (e.isIntersecting) {
+            links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
+          }
+        });
+      }, { rootMargin: '-35% 0px -55% 0px' });
+      
+      secs.forEach(s => io.observe(s));
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
+  </script>
+</body>
+</html>

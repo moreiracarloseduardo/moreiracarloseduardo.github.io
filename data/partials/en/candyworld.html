@@ -1,0 +1,107 @@
+<div class="">
+  <div class="case-content">
+    <section class="case-section" aria-labelledby="candyworld-intro">
+      <h2 id="candyworld-intro">Technical Analysis: CandyWorld - Idle Management Game</h2>
+      <p><b>CandyWorld</b> is an idle/management mobile game project built in Unity 3D, focusing on an automated production chain and non-linear progression. It served as an in-depth study of <b>software architectures</b>, <b>design patterns</b>, and <b>mobile performance optimizations</b>.</p>
+    </section>
+    <section class="case-section" aria-labelledby="candyworld-arch">
+      <h2 id="candyworld-arch">Architecture and Design Patterns</h2>
+      <p>We used the <b>State Machine Pattern</b> to manage entity behavior (Idle → Find → Move → Buy → Leave), enabling controlled transitions and simpler debugging. The <b>Singleton Pattern</b> centralized managers (Audio, UI, Particles), and a <b>Component-Based Architecture</b> modularized buildings, characters, and objects.</p>
+    </section>
+    <section class="case-section" aria-labelledby="candyworld-systems">
+      <h2 id="candyworld-systems">Implemented Technical Systems</h2>
+      <p><b>Behavioral AI System:</b> NPCs with autonomous decision-making using Unity NavMesh (natural, efficient pathfinding). Includes patience and satisfaction systems.</p>
+      <div class="featured-image"><img class="img-fluid project-image d-block mx-auto gif-normal" src="assets/images/projects/CandyCustumer.gif" alt="CandyWorld customer AI gif" width="300" loading="lazy" decoding="async" /></div>
+<pre><code class="language-csharp">public enum AiStates { Idle, Find, Buy, Move, Leave };
+
+void Find_Enter() {
+    targetShelf = Game_.instance.buildingsManager.shelves[Random.Range(0, Game_.instance.upgrades.shelfsUnlocked)].GetComponent&lt;Shelf_&gt;();
+    NavMesh.SamplePosition(targetShelf.transform.position, out NavMeshHit hit, 10, NavMesh.AllAreas);
+    target = hit.position;
+    agent.SetDestination(target);
+    
+    switch (targetShelf.tag) {
+        case "LollipopShelf":
+            productBubbleImage.sprite = productsSprites[0];
+            break;
+    }
+    fsm.ChangeState(AiStates.Move);
+}</code></pre>
+      <p><b>Autonomous Helper AI System:</b> Helpers optimize production with dynamic task prioritization based on the game state.</p>
+<pre><code class="language-csharp">void Find_Enter() {
+    Vector3 target = Vector3.zero;
+    if (productsHolder.childCount &gt; 0) {
+        targetShelf = FindShelf();
+    } else {
+        targetMachine = FindMachineWithMoreProducts();
+        if (targetMachine != null) {
+            target = targetMachine.outShelf.transform.position;
+        }
+    }
+    
+    if (target != Vector3.zero) {
+        NavMesh.SamplePosition(target, out NavMeshHit hit, 20, NavMesh.AllAreas);
+        agent.SetDestination(hit.position);
+    }
+}</code></pre>
+      <div class="featured-image"><img class="img-fluid project-image d-block mx-auto gif-normal" src="assets/images/projects/CandyHelper.gif" alt="CandyWorld helper AI gif" width="300" loading="lazy" decoding="async" /></div>
+      <p><b>Automated Production System:</b> End-to-end production from plants/ingredients to machines and sales. Coroutines manage async processes; a supply/demand balancer keeps economy dynamic.</p>
+      <div class="featured-image"><img class="img-fluid project-image d-block mx-auto gif-normal" src="assets/images/projects/CandyProduction.gif" alt="CandyWorld production pipeline gif" width="300" loading="lazy" decoding="async" /></div>
+<pre><code class="language-csharp">IEnumerator Factory() {
+    yield return new WaitForSeconds(1);
+    if (inShelf.GetLastCollectable() != null) {
+        Ingredient_ ingredient = inShelf.GetLastCollectable() as Ingredient_;
+        IngredientType ingredientType = ingredient.type;
+        
+        for (int i = 0; i &lt; productsPerIngredient; i++) {
+            LeanTween.moveLocalY(piston, 0, .2f).setEase(LeanTweenType.easeInCubic).setLoopPingPong(1);
+            yield return new WaitForSeconds(.05f);
+            
+            Product_ currentProduct = Instantiate(product, productStartPoint.position, transform.rotation);
+            currentProduct.flavor = ingredientType;
+            currentProduct.setFlavorMaterial();
+            
+            LeanTween.value(gameObject, 0, 1, Game_.instance.upgrades.machineSpeedValue).setOnUpdate((float val) =&gt; {
+                conveyourRenderer.material.mainTextureOffset = new Vector2(0, -val * 2);
+            });
+            
+            yield return new WaitForSeconds(Game_.instance.upgrades.machineSpeedValue);
+            outShelf.SpawnCollectable(currentProduct);
+        }
+    }
+    StartCoroutine(Factory());
+}</code></pre>
+    </section>
+    <section class="case-section" aria-labelledby="candyworld-progression">
+      <h2 id="candyworld-progression">Dynamic Progression System</h2>
+      <p>Progression balanced with <code>AnimationCurve</code> and math formulas for upgrades, enabling rewarding content unlocking.</p>
+<pre><code class="language-csharp">public int holdItensValue {
+    get {
+        return (int)Game_.instance.priceManager.holdItens.Evaluate((float)holdItensLevel / (maxLevel - 1));
+    }
+}
+
+public float machineSpeedValue {
+    get {
+        return Game_.instance.priceManager.machineSpeed.Evaluate((float)machineSpeedLevel / (maxLevel - 1));
+    }
+}</code></pre>
+    </section>
+    <section class="case-section" aria-labelledby="candyworld-data">
+      <h2 id="candyworld-data">Data Management System</h2>
+      <p><b>Persistent Save/Load System:</b> Automatic serialization with debounce, async/await for non-blocking operations.</p>
+      <p><b>Contextual Tutorial:</b> Step-by-step tutorial with action validation, persisted via PlayerPrefs; non-intrusive, dynamic UI.</p>
+    </section>
+    <section class="case-section" aria-labelledby="candyworld-optimizations">
+      <h2 id="candyworld-optimizations">Optimizations and Performance</h2>
+      <p><b>Object Pooling:</b> Reduced GC for particles/objects.</p>
+      <p><b>Tweening System:</b> Smooth visuals without framerate impact.</p>
+      <p><b>Modular Loading:</b> Lazy activation/deactivation via building manager.</p>
+    </section>
+    <section class="case-section" aria-labelledby="candyworld-results">
+      <h2 id="candyworld-results">Results and Technical Metrics</h2>
+      <p>Stable <b>60 FPS</b> on mid-range devices; memory footprint under <b>200MB</b>. Highly <b>scalable</b> architecture with excellent <b>maintainability</b>. Demonstrates <b>architecture</b>, <b>mobile optimization</b>, <b>AI implementation</b>, complex <b>systems design</b>, and <b>SDK integration</b>.</p>
+    </section>
+  </div>
+  <div class="case-sidebar"></div>
+</div>

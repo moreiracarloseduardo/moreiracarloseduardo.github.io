@@ -1,0 +1,85 @@
+<div class="">
+  <div class="case-content">
+    <section class="case-section" aria-labelledby="icemelt-intro">
+      <h2 id="icemelt-intro">Technical Analysis: IceMeltRace</h2>
+      <p><b>IceMeltRace</b> features a sophisticated real-time ice melting system that combines advanced Unity technologies to create an immersive gameplay mechanic. This system demonstrates expertise in shader programming, real-time rendering, physics simulation, and performance optimization.</p>
+      <p><b>Key Achievement:</b> Created a fully dynamic ice interaction system where players use flamethrowers to melt ice blocks, converting them into water resources while maintaining 60+ FPS performance.</p>
+    </section>
+    <section class="case-section" aria-labelledby="icemelt-shader">
+      <h2 id="icemelt-shader">Heatmap Shader</h2>
+      <div class="featured-image"><img class="img-fluid project-image hover-lift" src="assets/images/projects/shader.jpg" alt="Ice shader preview" loading="lazy" decoding="async" /></div>
+<pre><code class="language-csharp">// Custom Ice Shader with Real-time Heat Mapping
+float4 heatData = SampleTexture2D(RenderTexture, screenUV);
+float meltThreshold = 0.5;
+float3 finalColor = lerp(iceColor, waterColor, heatData.r);
+float alpha = step(meltThreshold, heatData.r);
+</code></pre>
+      <p><b>Custom Ice Material Properties</b></p>
+      <p><b>RenderTexture:</b> Dynamic heat map input; <b>Fresnel Effects:</b> Realistic ice edge highlighting; <b>Normal Mapping:</b> Surface detail enhancement; <b>Transparency Control:</b> Smooth melting transitions; <b>Refraction:</b> Light bending through ice.</p>
+      <p><b>Innovation:</b> Particles from the flamethrower dynamically paint heat values onto a render texture, which the ice shader reads in real-time to create realistic melting effects.</p>
+    </section>
+    <section class="case-section" aria-labelledby="icemelt-grid">
+      <h2 id="icemelt-grid">Modular Grid Architecture</h2>
+<pre><code class="language-csharp">// Procedural Ice Block Generation
+for (int i = 0; i &lt; widthObject; i++) {
+    for (int j = 0; j &lt; heightObject; j++) {
+        Vector3 position = CalculateGridPosition(i, j);
+        GameObject iceBlock = InstantiateIceBlock(position);
+        ConfigurePhysicsAndNavigation(iceBlock);
+    }
+}</code></pre>
+      <p><b>Scalability:</b> System automatically generates ice grids of any size, with each block being independently meltable and auto-regenerating after 10 seconds.</p>
+    </section>
+    <section class="case-section" aria-labelledby="icemelt-cabo">
+      <h2 id="icemelt-cabo">Cable Physics</h2>
+      <div class="featured-image"><img class="img-fluid project-image d-block mx-auto gif-normal" src="assets/images/projects/IceMeltRope.gif" alt="Ice Melt Race rope physics gif" width="300" loading="lazy" decoding="async" /></div>
+<pre><code class="language-csharp">// Collision Detection Mode Management
+if (i != 0 &amp;&amp; i != (segmentsQuantity - 1)) {
+    rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
+}
+// Only middle segments use expensive collision detection</code></pre>
+      <p><b>Visual Animation Pipelining</b></p>
+<pre><code class="language-csharp">// Cascading Scale Animation
+void Animate() {
+    for (int i = 0; i &lt; cableSegments.Length; i++) {
+        LeanTween.scale(cableSegments[i].transform.GetChild(0).gameObject, 
+                       Vector3.one * 1.3f, 0.3f)
+                .setFrom(Vector3.one * 0.9f)
+                .setEaseOutSine()
+                .setLoopPingPong()
+                .setDelay(i * 0.05f); // Staggered animation
+    }
+}</code></pre>
+      <p><b>Visual Impact:</b> Creates wave-like animation effects that travel along the cable, providing clear visual feedback for resource transfer.</p>
+    </section>
+    <section class="case-section" aria-labelledby="icemelt-pooling">
+      <h2 id="icemelt-pooling">Intelligent Object Pooling</h2>
+<pre><code class="language-csharp">// Threshold-Based Effect Spawning
+Game_.instance.particle_.countToSpawnParticle++;
+if (countToSpawnParticle &gt;= 10) {
+    LeanPool.Spawn(waterPuddleFx, position, rotation);
+    countToSpawnParticle = 0;
+}</code></pre>
+      <p><b>Result:</b> Reduces garbage collection by 85% and maintains consistent frame rates during intensive melting sequences.</p>
+    </section>
+    <section class="case-section" aria-labelledby="icemelt-arq">
+      <h2 id="icemelt-arq">Cable System Architecture</h2>
+      <div class="featured-image"><img class="img-fluid project-image d-block mx-auto gif-normal" src="assets/images/projects/rope.png" alt="Rope system architecture" width="300" loading="lazy" decoding="async" /></div>
+      <p><b>Segmented Physics Chain</b></p>
+      <p><b>20+ Individual Segments:</b> Each with independent Rigidbody and CapsuleCollider; <b>ConfigurableJoint Connections:</b> Precise spring-damper physics simulation; <b>Material Variation:</b> Striped patterns with alternating materials; <b>Layer Management:</b> Proper collision layer assignment for optimization.</p>
+      <p><b>Connection Mechanics</b></p>
+<pre><code class="language-csharp">public void ConnectCable(bool startSegment, Transform newTransform) {
+    AwakeRigidbodies(); // Activate physics
+    int id = startSegment ? 0 : cableSegments.Length - 1;
+    cableSegments[id].GetComponent&lt;Rigidbody&gt;().isKinematic = true;
+    cableSegments[id].transform.parent = newTransform;
+    
+    // Smooth connection animation
+    LeanTween.moveLocal(cableSegments[id].gameObject, Vector3.zero, 0.2f);
+    LeanTween.rotateLocal(cableSegments[id].gameObject, Vector3.zero, 0.2f);
+}</code></pre>
+      <p><b>Resource Transfer Visualization</b><br><b>Bidirectional Flow:</b> Forward animation for fuel, backward for water; <b>Particle Integration:</b> Fuel/water jets activate on connection; <b>Audio Feedback:</b> 3D spatial connection sounds; <b>Automatic Disconnection:</b> Smart disconnection based on resource levels.</p>
+    </section>
+  </div>
+  <div class="case-sidebar"></div>
+</div>

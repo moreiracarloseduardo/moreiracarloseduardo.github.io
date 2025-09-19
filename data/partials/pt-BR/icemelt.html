@@ -1,0 +1,79 @@
+<div class="">
+  <div class="case-content">
+    <section class="case-section" aria-labelledby="icemelt-intro">
+      <h2 id="icemelt-intro">Análise Técnica: IceMeltRace</h2>
+      <p><b>IceMeltRace</b> apresenta um sistema de derretimento de gelo em tempo real que combina tecnologias avançadas da Unity para criar uma mecânica imersiva. Demonstra expertise em shaders, renderização em tempo real, simulação física e otimização.</p>
+      <p><b>Destaque:</b> Sistema totalmente dinâmico onde o lança-chamas pinta calor em um RenderTexture, mantendo 60+ FPS enquanto converte gelo em água.</p>
+    </section>
+    <section class="case-section" aria-labelledby="icemelt-shader">
+      <h2 id="icemelt-shader">Heatmap Shader</h2>
+      <div class="featured-image"><img class="img-fluid project-image hover-lift" src="assets/images/projects/shader.jpg" alt="Prévia do shader de gelo" loading="lazy" decoding="async" /></div>
+<pre><code class="language-csharp">// Shader de gelo com heat mapping em tempo real
+float4 heatData = SampleTexture2D(RenderTexture, screenUV);
+float meltThreshold = 0.5;
+float3 finalColor = lerp(iceColor, waterColor, heatData.r);
+float alpha = step(meltThreshold, heatData.r);
+</code></pre>
+      <p><b>Propriedades do Material:</b> RenderTexture de calor; Fresnel; normal mapping; controle de transparência; refração.</p>
+      <p><b>Inovação:</b> Partículas do lança-chamas pintam calor no RT lido pelo shader, produzindo derretimento realista.</p>
+    </section>
+    <section class="case-section" aria-labelledby="icemelt-grid">
+      <h2 id="icemelt-grid">Arquitetura de Grade Modular</h2>
+<pre><code class="language-csharp">// Geração procedural de blocos de gelo
+for (int i = 0; i &lt; widthObject; i++) {
+    for (int j = 0; j &lt; heightObject; j++) {
+        Vector3 position = CalculateGridPosition(i, j);
+        GameObject iceBlock = InstantiateIceBlock(position);
+        ConfigurePhysicsAndNavigation(iceBlock);
+    }
+}</code></pre>
+      <p><b>Escalabilidade:</b> Grelhas de qualquer tamanho; cada bloco derrete independentemente e regenera após 10s.</p>
+    </section>
+    <section class="case-section" aria-labelledby="icemelt-cable">
+      <h2 id="icemelt-cable">Física do Cabo</h2>
+      <div class="featured-image"><img class="img-fluid project-image d-block mx-auto gif-normal" src="assets/images/projects/IceMeltRope.gif" alt="GIF da física do cabo" width="300" loading="lazy" decoding="async" /></div>
+<pre><code class="language-csharp">// Gestão do modo de detecção de colisão
+if (i != 0 &amp;&amp; i != (segmentsQuantity - 1)) {
+    rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
+}
+</code></pre>
+<pre><code class="language-csharp">// Animação em cascata
+void Animate() {
+    for (int i = 0; i &lt; cableSegments.Length; i++) {
+        LeanTween.scale(cableSegments[i].transform.GetChild(0).gameObject, 
+                       Vector3.one * 1.3f, 0.3f)
+                .setFrom(Vector3.one * 0.9f)
+                .setEaseOutSine()
+                .setLoopPingPong()
+                .setDelay(i * 0.05f);
+    }
+}</code></pre>
+      <p><b>Impacto Visual:</b> Efeito de onda ao longo do cabo e feedback claro de fluxo de recursos.</p>
+    </section>
+    <section class="case-section" aria-labelledby="icemelt-pooling">
+      <h2 id="icemelt-pooling">Object Pooling Inteligente</h2>
+<pre><code class="language-csharp">// Spawning por limiar
+Game_.instance.particle_.countToSpawnParticle++;
+if (countToSpawnParticle &gt;= 10) {
+    LeanPool.Spawn(waterPuddleFx, position, rotation);
+    countToSpawnParticle = 0;
+}</code></pre>
+      <p><b>Resultado:</b> ~85% de redução de GC e FPS estável.</p>
+    </section>
+    <section class="case-section" aria-labelledby="icemelt-arq">
+      <h2 id="icemelt-arq">Arquitetura do Sistema de Cabo</h2>
+      <div class="featured-image"><img class="img-fluid project-image d-block mx-auto gif-normal" src="assets/images/projects/rope.png" alt="Arquitetura do cabo" width="300" loading="lazy" decoding="async" /></div>
+      <p><b>Cadeia Segmentada:</b> 20+ segmentos (Rigidbody + CapsuleCollider), juntas configuráveis, variação de materiais e camadas otimizadas.</p>
+<pre><code class="language-csharp">public void ConnectCable(bool startSegment, Transform newTransform) {
+    AwakeRigidbodies();
+    int id = startSegment ? 0 : cableSegments.Length - 1;
+    cableSegments[id].GetComponent&lt;Rigidbody&gt;().isKinematic = true;
+    cableSegments[id].transform.parent = newTransform;
+    LeanTween.moveLocal(cableSegments[id].gameObject, Vector3.zero, 0.2f);
+    LeanTween.rotateLocal(cableSegments[id].gameObject, Vector3.zero, 0.2f);
+}</code></pre>
+      <p><b>Visualização de Transferência:</b> Fluxo bidirecional (combustível/água), partículas, áudio espacial 3D e desconexão automática por nível de recurso.</p>
+    </section>
+  </div>
+  <div class="case-sidebar"></div>
+</div>

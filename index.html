@@ -1,1840 +1,443 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Carlos Eduardo Portfolio</title>
-        <!-- Meta -->
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description"
-            content="Carlos Eduardo Portfolio">
-        <meta name="author" content="Xiaoying Riley at 3rd Wave Media">
-        <link rel="shortcut icon" href="favicon.svg">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Carlos Eduardo Portfolio</title>
+    <meta name="description" content="Carlos Eduardo Portfolio" />
+    <meta name="author" content="Xiaoying Riley at 3rd Wave Media" />
+    <link rel="shortcut icon" href="favicon.svg" />
+    <link href='https://fonts.googleapis.com/css?family=Lato:300,400,300italic,400italic&display=swap' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap' rel='stylesheet' type='text/css'>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <meta name="theme-color" content="#0B1220" />
 
-        <link
-            href='https://fonts.googleapis.com/css?family=Lato:300,400,300italic,400italic'
-            rel='stylesheet' type='text/css'>
-        <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700'
-            rel='stylesheet' type='text/css'>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <meta name="theme-color" content="#F3F5F7">
+    <style>
+      .icon { width: 1em; height: 1em; display: inline-block; vertical-align: -0.15em; fill: currentColor; }
+      .icon-lg { width: 1.25em; height: 1.25em; }
+    </style>
+    <svg xmlns="http://www.w3.org/2000/svg" style="display:none" id="svg-sprite">
+      <symbol id="i-linkedin" viewBox="0 0 448 512"><path d="M100.28 448H7.4V148.9h92.88zm-46.44-341A53.79 53.79 0 11107.63 53a53.79 53.79 0 01-53.79 54zM447.9 448h-92.4V302.4c0-34.7-.7-79.2-48.24-79.2-48.3 0-55.7 37.7-55.7 76.7V448h-92.6V148.9h88.9v40.8h1.3c12.4-23.5 42.7-48.3 87.9-48.3 94 0 111.3 61.9 111.3 142.3V448z"/></symbol>
+      <symbol id="i-instagram" viewBox="0 0 448 512"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9S160.5 370.8 224.1 370.8 339 319.5 339 255.9 287.7 141 224.1 141zm0 188.6a73.7 73.7 0 1173.7-73.7 73.7 73.7 0 01-73.7 73.7zm146.4-194.3a26.6 26.6 0 11-26.6-26.6 26.6 26.6 0 0126.6 26.6zm76.1 27.2c-.5-35.2-9.9-66.5-36.2-92.7s-57.5-35.6-92.7-36.2c-36.5-2.1-146.1-2.1-182.6 0-35.2.5-66.5 9.9-92.7 36.1s-35.6 57.5-36.2 92.7c-2.1 36.5-2.1 146.1 0 182.6.5 35.2 9.9 66.5 36.2 92.7s57.5 35.6 92.7 36.2c36.5 2.1 146.1 2.1 182.6 0 35.2-.5 66.5-9.9 92.7-36.2s35.6-57.5 36.2-92.7c2.1-36.5 2.1-146.1 0-182.6zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></symbol>
+      <symbol id="i-envelope" viewBox="0 0 512 512"><path d="M502.3 190.8L352 312.5c-38.9 31.4-92.2 31.4-131.1 0L9.7 190.8C3.9 186.2 0 179 0 171.3V120c0-26.5 21.5-48 48-48h416c26.5 0 48 21.5 48 48v51.3c0 7.7-3.9 14.9-9.7 19.5zM512 218.6v173.4c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V218.6c0-5.1 2.4-9.9 6.5-12.9l154.2 124.5c47.6 38.4 114.4 38.4 162 0L505.5 205.7a15.94 15.94 0 016.5 12.9z"/></symbol>
+      <symbol id="i-globe" viewBox="0 0 496 512"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm155.1 114.9c29.2 36 46.9 81.9 47.7 131.1h-82.8c-1.7-50.5-11-97.3-26.4-131.1h61.5zM248 64c21.1 0 49.3 30.8 64.6 96H183.4c15.3-65.2 43.5-96 64.6-96zM92.9 122.9h61.5c-15.4 33.8-24.7 80.6-26.4 131.1H45.2c.8-49.2 18.5-95.1 47.7-131.1zM45.2 288h82.8c1.7 50.5 11 97.3 26.4 131.1H92.9c-29.2-36-46.9-81.9-47.7-131.1zM248 448c-21.1 0-49.3-30.8-64.6-96h129.2c-15.3 65.2-43.5 96-64.6 96zm90.6-28.9c15.4-33.8 24.7-80.6 26.4-131.1h82.8c-.8 49.2-18.5 95.1-47.7 131.1h-61.5z"/></symbol>
+      <symbol id="i-external" viewBox="0 0 512 512"><path d="M432 320h-32a16 16 0 00-16 16v112H64V128h112a16 16 0 0016-16V80a16 16 0 00-16-16H48A48 48 0 000 112v352a48 48 0 0048 48h352a48 48 0 0048-48V336a16 16 0 00-16-16zm56-320H320a32 32 0 00-22.63 54.63l35.73 35.73L142.63 316.42a16 16 0 000 22.62l22.62 22.63a16 16 0 0022.63 0L378.35 135.6l35.73 35.73A32 32 0 00448 256h168a24 24 0 0024-24V32a32 32 0 00-32-32z"/></symbol>
+      <symbol id="i-grad-cap" viewBox="0 0 640 512"><path d="M622.34 153.2l-275.5-114.1c-17.87-7.39-37.81-7.39-55.69 0L17.66 153.2C2.812 159.4-3.945 176.9 2.281 191.8c6.227 14.88 23.73 21.64 38.62 15.41L96 178.6V288c0 35.35 86 64 192 64s192-28.65 192-64V178.6l55.09 22.62c14.91 6.227 32.39-.531 38.62-15.41 6.23-14.9-.53-32.4-15.39-38.61zM480 288c0 18.63-64.6 48-192 48s-192-29.37-192-48v-92.5l166.8 68.99c10.88 4.5 22.78 6.75 34.69 6.75s23.81-2.25 34.69-6.75L480 195.5V288z"/></symbol>
+      <symbol id="i-star" viewBox="0 0 576 512"><path d="M316.9 17.8l70.6 143 157.9 23c26.2 3.8 36.7 36 17.7 54.6L463 361.2l27 157.3c4.5 26.3-23.2 46-46.4 33.7L288 439.6 132.4 552.2c-23.2 12.2-50.9-7.4-46.4-33.7l27-157.3L12.9 238.4c-19-18.6-8.5-50.8 17.7-54.6l157.9-23 70.6-143c11.7-23.6 45.6-23.9 57.8 0z"/></symbol>
+      <symbol id="i-star-half" viewBox="0 0 536 512"><path d="M260.5 17.8l-70.6 143-157.9 23c-26.2 3.8-36.7 36-17.7 54.6L130.4 361.2l-27 157.3c-4.5 26.3 23.2 46 46.4 33.7L288 439.6V17c-10.7 0-21.4 5.9-27.5 17.8z"/></symbol>
+      <symbol id="i-map-marker" viewBox="0 0 384 512"><path d="M168 0C75.2 0 0 75.2 0 168c0 87.3 135.5 293.3 157.7 324.2 6.4 8.9 20.2 8.9 26.6 0C248.5 461.3 384 255.3 384 168 384 75.2 308.8 0 216 0zm0 240c-39.8 0-72-32.2-72-72s32.2-72 72-72 72 32.2 72 72-32.2 72-72 72z"/></symbol>
+      <symbol id="i-external-link" viewBox="0 0 512 512"><path d="M432 320h-32a16 16 0 00-16 16v112H64V128h112a16 16 0 0016-16V80a16 16 0 00-16-16H48A48 48 0 000 112v352a48 48 0 0048 48h352a48 48 0 0048-48V336a16 16 0 00-16-16zm56-320H320a32 32 0 00-22.63 54.63l35.73 35.73L142.63 316.42a16 16 0 000 22.62l22.62 22.63a16 16 0 0022.63 0L378.35 135.6l35.73 35.73A32 32 0 00448 256h168a24 24 0 0024-24V32a32 32 0 00-32-32z"/></symbol>
+    </svg>
 
-        <!-- FontAwesome JS -->
-        <script defer src="assets/fontawesome/js/all.js"></script>
+    <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/plugins/github-calendar/dist/github-calendar-responsive.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/2.0.2/octicons.min.css" />
+    <link rel="stylesheet" href="assets/plugins/github-activity/src/github-activity.css" />
 
-        <!-- Global CSS -->
-        <link rel="stylesheet"
-            href="assets/plugins/bootstrap/css/bootstrap.min.css">
+    <style id="critical-css">
+      :root { --font-sans:'Montserrat','Lato',system-ui,sans-serif; --font-mono: 'Courier New',monospace; --color-bg:#0d1115; --color-surface-600:#14181f; --color-surface-700:#1e2430; --color-text-100:#ffffff; --color-text-300:#d5d9e0; --color-text-400:#b8c0ca; --color-text-500:#9aa4b1; --color-accent:#a23dff; --color-accent-alt:#ff3dd9; --color-border:rgba(255,255,255,0.09); --radius:18px; --radius-full:999px; }
+      html,body{margin:0;padding:0;background:var(--color-bg);color:var(--color-text-300);font-family:var(--font-sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+      h1,h2,h3,h4{font-weight:700;line-height:1.15;margin:0 0 .75rem;color:var(--color-text-100);} a{color:var(--color-accent);text-decoration:none;}a:hover{color:#fff;}
+      .project-grid{display:grid;gap:2rem;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));margin-top:2rem;}
+      .project-card,.aside .section-inner{background:linear-gradient(160deg,var(--color-surface-700),var(--color-surface-600));border:1px solid var(--color-border);border-radius:var(--radius);padding:2rem;position:relative;overflow:hidden;}
+      .legacy-separator{height:1px;background:linear-gradient(90deg,transparent,rgba(162,61,255,.4),transparent);margin:4rem 0 3rem;}
+    </style>
+    <link id="theme-style" rel="stylesheet" href="assets/css/styles.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="assets/css/styles.css" /></noscript>
 
-        <!-- github calendar css -->
-        <link rel="stylesheet"
-            href="assets/plugins/github-calendar/dist/github-calendar-responsive.css">
-        <!-- github activity css -->
-        <link rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/octicons/2.0.2/octicons.min.css">
-        <link rel="stylesheet"
-            href="assets/plugins/github-activity/src/github-activity.css">
+    <link rel="canonical" href="https://moreiracarloseduardo.github.io/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://moreiracarloseduardo.github.io/" />
+    <meta property="og:title" content="Carlos Eduardo – Game Developer Portfolio" />
+    <meta property="og:description" content="Game Developer focused on immersive experiences, seamless usability, and solid architecture." />
+    <meta property="og:image" content="https://moreiracarloseduardo.github.io/assets/images/projects/camera.jpg" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Carlos Eduardo – Game Developer Portfolio" />
+    <meta name="twitter:description" content="Portfolio with mobile projects, gameplay gifs, and a new horror game in production." />
+    <meta name="twitter:image" content="https://moreiracarloseduardo.github.io/assets/images/projects/camera.jpg" />
 
-        <!-- Theme CSS -->
-    <link id="theme-style" rel="stylesheet" href="assets/css/styles.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Carlos Eduardo","url":"https://moreiracarloseduardo.github.io/","image":"https://moreiracarloseduardo.github.io/assets/images/profile.png","jobTitle":"Game Developer","sameAs":["https://www.linkedin.com/in/carlos-eduardo-m-31755b134/","https://www.instagram.com/kadu_gamedev/"]}</script>
+  </head>
 
-    <!-- Open Graph / Twitter -->
-    <link rel="canonical" href="https://moreiracarloseduardo.github.io/">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://moreiracarloseduardo.github.io/">
-    <meta property="og:title" content="Carlos Eduardo – Game Developer Portfolio">
-    <meta property="og:description" content="Game Developer focused on immersive experiences, seamless usability, and solid architecture. Explore mobile projects and a new horror game in development.">
-    <meta property="og:image" content="https://moreiracarloseduardo.github.io/assets/images/projects/camera.jpg">
-    <meta property="og:locale" content="en_US">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Carlos Eduardo – Game Developer Portfolio">
-    <meta name="twitter:description" content="Portfolio with mobile projects, gameplay gifs, and a new horror game in production.">
-    <meta name="twitter:image" content="https://moreiracarloseduardo.github.io/assets/images/projects/camera.jpg">
-
-        <!--Prism.js CSS -->
-        <link
-            href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
-            rel="stylesheet" />
-
-    </head>
-
-    <body id="top">
-        <!-- Top Navigation -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary sticky-top" style="background: var(--card); border-bottom: 1px solid var(--border);">
-            <div class="container">
-        <a class="navbar-brand" href="#top" style="font-weight:700; color: var(--heading);">Carlos Eduardo</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topnav"
-                    aria-controls="topnav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+  <body id="top" data-theme="dark">
+    <a href="#main" class="skip-link" style="position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden;">Skip to content</a>
+    <canvas id="bg-webgl" aria-hidden="true"></canvas>
+    <div class="app-shell">
+      <nav class="navbar navbar-expand-lg navbar-dark sticky-top" aria-label="Primary" style="background: var(--card); border-bottom: 1px solid var(--border);">
+        <div class="container">
+          <a class="navbar-brand d-flex align-items-center gap-2" href="#top" style="font-weight:700; color: var(--heading);">
+            <img src="assets/images/profile.png" alt="Foto de perfil" class="nav-avatar" width="28" height="28" loading="lazy" decoding="async" />
+            <span>Carlos Eduardo</span>
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topnav" aria-controls="topnav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="topnav">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+              <li class="nav-item"><a class="nav-link" href="#" data-modal-open="#modal-about" data-i18n="nav.about">About</a></li>
+              <li class="nav-item"><a class="nav-link" href="#featured-projects" data-i18n="nav.projects">Projects</a></li>
+              <li class="nav-item"><a class="nav-link" href="#" data-modal-open="#modal-experience" data-i18n="nav.experience">Experience</a></li>
+              <li class="nav-item"><a class="nav-link" href="mailto:moreira.carloseduardo@gmail.com" data-i18n="nav.contact">Contact</a></li>
+              <li class="nav-item dropdown nav-lang ms-lg-3">
+                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="langDropdown" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Language selector">
+                  <svg class="icon me-1" aria-hidden="true"><use href="#i-globe"/></svg><span id="lang-current">EN</span>
                 </button>
-                <div class="collapse navbar-collapse" id="topnav">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li class="nav-item"><a class="nav-link" href="#about" data-i18n="nav.about">About</a></li>
-            <li class="nav-item"><a class="nav-link" href="#projects" data-i18n="nav.projects">Projects</a></li>
-            <li class="nav-item"><a class="nav-link" href="#experience" data-i18n="nav.experience">Experience</a></li>
-            <li class="nav-item"><a class="nav-link" href="mailto:moreira.carloseduardo@gmail.com" data-i18n="nav.contact">Contact</a></li>
-                    </ul>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langDropdown">
+                  <li><button class="dropdown-item" type="button" data-set-lang="en">English (EN)</button></li>
+                  <li><button class="dropdown-item" type="button" data-set-lang="pt-BR">Português (PT-BR)</button></li>
+                </ul>
+              </li>
+              <li class="nav-item nav-social d-flex align-items-center ms-lg-3">
+                <a href="https://www.linkedin.com/in/carlos-eduardo-m-31755b134/?locale=en_US" target="_blank" aria-label="LinkedIn" class="nav-social-link"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
+                <a href="https://www.instagram.com/kadu_gamedev/" target="_blank" aria-label="Instagram" class="nav-social-link ms-2"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <section class="hero-v2" id="hero" aria-labelledby="hero-title">
+        <div class="hero-glow" aria-hidden="true"></div>
+        <div class="hero-inner">
+          <h1 id="hero-title" class="hero-title shader-refraction">
+            <span data-i18n="hero.titlePrefix">Game Developer focused on</span>
+            <span class="gradient-word" data-accent="1" data-i18n="hero.titleP1"> immersive experiences,</span>
+            <span class="gradient-word" data-accent="2" data-i18n="hero.titleP2"> seamless usability,</span>
+            <span class="gradient-word" data-accent="4" data-i18n="hero.and"> and</span>
+            <span class="gradient-word" data-accent="3" data-i18n="hero.titleP3"> solid architecture</span>
+          </h1>
+          <p class="hero-sub" data-i18n="hero.sub">Crio experiências interativas escaláveis unindo engenharia de software avançada, simulação física precisa e design de gameplay intuitivo. Especialista em VR, sistemas autônomos, economia procedural e otimização para mobile.</p>
+          <div class="hero-cta">
+            <a href="#featured-projects" class="btn-modern btn-outline-accent" data-i18n="cta.viewProjects">Ver Projetos</a>
+            <a href="#" class="btn-modern btn-outline-accent" data-modal-open="#modal-about" data-i18n="cta.about">About Me</a>
+            <a href="#" class="btn-modern btn-outline-accent" data-modal-open="#modal-experience" data-i18n="cta.experience">Work Experience</a>
+            <a href="mailto:moreira.carloseduardo@gmail.com" class="btn-modern" data-i18n="cta.contact">Contato</a>
+          </div>
+          <ul class="hero-tags" aria-label="Stack principal">
+            <li>Unity3D</li><li>VR</li><li>AI Systems</li><li>Economy</li><li>Shaders</li><li>Optimization</li>
+          </ul>
+        </div>
+      </section>
+
+      <div class="legacy-separator"></div>
+
+      <section id="featured-projects" class="featured-projects" aria-labelledby="featured-heading" style="position:relative; padding: var(--space-8) 0 var(--space-5);">
+        <div class="hero-inner">
+          <div class="section-label" id="featured-heading" data-i18n="featured.title">Featured Projects</div>
+          <div class="project-grid">
+            <article class="project-card" data-project="tennisvr">
+              <h3 style="view-transition-name: vt-tennisvr-title" data-i18n="featured.cards.tennisvr.title">TennisVR</h3>
+              <p data-i18n="featured.cards.tennisvr.desc">Simulação de tênis VR com física multi-ponto (cápsulas seguidoras) + Magnus effect para spin autêntico e sensação real de impacto.</p>
+              <picture data-opt-image>
+                <source type="image/avif" srcset="assets/images/projects/TennisVr.png.avif">
+                <source type="image/webp" srcset="assets/images/projects/TennisVr.png.webp">
+                <img src="assets/images/projects/TennisVr.png" alt="TennisVR cover" width="480" height="270" loading="lazy" decoding="async" style="view-transition-name: vt-tennisvr-cover">
+              </picture>
+              <div class="project-meta">
+                <span class="metric-badge">VR</span>
+                <span class="metric-badge alt">Physics</span>
+                <span class="metric-badge">Unity3D</span>
+              </div>
+              <div class="project-actions"><a href="case/tennisvr/" class="btn-modern btn-outline-accent" data-prefetch="hover viewport" data-i18n="featured.caseStudy">Case Study</a></div>
+            </article>
+
+            <article class="project-card" data-project="candyworld">
+              <h3 style="view-transition-name: vt-candy-title" data-i18n="featured.cards.candyworld.title">CandyWorld</h3>
+              <p data-i18n="featured.cards.candyworld.desc">Idle management com AI autônoma, economia dinâmica, cadeia produtiva automatizada e balanceamento via curvas e fórmulas matemáticas.</p>
+              <picture data-opt-image>
+                <source type="image/avif" srcset="assets/images/projects/candy.jpg.avif">
+                <source type="image/webp" srcset="assets/images/projects/candy.jpg.webp">
+                <img src="assets/images/projects/candy.jpg" alt="CandyWorld cover" width="480" height="270" loading="lazy" decoding="async" style="view-transition-name: vt-candy-cover">
+              </picture>
+              <div class="project-meta">
+                <span class="metric-badge">AI</span>
+                <span class="metric-badge alt">Economy</span>
+                <span class="metric-badge">Mobile</span>
+                <span class="metric-badge alt">Systems</span>
+              </div>
+              <div class="project-actions"><a href="case/candyworld/" class="btn-modern btn-outline-accent" data-prefetch="hover viewport" data-i18n="featured.caseStudy">Case Study</a></div>
+            </article>
+
+            <article class="project-card" data-project="idletrain">
+              <h3 style="view-transition-name: vt-idle-title" data-i18n="featured.cards.idletrain.title">IdleTrain</h3>
+              <p data-i18n="featured.cards.idletrain.desc">Jogo incremental com movimento procedural em Bézier, merge system 3→1, economia escalável e persistência robusta com validação.</p>
+              <picture data-opt-image>
+                <source type="image/avif" srcset="assets/images/projects/train.jpg.avif">
+                <source type="image/webp" srcset="assets/images/projects/train.jpg.webp">
+                <img src="assets/images/projects/train.jpg" alt="IdleTrain cover" width="480" height="270" loading="lazy" decoding="async" style="view-transition-name: vt-idle-cover">
+              </picture>
+              <div class="project-meta">
+                <span class="metric-badge">Procedural</span>
+                <span class="metric-badge alt">Economy</span>
+                <span class="metric-badge alt">Data</span>
+              </div>
+              <div class="project-actions"><a href="case/idletrain/" class="btn-modern btn-outline-accent" data-prefetch="hover viewport" data-i18n="featured.caseStudy">Case Study</a></div>
+            </article>
+
+            <article class="project-card" data-project="icemelt">
+              <h3 style="view-transition-name: vt-ice-title" data-i18n="featured.cards.icemelt.title">Ice Melt Race</h3>
+              <p data-i18n="featured.cards.icemelt.desc">Sistema de derretimento dinâmico (RenderTexture heatmap), shader custom e cabo segmentado otimizado com pooling.</p>
+              <picture data-opt-image>
+                <source type="image/avif" srcset="assets/images/projects/ice.jpg.avif">
+                <source type="image/webp" srcset="assets/images/projects/ice.jpg.webp">
+                <img src="assets/images/projects/ice.jpg" alt="Ice Melt cover" width="480" height="270" loading="lazy" decoding="async" style="view-transition-name: vt-ice-cover">
+              </picture>
+              <div class="project-meta">
+                <span class="metric-badge">Shader</span>
+                <span class="metric-badge alt">Physics</span>
+                <span class="metric-badge alt">FX</span>
+              </div>
+              <div class="project-actions"><a href="case/icemelt/" class="btn-modern btn-outline-accent" data-prefetch="hover viewport" data-i18n="featured.caseStudy">Case Study</a></div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <main id="main" class="container sections-wrapper py-5" role="main">
+        <div class="row">
+          <div class="primary col-lg-8 col-12">
+            <section id="about" class="about section legacy-hidden">
+              <div class="section-inner shadow-sm rounded">
+                <h2 class="heading" data-i18n="about.heading">About Me</h2>
+                <div class="content">
+                  <p data-i18n="about.p1">As a Game Developer, my passion lies in creating immersive experiences...</p>
+                  <p data-i18n="about.p2">Beyond the technical aspects of game development...</p>
+                  <p data-i18n="about.p3">I'm seeking new opportunities to contribute...</p>
+                  <p data-i18n="about.creative">Before focusing my career on game development...</p>
                 </div>
+              </div>
+            </section>
+
+            <section id="experience" class="experience section legacy-hidden">
+              <div class="section-inner shadow-sm rounded">
+                <h2 class="heading" data-i18n="experience.heading">Work Experience</h2>
+                <div class="content">
+                  <!-- ...existing experience items... -->
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <div class="secondary col-lg-4 col-12">
+            <!-- ...existing aside sections (info, skills, education, languages, credits)... -->
+          </div>
+        </div>
+      </main>
+
+      <footer id="footer" class="footer">
+        <div class="container text-center">
+          <small class="copyright"><span data-i18n="footer.by">Design by</span> <a href="#top">Carlos Eduardo</a></small>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Modals: About & Experience -->
+    <div class="modal fade fancy-modal" id="modal-about" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" data-i18n="about.heading">About Me</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="modal-section">
+              <p data-i18n="about.p1">As a Game Developer, my passion lies in creating immersive experiences...</p>
+              <p data-i18n="about.p2">Beyond the technical aspects of game development...</p>
+              <p data-i18n="about.p3">I'm seeking new opportunities to contribute...</p>
+              <p data-i18n="about.creative">Before focusing my career on game development...</p>
             </div>
-        </nav>
-        <!-- ******HEADER****** -->
-        <header class="header">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col">
-                        <img
-                            class="profile-image img-fluid float-start rounded-circle"
-                            src="assets/images/profile.png"
-                            alt="profile image" />
-                        <div class="profile-content">
-                            <img src="assets/images/controlelogo.svg"
-                                alt="Carlos Eduardo - Game Developer Logo"
-                                class="logo-image"
-                                style="max-width: 450px; height: auto;">
-                            <ul class="social list-inline">
-                                <!-- <li class="list-inline-item"><a href="#"><i class="fa-brands fa-x-twitter"></i></a></li> -->
-                                <li class="list-inline-item"><a
-                                        href="https://www.linkedin.com/in/carlos-eduardo-m-31755b134/?locale=en_US"
-                                        target="_blank"><i
-                                            class="fa-brands fa-linkedin-in"></i></a></li>
-                                <li class="list-inline-item"><a
-                                        href="https://www.instagram.com/kadu_gamedev/"
-                                        target="_blank"><i
-                                            class="fa-brands fa-instagram"></i></a></li>
-                                <!-- <li class="list-inline-item"><a href="#"><i class="fa-brands fa-github-alt"></i></a></li>     -->
-                                <!-- <li class="list-inline-item"><a href="#"><i class="fa-brands fa-stack-overflow"></i></a></li>    -->
-                                <!-- <li class="list-inline-item last-item"><a href="#"><i class="fa-brands fa-codepen"></i></a></li>                 -->
-                            </ul>
-                        </div><!--//profile-->
-                    </div><!--//col-->
-                    <div class="col-12 col-md-auto">
-                        <div class="d-flex align-items-center gap-3 justify-content-center justify-content-md-end mb-2">
-                            <!-- Language Selector -->
-                            <div class="dropdown">
-                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="langDropdown" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Language selector">
-                                    <i class="fas fa-globe me-1"></i><span id="lang-current">EN</span>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langDropdown">
-                                    <li><button class="dropdown-item" type="button" data-set-lang="en">English (EN)</button></li>
-                                    <li><button class="dropdown-item" type="button" data-set-lang="pt-BR">Português (PT-BR)</button></li>
-                                </ul>
-                            </div>
-                            <!--// Language Selector -->
-                        </div>
-                        <div class="dark-mode-switch d-flex">
-                            <div class="form-check form-switch mx-auto mx-md-0">
-                                <input type="checkbox"
-                                    class="form-check-input me-2"
-                                    id="darkSwitch" />
-                                <label class="custom-control-label" data-i18n="header.darkMode"
-                                    for="darkSwitch">Dark Mode</label>
-                            </div>
-                        </div><!--//dark-mode-switch-->
-                        <a class="btn btn-cta-primary"
-                            href="mailto:moreira.carloseduardo@gmail.com"><i
-                                class="fas fa-envelope fa-lg align-middle"></i>
-                            <span data-i18n="header.contactMe">Contact Me</span></a>
-                    </div><!--//col-->
-                </div><!--//row-->
-            </div><!--//container-->
-        </header><!--//header-->
+          </div>
+        </div>
+      </div>
+    </div>
 
-        <div class="container sections-wrapper py-5">
-            <div class="row">
-                <div class="primary col-lg-8 col-12">
-                    <section id="about" class="about section">
-                        <div class="section-inner shadow-sm rounded">
-                            <h2 class="heading" data-i18n="about.heading">About Me</h2>
-                            <div class="content">
-                                <p data-i18n="about.p1">As a Game Developer, my passion lies in
-                                    creating immersive experiences where game
-                                    mechanics and narrative organically
-                                    intertwine. My goal is for every interaction
-                                    to be so intuitive that players grasp it
-                                    naturally, allowing the emotion and
-                                    intention behind the creation to be fully
-                                    felt.</p>
-                                <p data-i18n="about.p2">Beyond the technical aspects of game
-                                    development, I am a storytelling enthusiast,
-                                    dedicated to crafting engaging narratives,
-                                    whether for personal exploration or as
-                                    potential foundations for new game worlds.
-                                    My curiosity leads me to be an avid reader,
-                                    exploring everything from philosophy and
-                                    history to fiction and science. I'm
-                                    particularly fascinated by astrophysics,
-                                    unraveling the mysteries of the universe,
-                                    and I love spending time with my dogs. In my
-                                    leisure time, I'm an eclectic gamer, with a
-                                    special fondness for indie games, which I
-                                    consider true gems in terms of innovation
-                                    and creativity.</p>
-                                <p data-i18n="about.p3">I'm seeking new opportunities to contribute
-                                    to innovative projects, where my passion for
-                                    creating games I'd love to play can
-                                    flourish. My differential is the ability to
-                                    simplify processes and act as a facilitator,
-                                    always considering how my contributions can
-                                    optimize teamwork and solve complex
-                                    challenges. I'm a natural problem-solver and
-                                    I love to refine every detail to ensure the
-                                    best possible experience.</p>
-
-                                <p data-i18n="about.creative">Before focusing my career on game development, I worked for years in creative fields that provided me with a robust visual foundation, including work with photography in analog labs, as a video editor, and as a newspaper layout designer. This background allows me to have a 360-degree view of the final product, integrating the technical aspects of programming with high aesthetic and narrative quality.</p>
-
-                            </div><!--//content-->
-                        </div><!--//section-inner-->
-                    </section><!--//section-->
-
-                    <section id="projects" class="latest section">
-                        <div class="section-inner shadow-sm rounded">
-                            <template id="archived-current-project">
-                                <h2 class="heading" data-i18n="projects.current">Current Project</h2>
-                                <div class="content">
-                                    <div class="item featured text-center">
-                                        <div class="featured-image has-ribbon">
-                                            <a>
-                                                <img
-                                                    class="img-fluid project-image rounded shadow-sm hover-lift"
-                                                    src="assets/images/projects/camera.jpg"
-                                                    alt="project image - upcoming horror game"
-                                                    loading="lazy" decoding="async" />
-                                            </a>
-                                            <div class="ribbon">
-                                                <div class="text" data-i18n="projects.upcoming.ribbon">Upcoming</div>
-                                            </div>
-                                        </div>
-                                        <h3 class="title mb-3" data-i18n="projects.upcoming.title">Every photo tells a story... and hides a secret.</h3>
-                                        <div class="desc text-start">
-                                            <p data-i18n="projects.upcoming.desc">I'm brewing up something chilling! A new horror game is in the early stages of development. Stay tuned, I'll share more details once a playable demo is ready.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </template>
-
-                            <!-- New VR Projects section -->
-                            <h2 class="heading" data-i18n="projects.vr">VR Projects</h2>
-                            <div class="content">
-
-                                <div class="item featured text-center">
-                                    <div>
-                                        <h3 class="text-bg-secondary">TennisVR</h3>
-                                        <div class="featured-image position-relative" style="width:fit-content; margin:auto;">
-                                            <a>
-                                                <img
-                                                    class="img-fluid project-image"
-                                                    src="assets/images/projects/TennisVr.png"
-                                                    alt="Tennis VR cover image"
-                                                    loading="lazy" decoding="async" />
-                                            </a>
-                                            <img src="assets/images/projects/tenisvr.gif" alt="CandyWorld gameplay gif"
-                                                 class="gif-overlay" loading="lazy" decoding="async" />
-                                        </div>
-                                        <div class="mt-2">
-                                            <button class="btn btn-collapse toggle-details" type="button"
-                                                    data-bs-toggle="collapse" data-bs-target="#collapseTennisVR"
-                                                    aria-expanded="false" aria-controls="collapseTennisVR">
-                                                <span class="label" data-i18n="buttons.viewDetails">View details</span>
-                                                <i class="fas fa-chevron-down ms-1"></i>
-                                            </button>
-                                        </div>
-                                        <div class="collapse" id="collapseTennisVR" style="scroll-margin-top: 90px;">
-                                            <div class="desc text-start">
-                                                <p class="mb-2" data-i18n="projects.vrTennis.desc">Jogo para Meta Quest 2 onde os jogadores tentam acertar a bola dentro da quadra adversária. Desenvolvido com Unity, o projeto focou em uma simulação de física avançada para garantir uma experiência de rebatida realista e imersiva.</p>
-                                                <p><b class="text-bg-secondary" data-i18n="projects.vrTennis.h1">Análise Técnica: TennisVR - Física Realista para Meta Quest 2</b></p>
-                                                <p data-i18n="projects.vrTennis.p1"><b>TennisVR</b> é um projeto para Meta Quest 2 que explora os limites da simulação de física para criar uma experiência de tênis virtual autêntica. O principal objetivo foi replicar a sensação e o controle de uma raquete real, permitindo que os jogadores executem desde rebatidas simples até jogadas complexas como <i>topspins</i> e <i>slices</i> com naturalidade.</p>
-
-                                        <p><b class="text-bg-secondary" data-i18n="projects.vrTennis.h2">O Desafio: A Física da Rebatida em Realidade Virtual</b></p>
-                                        <p data-i18n="projects.vrTennis.p2">
-                                            O maior desafio em qualquer jogo de esporte VR que envolve rebater um objeto é a física. Uma implementação com um único <b>collider</b> na raquete não captura as nuances de uma rebatida real. Nesse cenário, não importa se o jogador acerta a bola com a ponta da raquete ou com o "ponto doce" (sweet spot); a velocidade resultante tenderia a ser a mesma, dependendo apenas da velocidade geral do controle. Isso quebra a <b>imersão</b>, pois um jogador experiente espera que a ponta da raquete, movendo-se em um arco, tenha uma velocidade muito maior que a base próxima à mão.
-                                        </p>
-
-                                        <p><b class="text-bg-secondary" data-i18n="projects.vrTennis.h3">Solução 1: Simulação de Física Multi-Ponto na Raquete</b></p>
-                                        <p data-i18n="projects.vrTennis.p3">
-                                            Para resolver esse problema, implementei uma técnica que simula múltiplos pontos de contato na raquete. Em vez de usar um único collider, a superfície da raquete foi equipada com uma grade de "cápsulas seguidoras" invisíveis, cada uma com seu próprio <b>Rigidbody</b> e <b>Collider</b>.
-                                        </p>
-                                        <p data-i18n="projects.vrTennis.p4">
-                                            Essas cápsulas não fazem parte da raquete em si, mas a seguem em tempo real. No <b>FixedUpdate()</b>, cada cápsula calcula a velocidade necessária para alcançar seu ponto correspondente na raquete. Como resultado, as cápsulas na extremidade da raquete movem-se mais rápido do que aquelas perto do cabo, simulando o arco de movimento. A bola de tênis colide apenas com essas cápsulas, garantindo que o ponto de impacto determine com precisão a velocidade e a direção da rebatida.
-                                        </p>
-<pre><code class="language-csharp">// Script que controla cada cápsula seguidora da raquete
-public class RacketPhysicsProxy : MonoBehaviour
-{
-    private Transform followTarget;
-    private Rigidbody rb;
-
-    [SerializeField]
-    private float sensitivity = 100f; // Ajusta a rapidez com que a cápsula segue a raquete
-
-    void Awake()
-    {
-        rb = GetComponent&lt;Rigidbody&gt;();
-    }
-
-    public void SetFollowTarget(Transform target)
-    {
-        followTarget = target;
-        transform.position = target.position;
-        transform.rotation = target.rotation;
-    }
-
-    void FixedUpdate() // O cálculo de física ocorre aqui
-    {
-        // Calcula a velocidade necessária para mover a cápsula até a posição do alvo na raquete
-        Vector3 destination = followTarget.position;
-        Vector3 velocity = (destination - rb.position) * sensitivity;
-        rb.velocity = velocity; // Aplica a velocidade calculada
-        rb.rotation = followTarget.rotation; // Mantém a rotação alinhada
-    }
-}</code></pre>
-
-                                        <p><b class="text-bg-secondary" data-i18n="projects.vrTennis.h4">Solução 2: Adicionando Rotação com o Efeito Magnus</b></p>
-                                        <p data-i18n="projects.vrTennis.p5">
-                                            Uma rebatida de tênis não se resume apenas à velocidade; a rotação (spin) é fundamental. Para simular os efeitos de <b>topspin</b> e <b>slice</b>, implementei o <b>Efeito Magnus</b>. No momento do impacto, o sistema calcula a velocidade angular (spin) a ser aplicada na bola com base na velocidade e no ângulo da raquete. Em seguida, durante o voo, uma força contínua é aplicada em seu <b>Rigidbody</b>, perpendicular à sua direção de movimento e ao seu eixo de rotação, produzindo uma trajetória autêntica.
-                                        </p>
-<pre><code class="language-csharp">// Script aplicado na bola de tênis para simular o Efeito Magnus
-[RequireComponent(typeof(Rigidbody))]
-public class TennisBallPhysics : MonoBehaviour
-{
-    private Rigidbody rb;
-    [SerializeField] private float magnusCoefficient = 0.05f;
-
-    void Start() { rb = GetComponent&lt;Rigidbody&gt;(); }
-
-    void FixedUpdate()
-    {
-        if (rb.velocity.magnitude &gt; 0.1f)
-        {
-            Vector3 magnusForce = magnusCoefficient * Vector3.Cross(rb.angularVelocity, rb.velocity);
-            rb.AddForce(magnusForce);
-        }
-    }
-
-    // Chamado no momento da colisão
-    public void ApplySpinOnHit(Vector3 racketVelocity, Vector3 hitNormal)
-    {
-        float spinAmount = Vector3.Dot(racketVelocity, hitNormal);
-        Vector3 spinAxis = Vector3.Cross(rb.velocity, racketVelocity).normalized;
-        rb.angularVelocity = spinAxis * spinAmount * 20f; // Multiplicador para efeito visível
-    }
-}</code></pre>
-
-                                                <p><b class="text-bg-secondary" data-i18n="projects.vrTennis.h5">Resultados e Competências Técnicas</b></p>
-                                                <p data-i18n="projects.vrTennis.p6">A combinação dessas técnicas resultou em uma experiência de tênis VR intuitiva e fisicamente precisa. O projeto demonstra proficiência em <b>simulação de física avançada</b>, <b>gameplay para VR</b> e tradução de fenômenos reais em mecânicas interativas na <b>Unity</b>.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <hr class="divider" />
-
-                                <h2 class="heading" style="scroll-margin-top: 90px;" data-i18n="projects.mobile">Mobile Projects</h2>
-                                <div class="item featured text-center">
-                                    <div>
-                                        <h3 class="text-bg-secondary">My Candy Shop</h3>
-                                        <div
-                                            class="featured-image position-relative"
-                                            style="width:fit-content; margin:auto;">
-                                            <a>
-                                                <img
-                                                    class="img-fluid project-image"
-                                                    src="assets/images/projects/candy.jpg"
-                                                    alt="CandyWorld cover image"
-                                                    loading="lazy" decoding="async" />
-                                            </a>
-                                            <img src="assets/images/projects/CandyWorld.gif" alt="CandyWorld gameplay gif"
-                                                 class="gif-overlay" loading="lazy" decoding="async" />
-                                        </div>
-                                        <div class="mt-2">
-                                            <button class="btn btn-collapse toggle-details" type="button"
-                                                    data-bs-toggle="collapse" data-bs-target="#collapseCandyShop"
-                                                    aria-expanded="false" aria-controls="collapseCandyShop">
-                                                <span class="label" data-i18n="buttons.viewDetails">View details</span>
-                                                <i class="fas fa-chevron-down ms-1"></i>
-                                            </button>
-                                        </div>
-                                        <div class="collapse" id="collapseCandyShop" style="scroll-margin-top: 90px;">
-                                            <div class="desc text-start">
-                                                <p><b
-                                                        class="text-bg-secondary">Technical
-                                                        Analysis: CandyWorld -
-                                                        Idle
-                                                        Management Game</b>
-                                                    <p></p>
-                                                    <b>CandyWorld</b> is an
-                                                    idle/management
-                                                    mobile game project we
-                                                    developed
-                                                    in
-                                                    Unity 3D, focusing on
-                                                    creating
-                                                    an
-                                                    automated production chain
-                                                    and
-                                                    non-linear progression. This
-                                                    project
-                                                    served as an in-depth study
-                                                    of
-                                                    various <b>software
-                                                        architectures,
-                                                        design patterns</b>, and
-                                                    <b>performance
-                                                        optimizations</b> for
-                                                    mobile
-                                                    platforms.
-                                                    <p></p>
-                                                    <p><b
-                                                            class="text-bg-secondary">Architecture
-                                                            and Design
-                                                            Patterns
-                                                        </b></p>
-                                                    <b>CandyWorld's</b>
-                                                    architecture
-                                                    was
-                                                    carefully planned to ensure
-                                                    scalability,
-                                                    maintainability,
-                                                    and
-                                                    robustness. We utilized the
-                                                    <b>State
-                                                        Machine Pattern</b> to
-                                                    manage
-                                                    the behavior of various
-                                                    entities
-                                                    like players, customers, and
-                                                    production processes. This
-                                                    allowed
-                                                    for controlled state
-                                                    transitions
-                                                    and
-                                                    simplified debugging,
-                                                    leading to
-                                                    predictable and logical
-                                                    behaviors
-                                                    for NPCs (Idle → Find → Move
-                                                    →
-                                                    Buy →
-                                                    Leave).
-
-                                                    The Singleton Pattern was
-                                                    employed
-                                                    to centralize game control
-                                                    and
-                                                    manage essential systems
-                                                    such as
-                                                    audio (AudioManager),
-                                                    particles
-                                                    (ParticleManager), and UI
-                                                    (UiManager), ensuring
-                                                    efficient
-                                                    global access.
-                                                    Complementarily,
-                                                    the
-                                                    <b>Component-Based
-                                                        Architecture</b>
-                                                    was
-                                                    crucial for modularizing
-                                                    each
-                                                    building, character, and
-                                                    object,
-                                                    making it easier to add new
-                                                    features
-                                                    and maintain the code
-                                                    without
-                                                    impacting other parts of the
-                                                    system.
-                                                    <p></p>
-                                                    <p><b
-                                                            class="text-bg-secondary">Implemented
-                                                            Technical Systems
-                                                        </b></p>
-                                                    <b>Behavioral AI System:</b>
-                                                    We
-                                                    developed
-                                                    NPCs with autonomous
-                                                    behavior
-                                                    and
-                                                    decision-making. Navigation
-                                                    was
-                                                    implemented using Unity
-                                                    NavMesh,
-                                                    providing natural and
-                                                    efficient
-                                                    pathfinding. This includes a
-                                                    customer patience and
-                                                    satisfaction
-                                                    system to influence the
-                                                    gameplay
-                                                    experience. <p></p>
-                                                    <div class="featured-image">
-                                                        <a>
-                                                            <img
-                                                                class="img-fluid project-image d-block mx-auto gif-normal"
-                                                                src="assets/images/projects/CandyCustumer.gif"
-                                                                alt="CandyWorld customer AI gif"
-                                                                width="300" loading="lazy" decoding="async" />
-                                                        </a>
-                                                    </div>
-                                                    <pre><code class="language-csharp">public enum AiStates { Idle, Find, Buy, Move, Leave };
-
-void Find_Enter() {
-    targetShelf = Game_.instance.buildingsManager.shelves[Random.Range(0, Game_.instance.upgrades.shelfsUnlocked)].GetComponent<Shelf_>();
-    NavMesh.SamplePosition(targetShelf.transform.position, out NavMeshHit hit, 10, NavMesh.AllAreas);
-    target = hit.position;
-    agent.SetDestination(target);
     
-    // Dynamic product preference system
-    switch (targetShelf.tag) {
-        case "LollipopShelf":
-            productBubbleImage.sprite = productsSprites[0];
-            break;
-        // Visual feedback for customer intent
-    }
-    fsm.ChangeState(AiStates.Move);
-}</code></pre>
-                                                    <b>Autonomous Helper AI
-                                                        System: </b>
-                                                    We created an automation
-                                                    system
-                                                    with
-                                                    NPCs that optimize
-                                                    production
-                                                    independently, with a
-                                                    dynamic
-                                                    task
-                                                    prioritization based on
-                                                    game state. <p></p>
-                                                    <div class="featured-image">
-                                                        <a>
-                                                            <img
-                                                                class="img-fluid project-image d-block mx-auto gif-normal"
-                                                                src="assets/images/projects/CandyHelper.gif"
-                                                                alt="CandyWorld helper AI gif"
-                                                                width="300" loading="lazy" decoding="async" />
-                                                        </a>
-                                                    </div>
-                                                    <pre><code class="language-csharp">void Find_Enter() {
-    Vector3 target = Vector3.zero;
-    if (productsHolder.childCount > 0) {
-        targetShelf = FindShelf(); // Smart shelf selection algorithm
-    } else {
-        targetMachine = FindMachineWithMoreProducts(); // Production bottleneck detection
-        if (targetMachine != null) {
-            target = targetMachine.outShelf.transform.position;
+    <div class="modal fade fancy-modal" id="modal-experience" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" data-i18n="experience.heading">Work Experience</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="xp-grid">
+              <article class="xp-item">
+                <h6 class="xp-title" data-i18n="experience.nex.title">Game Developer</h6>
+                <div class="xp-years" data-i18n="experience.nex.years">(January 2024 – January 2025)</div>
+                <ul class="xp-list">
+                  <li data-i18n="experience.nex.li1">Designed and developed custom games...</li>
+                  <li data-i18n="experience.nex.li2">Leveraged advanced technologies...</li>
+                </ul>
+              </article>
+              <article class="xp-item">
+                <h6 class="xp-title" data-i18n="experience.coruja.title">Game Developer</h6>
+                <div class="xp-years" data-i18n="experience.coruja.years">(March 2020 – May 2023)</div>
+                <ul class="xp-list">
+                  <li data-i18n="experience.coruja.li1">Extensive experience in creating prototypes...</li>
+                  <li data-i18n="experience.coruja.li2">Implemented dynamic game mechanics...</li>
+                  <li data-i18n="experience.coruja.li3">Debugged and optimized performance...</li>
+                </ul>
+              </article>
+              <article class="xp-item">
+                <h6 class="xp-title" data-i18n="experience.likin.title">Front-End Developer</h6>
+                <div class="xp-years" data-i18n="experience.likin.years">(August 2017 – January 2020)</div>
+                <ul class="xp-list">
+                  <li data-i18n="experience.likin.li1">Developed and enhanced user-facing features...</li>
+                  <li data-i18n="experience.likin.li2">Integrated front-end interfaces...</li>
+                  <li data-i18n="experience.likin.li3">Actively participated in Agile processes...</li>
+                </ul>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Case Study Modal -->
+    <div class="modal fade fancy-modal" id="modal-case" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content modal-case">
+          <div class="modal-header">
+            <div class="d-flex flex-column w-100">
+              <h5 class="modal-title" id="modal-case-title">Case Study</h5>
+              <div class="text-muted" id="modal-case-sub"></div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="case-hero-media-wrap mb-3" id="modal-case-hero" aria-hidden="true"></div>
+            <div class="d-flex flex-wrap gap-2 mb-3" id="modal-case-tags"></div>
+            <div id="modal-case-content"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="assets/plugins/popper.min.js"></script>
+    <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/plugins/vanilla-rss/dist/rss.global.min.js"></script>
+  <script src="assets/js/main.js"></script>
+  <!-- hero-gradient.js removido: substituído por CSS-only gradient words -->
+  <script src="assets/js/bg-webgl.js"></script>
+    <script src="assets/js/i18n.js"></script>
+    <script src="assets/js/hero-glitch.js"></script>
+
+  <!-- Shader-like refraction filters (per-word instances created via script) -->
+  <svg width="0" height="0" style="position:absolute"><defs id="defs-refraction"></defs></svg>
+  <script>
+    (function(){
+      const prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const title = document.getElementById('hero-title');
+      if(!title) return;
+      const defs = document.getElementById('defs-refraction');
+      const words = Array.from(title.querySelectorAll('.gradient-word'));
+      if (!defs || words.length===0) return;
+
+      // Create a separate filter per word with unique seed
+      const filters = words.map((el, idx)=>{
+        const fid = `f-refraction-${idx}`;
+        const f = document.createElementNS('http://www.w3.org/2000/svg', 'filter');
+        f.setAttribute('id', fid);
+        // Use bounding box units for subtle XY drift per word
+        f.setAttribute('filterUnits','objectBoundingBox');
+        f.setAttribute('x','-0.2'); f.setAttribute('y','-0.2'); f.setAttribute('width','1.4'); f.setAttribute('height','1.4');
+        f.setAttribute('color-interpolation-filters','sRGB');
+        const turb = document.createElementNS(f.namespaceURI,'feTurbulence');
+        turb.setAttribute('type','fractalNoise');
+        turb.setAttribute('baseFrequency','0.012');
+  turb.setAttribute('numOctaves','2');
+        turb.setAttribute('seed', String(3 + idx*11));
+        turb.setAttribute('result','noise');
+        const cm = document.createElementNS(f.namespaceURI,'feColorMatrix');
+        cm.setAttribute('in','noise');
+        cm.setAttribute('type','matrix');
+        cm.setAttribute('values','0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.8 0');
+        cm.setAttribute('result','alphaNoise');
+        const disp = document.createElementNS(f.namespaceURI,'feDisplacementMap');
+        disp.setAttribute('in','SourceGraphic');
+        disp.setAttribute('in2','alphaNoise');
+        disp.setAttribute('scale','0');
+        // Alternate channel selectors slightly between words
+        disp.setAttribute('xChannelSelector', (idx % 2 === 0) ? 'R' : 'G');
+        disp.setAttribute('yChannelSelector', (idx % 3 === 0) ? 'G' : 'B');
+        disp.setAttribute('result','disp');
+        const blur = document.createElementNS(f.namespaceURI,'feGaussianBlur');
+        blur.setAttribute('in','disp');
+  blur.setAttribute('stdDeviation','0.15');
+        f.appendChild(turb); f.appendChild(cm); f.appendChild(disp); f.appendChild(blur);
+        defs.appendChild(f);
+        el.style.filter = `url(#${fid})`;
+        return {el, turb, disp, fid, idx, filter: f};
+      });
+
+      if (prefersReduce) return; // no animation
+
+      let t0 = performance.now();
+      // Episodic animation with burst/rest per word
+      const perWordTiming = filters.map(({idx})=>({
+        burstDur: 8 + Math.random()*0.8, // 1.2–2.0s bursts
+        restDur: 8 + Math.random()*2.5,  // 2.5–5.0s rests
+        phase: Math.random()*Math.PI*2 + idx*0.7,
+        panX: (Math.random()*2-1) * 0.02,  // -0.02..0.02 bbox drift
+        panY: (Math.random()*2-1) * 0.02
+      }));
+
+      function frame(now){
+        const t = (now - t0) / 1000;
+        // ultra-slow scanline drift (global)
+        const scan = ((t * 8/40) % 8);
+        title.style.setProperty('--scan-x', scan.toFixed(2) + 'px');
+
+        filters.forEach((F, i)=>{
+          const {turb, disp, filter} = F;
+          const cfg = perWordTiming[i];
+          const cycle = cfg.burstDur + cfg.restDur;
+          const tt = (t + i*0.37) % cycle;
+          const inBurst = tt < cfg.burstDur;
+
+          // subtle base noise always on
+          const base = 0.010 + Math.sin(t*0.25 + cfg.phase)*0.0015;
+          turb.setAttribute('baseFrequency', base.toFixed(4));
+
+          // scale rises during burst, idles during rest (reduced intensity)
+          let scale;
+          if (inBurst){
+            const bt = tt / cfg.burstDur; // 0..1
+            const ease = Math.sin(bt*Math.PI);
+            scale = 1.2 + ease*2.0; // peak ~3.2
+          } else {
+            scale = 0.3 + Math.sin(t*0.2 + cfg.phase*0.5)*0.3; // very subtle idle shimmer
+          }
+          disp.setAttribute('scale', scale.toFixed(1));
+
+          // light XY drift of filter region
+          const dx = cfg.panX * Math.sin(t*0.15 + cfg.phase);
+          const dy = cfg.panY * Math.cos(t*0.18 + cfg.phase*0.8);
+          if (filter){
+            filter.setAttribute('x', (-0.2 + dx).toFixed(3));
+            filter.setAttribute('y', (-0.2 + dy).toFixed(3));
+          }
+        });
+        raf = requestAnimationFrame(frame);
+      }
+      let raf = requestAnimationFrame(frame);
+
+      // Micro interaction: very gentle bump only on hovered word
+      title.addEventListener('pointermove', (e)=>{
+        const target = e.target;
+        const idx = words.indexOf(target.closest('.gradient-word'));
+        if (idx >= 0) {
+          const f = filters[idx];
+          if (f && f.disp) f.disp.setAttribute('scale','2.0');
         }
-    }
-    
-    if (target != Vector3.zero) {
-        NavMesh.SamplePosition(target, out NavMeshHit hit, 20, NavMesh.AllAreas);
-        agent.SetDestination(hit.position);
-    }
-}</code></pre>
-                                                    <b>Automated Production
-                                                        System:</b>
-                                                    We
-                                                    created a complete
-                                                    production
-                                                    pipeline, from plant and
-                                                    ingredient
-                                                    gathering to product
-                                                    transformation
-                                                    by machines, and finally,
-                                                    sales.
-                                                    Coroutines were used to
-                                                    manage
-                                                    asynchronous processes, and
-                                                    an
-                                                    automatic supply/demand
-                                                    balancing
-                                                    system was implemented to
-                                                    keep
-                                                    the
-                                                    game's economy dynamic.
-                                                    <p></p>
-                                                    <div class="featured-image">
-                                                        <a>
-                                                            <img
-                                                                class="img-fluid project-image d-block mx-auto gif-normal"
-                                                                src="assets/images/projects/CandyProduction.gif"
-                                                                alt="CandyWorld production pipeline gif"
-                                                                width="300" loading="lazy" decoding="async" />
-                                                        </a>
-                                                    </div>
-                                                    <pre><code class="language-csharp">IEnumerator Factory() {
-    yield return new WaitForSeconds(1);
-    if (inShelf.GetLastCollectable() != null) {
-        Ingredient_ ingredient = inShelf.GetLastCollectable() as Ingredient_;
-        IngredientType ingredientType = ingredient.type;
-        
-        for (int i = 0; i < productsPerIngredient; i++) {
-            // Animated production sequence
-            LeanTween.moveLocalY(piston, 0, .2f).setEase(LeanTweenType.easeInCubic).setLoopPingPong(1);
-            yield return new WaitForSeconds(.05f);
-            
-            Product_ currentProduct = Instantiate(product, productStartPoint.position, transform.rotation);
-            currentProduct.flavor = ingredientType;
-            currentProduct.setFlavorMaterial();
-            
-            // Conveyor belt animation with UV scrolling
-            LeanTween.value(gameObject, 0, 1, Game_.instance.upgrades.machineSpeedValue).setOnUpdate((float val) => {
-                conveyourRenderer.material.mainTextureOffset = new Vector2(0, -val * 2);
-            });
-            
-            yield return new WaitForSeconds(Game_.instance.upgrades.machineSpeedValue);
-            outShelf.SpawnCollectable(currentProduct);
-        }
-    }
-    StartCoroutine(Factory()); // Recursive loop for continuous production
-}</code></pre>
-                                                    <b>Dynamic Progression
-                                                        System:</b>
-                                                    The
-                                                    Dynamic Progression System:
-                                                    Game
-                                                    progression was carefully
-                                                    balanced
-                                                    using progression curves
-                                                    (AnimationCurve) and
-                                                    mathematical
-                                                    formulas for the upgrade
-                                                    system.
-                                                    This allowed for gradual and
-                                                    rewarding content unlocking,
-                                                    keeping
-                                                    players engaged long-term.
-                                                    <pre><code class="language-csharp">public int holdItensValue {
-    get {
-        return (int)Game_.instance.priceManager.holdItens.Evaluate((float)holdItensLevel / (maxLevel - 1));
-    }
-}
+      });
+      window.addEventListener('pagehide', ()=> cancelAnimationFrame(raf));
+    })();
+  </script>
 
-public float machineSpeedValue {
-    get {
-        return Game_.instance.priceManager.machineSpeed.Evaluate((float)machineSpeedLevel / (maxLevel - 1));
-    }
-}</code></pre>
-                                                    <b>Data Management
-                                                        System:</b> A
-                                                    Persistent Save/Load System:
-                                                    To
-                                                    ensure player data
-                                                    persistence,
-                                                    we
-                                                    implemented an automatic
-                                                    data
-                                                    serialization system. A
-                                                    debounce
-                                                    system was integrated to
-                                                    optimize
-                                                    saves, and async/await
-                                                    operations
-                                                    were used to ensure
-                                                    save/load
-                                                    operations were
-                                                    non-blocking,
-                                                    preventing freezes in the
-                                                    user
-                                                    experience.
-                                                    <p></p>
-                                                    <b>Contextual Tutorial:</b>
-                                                    We
-                                                    developed a
-                                                    step-by-step tutorial system
-                                                    with
-                                                    player action validation.
-                                                    Tutorial
-                                                    progress is persisted via
-                                                    PlayerPrefs, and dynamic UI
-                                                    with
-                                                    visual indicators offers
-                                                    non-intrusive guidance,
-                                                    allowing
-                                                    players to learn at their
-                                                    own
-                                                    pace
-                                                    without breaking the game's
-                                                    flow.
-                                                    <p></p>
-                                                    <b
-                                                        class="text-bg-secondary">Optimizations
-                                                        and
-                                                        Performance</b>
-                                                    <p></p>
-                                                    To ensure fluid performance
-                                                    on
-                                                    mobile devices, several
-                                                    optimizations were applied:
-                                                    <p></p>
-                                                    <b>Object Pooling:</b>
-                                                    Significantly reduced
-                                                    garbage
-                                                    collection for frequently
-                                                    instantiated particles and
-                                                    objects.
-                                                    <p></p>
-                                                    <b>Tweening System:</b> Used
-                                                    for performant animations,
-                                                    resulting
-                                                    in fluid visual feedback
-                                                    without
-                                                    impacting frame rate.
-                                                    <p></p>
-                                                    <b>Modular Loading:</b> A
-                                                    building
-                                                    manager
-                                                    system that
-                                                    activates/deactivates
-                                                    objects as needed,
-                                                    optimizing
-                                                    memory
-                                                    usage through lazy loading.
-                                                    <p></p>
-                                                    <b
-                                                        class="text-bg-secondary">Technical
-                                                        Challenges Solved</b>
-                                                    <p></p>
-                                                    During CandyWorld's
-                                                    development,
-                                                    we
-                                                    faced and resolved complex
-                                                    challenges such as economic
-                                                    balancing (through
-                                                    mathematical
-                                                    curves), <b>mobile
-                                                        performance:</b>
-                                                    (with
-                                                    rendering and memory
-                                                    management
-                                                    optimization), creating a
-                                                    <b></b>robust
-                                                    save system</b> (preventing
-                                                data
-                                                loss
-                                                with debouncing), developing
-                                                <b>behavioral AI</b> for natural
-                                                and
-                                                non-repetitive NPCs, and
-                                                implementing a <b>non-intrusive
-                                                    tutorial</b>.
-                                                <p></p>
-                                                <p><b
-                                                        class="text-bg-secondary">Results
-                                                        and Technical
-                                                        Metrics</b></p>
-                                                CandyWorld achieved consistent
-                                                performance of <b>60 FPS on
-                                                    mid-range
-                                                    devices</b> and an
-                                                <b>optimized
-                                                    memory
-                                                    footprint, staying below
-                                                    200MB</b>.
-                                                The
-                                                modular architecture ensures
-                                                <b>high
-                                                    scalability</b> for easy
-                                                content
-                                                addition
-                                                and <b>excellent
-                                                    maintainability</b>,
-                                                with
-                                                clear separation of
-                                                responsibilities.
-                                                <p></p>
-                                                This project demonstrates my
-                                                proficiency
-                                                in <b>software architecture,
-                                                    mobile
-                                                    optimization, AI
-                                                    implementation,
-                                                    complex
-                                                    game design systems, and
-                                                    third-party
-                                                    SDK
-                                                    integration</b> essential
-                                                competencies for
-                                                developing commercial and
-                                                high-performance games.
-
-                        </div><!--//desc-->
-                    </div>
-
-                                    <!-- <a class="btn btn-cta-secondary"
-                                        href="https://themes.3rdwavemedia.com/bootstrap-templates/startup/launch-bootstrap-4-template-for-saas-businesses/"
-                                        target="_blank"><i
-                                            class="fas fa-thumbs-up"></i> Back
-                                        my project</a> -->
-                                    <hr class="divider" />
-                                    <h3 class="text-bg-secondary">Idle Train</h3>
-                                    <div
-                                        class="featured-image position-relative"
-                                        style="width:fit-content; margin:auto;">
-                                        <a>
-                                            <img
-                                                class="img-fluid project-image hover-lift"
-                                                src="assets/images/projects/train.jpg"
-                                                alt="IdleTrain cover image"
-                                                loading="lazy" decoding="async" />
-                                        </a>
-                                        <img
-                                            src="assets/images/projects/IdleTrain.gif"
-                                            alt="IdleTrain gameplay gif"
-                                            class="gif-overlay" loading="lazy" decoding="async" />
-                                    </div>
-                                    <div class="mt-2">
-                                        <button class="btn btn-collapse toggle-details" type="button"
-                                                data-bs-toggle="collapse" data-bs-target="#collapseIdleTrain"
-                                                aria-expanded="false" aria-controls="collapseIdleTrain">
-                                            <span class="label" data-i18n="buttons.viewDetails">View details</span>
-                                            <i class="fas fa-chevron-down ms-1"></i>
-                                        </button>
-                                    </div>
-                                    <div class="collapse" id="collapseIdleTrain" style="scroll-margin-top: 90px;">
-                                        <div class="desc text-start">
-                                            <p><b
-                                                    class="text-bg-secondary">Technical
-                                                    Analysis: IdleTrain -
-                                                    Incremental Railway
-                                                    Management
-                                                    System</b>
-                                                <p></p>
-                                                <b>IdleTrain</b> is a
-                                                sophisticated
-                                                idle/incremental mobile game we
-                                                developed in Unity 3D, focusing
-                                                on
-                                                railway management, passenger
-                                                transportation, and exponential
-                                                progression mechanics. This
-                                                project
-                                                demonstrates advanced
-                                                implementation
-                                                of complex game systems,
-                                                mathematical balancing, and
-                                                performance optimization
-                                                techniques
-                                                for mobile platforms while
-                                                maintaining engaging idle
-                                                gameplay
-                                                mechanics.
-                                                <p></p>
-                                                <b
-                                                    class="text-bg-secondary">Architecture
-                                                    and Design
-                                                    Patterns</b>
-                                                <p></p>
-                                                <b>IdleTrain's</b> architecture
-                                                was
-                                                meticulously designed using
-                                                proven
-                                                software engineering principles
-                                                to
-                                                ensure scalability and
-                                                maintainability. We implemented
-                                                the
-                                                <b>State Machine Pattern</b> to
-                                                manage
-                                                core game flow transitions
-                                                (Start →
-                                                Game → End), providing
-                                                deterministic
-                                                state management and simplified
-                                                debugging workflows.
-                                                <p></p>
-                                                <b>The Singleton </b>Pattern was
-                                                strategically employed for the
-                                                central Game_ class, creating a
-                                                unified access point for all
-                                                critical systems including
-                                                Audio_,
-                                                Particle_, UI_, Camera_, and
-                                                SaveSystem_. This architecture
-                                                ensures efficient cross-system
-                                                communication while maintaining
-                                                loose coupling between
-                                                components.
-                                                <p></p>
-                                                <b>A Component-Based
-                                                    Architecture</b> was
-                                                fundamental to the design, where
-                                                each entity (Train_, Wagon_,
-                                                Passenger_, Station_) operates
-                                                as an
-                                                independent, modular component
-                                                with
-                                                clearly defined
-                                                responsibilities.
-                                                This approach facilitated easy
-                                                feature expansion and
-                                                maintenance
-                                                without affecting other system
-                                                components.
-                                                <p></p>
-                                                <b
-                                                    class="text-bg-secondary">Implemented
-                                                    Technical Systems</b>
-                                                <br>
-                                                <b>Procedural Movement and
-                                                    Pathfinding
-                                                    System</b><br>
-                                                We developed a sophisticated
-                                                movement
-                                                system using Bézier curves
-                                                (LTBezierPath) for smooth,
-                                                natural
-                                                train movement along complex
-                                                railway
-                                                tracks. <p></p>
-                                                <div class="featured-image">
-                                                    <a>
-                                                        <img
-                                                            class="img-fluid project-image d-block mx-auto gif-normal"
-                                                            src="assets/images/projects/track.gif"
-                                                            alt="IdleTrain track bezier gif"
-                                                            width="300" loading="lazy" decoding="async" />
-                                                    </a>
-                                                </div>
-                                                <b>The system
-                                                    implements:</b>
-                                                <p></p>
-                                                <b>Ratio-based positioning</b>
-                                                (0-1
-                                                normalized coordinates) for
-                                                precise
-                                                multi-object placement <br>
-                                                <b>Dynamic path
-                                                    recalculation</b>
-                                                when
-                                                trains encounter fork junctions
-                                                <br>
-                                                <b>Real-time bezier curve
-                                                    interpolation</b>
-                                                for fluid movement across
-                                                varying
-                                                track geometries
-                                                <pre><code class="language-csharp">public void CalculateTrack(TrackSegment_ startSegment) {
-    // Dynamic pathfinding with bezier curve regeneration
-    bezier = new LTBezierPath(pathPoints);
-    Game_.instance.rule_.train.ratio = bezier.ratioAtPoint(pointRatio);
-}</code></pre>
-                                                <p></p>
-                                                <b>Intelligent
-                                                    Merge and Upgrade
-                                                    System</b><p></p>
-                                                We implemented a complex 3-to-1
-                                                merge
-                                                algorithm with automatic
-                                                detection
-                                                and level progression: <p></p>
-                                                <div class="featured-image">
-                                                    <a>
-                                                        <img
-                                                            class="img-fluid project-image d-block mx-auto gif-normal"
-                                                            src="assets/images/projects/merge.gif"
-                                                            alt="project name"
-                                                            width="300" />
-                                                    </a>
-                                                </div>
-                                                <pre><code class="language-csharp">public bool CanMerge() {
-    for (int i = 0; i <= maxLevel; i++) {
-        for (int j = 0; j < wagons.Count; j++) {
-            if (wagons[j].Level == i && wagonsToMerge.Count < 3) {
-                wagonsToMerge.Add(wagons[j]);
-            }
-        }
-    }
-    return wagonsToMerge.Count == 3;
-}</code></pre>
-                                                <b>Optimized scanning
-                                                    algorithm</b> that
-                                                efficiently identifies merge
-                                                opportunities <br>
-                                                <b>Level-based material
-                                                    switching</b>
-                                                with
-                                                dynamic color progression <br>
-                                                <b>Animated merge sequences</b>
-                                                with
-                                                particle effects and audio
-                                                feedback
-                                                <br>
-                                                <b>Economic balancing</b>
-                                                through
-                                                exponential pricing formulas
-                                                <pre><code class="language-csharp">public ulong PriceFormula(float A, float B, float C, int level, int trackMultiplier) {
-    level = level + (trackMultiplier * Game_.instance.data.track);
-    return (ulong)(A * Mathf.Pow(level, 2) + (B * level) + C);
-}</code></pre>
-                                                <p></p>
-                                                <b>Dynamic
-                                                    Economy and Progression
-                                                    Balancing</b><p></p>
-                                                The economic system features
-                                                mathematically balanced
-                                                progression
-                                                curves:
-                                                <p></p>
-                                                <b>Multi-variable upgrade
-                                                    pricing</b> with
-                                                quadratic scaling <br>
-                                                <b>Real-time
-                                                    money-per-second</b>
-                                                calculation</b> using sampling
-                                            algorithms <br>
-                                            <b>Track-based difficulty
-                                                scaling</b>
-                                            that
-                                            adjusts progression per level <br>
-                                            <b>Passenger value exponential
-                                                scaling</b>
-                                            (10 × 5^passenger_level) <p></p>
-                                            <b>Robust Save/Load and Data
-                                                Persistence</b><br>
-                                            We developed a comprehensive data
-                                            persistence system with: <p></p>
-
-                                            <b>JSON serialization</b> for
-                                            cross-platform compatibility <br>
-                                            <b>Automatic data validation</b> and
-                                            migration between game versions <br>
-                                            <b>Debounced auto-save</b> to
-                                            prevent
-                                            performance spikes <br>
-                                            <b>Data integrity checks</b>
-                                            ensuring
-                                            save
-                                            file consistency
-                                            <p></p>
-                                            <b>Advanced
-                                                Audio System
-                                                Implementation</b><br>
-                                            We created a dynamic audio system
-                                            with
-                                            real-time pitch modulation based on
-                                            train speed:
-                                            <p></p>
-                                            <pre><code class="language-csharp">float pitch = Mathf.Lerp(minPitch, maxPitch, speed / maxSpeed);
-audioSource.pitch = pitch;</code></pre>
-                                            <p></p>
-                                            <b>Object Pooling:</b>
-                                            Dramatically reduced garbage
-                                            collection
-                                            for frequently spawned UI elements
-                                            (money effects, particles),
-                                            maintaining
-                                            consistent frame rates during
-                                            intensive
-                                            gameplay moments.
-                                            <p></p>
-                                            <b>Coroutine-Based Asynchronous
-                                                Operations:</b>
-                                            Used coroutines for non-blocking
-                                            operations like speed boosts and UI
-                                            animations, preventing frame drops
-                                            during complex calculations.
-                                            <p></p>
-                                            <b>Efficient Component Caching:</b>
-                                            Pre-cached
-                                            frequently accessed components to
-                                            eliminate expensive GetComponent()
-                                            calls
-                                            in Update loops, significantly
-                                            improving
-                                            CPU performance.
-                                            <p></p>
-                                            <b>Dynamic Camera Management:</b>
-                                            Implemented
-                                            smooth camera transitions with
-                                            mathematical interpolation,
-                                            providing
-                                            seamless visual feedback as players
-                                            progress through track expansions.
-                                            <p></p>
-                                            <b class="text-bg-secondary">Complex
-                                                Technical Challenges
-                                                Resolved</b> <p></p>
-                                            During IdleTrain's development, we
-                                            successfully addressed several
-                                            sophisticated technical challenges:
-                                            <p></p>
-
-                                            <b>Mathematical Game Balancing:</b>
-                                            Developed
-                                            and implemented exponential
-                                            progression
-                                            curves that maintain player
-                                            engagement
-                                            across extended play sessions while
-                                            preventing economic exploitation.
-                                            <br>
-
-                                            <b>Multi-Object Bezier
-                                                Positioning:</b>
-                                            Solved complex mathematical
-                                            challenges
-                                            in
-                                            positioning multiple train cars
-                                            along
-                                            curved paths with accurate spacing
-                                            and
-                                            rotation <br>
-                                            <b>Memory Management
-                                                Optimization:</b>
-                                            Implemented efficient object
-                                            lifecycle
-                                            management preventing memory leaks
-                                            during extended gameplay sessions,
-                                            crucial for idle game retention.
-                                            <br>
-
-                                            <b>Cross-Platform Data
-                                                Consistency:</b>
-                                            Ensured
-                                            save game compatibility across
-                                            different
-                                            devices and game versions through
-                                            robust
-                                            serialization and validation
-                                            systems.
-                                            <br>
-
-                                            <b>Real-Time Economic
-                                                Calculations:</b>
-                                            Developed efficient algorithms for
-                                            calculating money-per-second metrics
-                                            without impacting frame rate during
-                                            intensive gameplay.
-                                            <p></p>
-                                            <b
-                                                class="text-bg-secondary">Technical
-                                                Metrics and Results</b> <p></p>
-                                            IdleTrain achieved exceptional
-                                            technical
-                                            performance benchmarks: <p></p>
-
-                                            <b>Consistent 60 FPS</b> on mid-tier
-                                            mobile
-                                            devices (Android 7.0+, iOS 12+) -
-                                            <b>Memory footprint under 180MB</b>
-                                            during peak
-                                            gameplay with multiple systems
-                                            active -
-                                            <b>Load times under 3 seconds</b>
-                                            for
-                                            level
-                                            transitions and game initialization
-                                            -
-                                            <b>Zero memory leaks </b> during
-                                            extended
-                                            testing sessions (8+ hours
-                                            continuous
-                                            play) -
-                                            <b>Sub-100ms save operations</b>
-                                            preventing
-                                            gameplay interruption
-                                            The modular architecture
-                                            demonstrates
-                                            <b>high scalability</b> for content
-                                            expansion,
-                                            <b>excellent maintainability</b>with
-                                            clear
-                                            separation of concerns, and
-                                            <b>robust
-                                                error
-                                                handling</b> preventing crashes
-                                            during edge
-                                            cases. <p></p>
-
-                                            <b
-                                                class="text-bg-secondary">Professional
-                                                Impact and Technical
-                                                Competencies</b> <p></p>
-                                            This project showcases my expertise
-                                            in
-                                            <b>advanced software architecture,
-                                                mobile
-                                                game optimization, complex
-                                                mathematical
-                                                balancing, idle game progression
-                                                design,
-                                                and professional SDK
-                                                integration.</b> The
-                                            implementation demonstrates
-                                            production-ready code quality with
-                                            comprehensive error handling,
-                                            performance optimization, and
-                                            scalable
-                                            architecture suitable for commercial
-                                            game development environments.
-
-                                        </div><!--//desc-->
-                                    </div>
-                                    <hr class="divider">
-
-                                    <h3 class="text-bg-secondary">Ice Melt Race</h3>
-                                    <div
-                                        class="featured-image position-relative"
-                                        style="width:fit-content; margin:auto;">
-                                        <a>
-                                            <img
-                                                class="img-fluid project-image"
-                                                src="assets/images/projects/ice.jpg"
-                                                alt="Ice Melt Race cover image"
-                                                loading="lazy" decoding="async" />
-                                        </a>
-                                        <img
-                                            src="assets/images/projects/IceMeltGif.gif"
-                                            alt="Ice Melt Race gameplay gif"
-                                            class="gif-overlay" loading="lazy" decoding="async" />
-                                    </div>
-                                    <div class="mt-2">
-                                        <button class="btn btn-collapse toggle-details" type="button"
-                                                data-bs-toggle="collapse" data-bs-target="#collapseIceMeltRace"
-                                                aria-expanded="false" aria-controls="collapseIceMeltRace">
-                                                <span class="label" data-i18n="buttons.viewDetails">View details</span>
-                                            <i class="fas fa-chevron-down ms-1"></i>
-                                        </button>
-                                    </div>
-                                    <div class="collapse" id="collapseIceMeltRace" style="scroll-margin-top: 90px;">
-                                        <div class="desc text-start">
-                                            <p><b
-                                                    class="text-bg-secondary">Technical
-                                                    Analysis: IceMeltRace</b>
-                                                <p></p>
-                                                <b>IceMeltRace </b>features a
-                                                sophisticated
-                                                real-time ice melting system
-                                                that
-                                                combines advanced Unity
-                                                technologies
-                                                to create an immersive gameplay
-                                                mechanic. This system
-                                                demonstrates
-                                                expertise in shader programming,
-                                                real-time rendering, physics
-                                                simulation, and performance
-                                                optimization. <br>
-
-                                                <b>Key Achievement:</b> Created
-                                                a
-                                                fully
-                                                dynamic ice interaction system
-                                                where
-                                                players use flamethrowers to
-                                                melt
-                                                ice blocks, converting them into
-                                                water resources while
-                                                maintaining
-                                                60+ FPS performance. <p></p>
-                                                <div class="featured-image">
-                                                    <a>
-                                                        <img
-                                                            class="img-fluid project-image hover-lift"
-                                                            src="assets/images/projects/shader.jpg"
-                                                            alt="Ice shader preview"
-                                                            loading="lazy" decoding="async" />
-                                                    </a>
-                                                </div>
-                                                <pre><code class="language-csharp">// Custom Ice Shader with Real-time Heat Mapping
-float4 heatData = SampleTexture2D(RenderTexture, screenUV);
-float meltThreshold = 0.5;
-float3 finalColor = lerp(iceColor, waterColor, heatData.r);
-float alpha = step(meltThreshold, heatData.r);</code></pre> <br>
-                                                <b>Custom Ice Material
-                                                    Properties</b>
-                                                <b>RenderTexture:</b> Dynamic
-                                                heat
-                                                map
-                                                input <br>
-                                                <b>Fresnel Effects:</b>
-                                                Realistic
-                                                ice edge
-                                                highlighting <br>
-                                                <b>Normal Mapping:</b> Surface
-                                                detail
-                                                enhancement <br>
-                                                <b>Transparency Control:</b>
-                                                Smooth
-                                                melting
-                                                transitions <br>
-                                                <b>Refraction:</b> Light bending
-                                                through
-                                                ice <br>
-                                                <b>Innovation:</b> Particles
-                                                from
-                                                the
-                                                flamethrower dynamically paint
-                                                heat
-                                                values onto a render texture,
-                                                which
-                                                the ice shader reads in
-                                                real-time to
-                                                create realistic melting
-                                                effects.
-                                                <p></p>
-                                                <b>Modular Grid Architecture</b>
-                                                <pre><code class="language-csharp">// Procedural Ice Block Generation
-for (int i = 0; i < widthObject; i++) {
-    for (int j = 0; j < heightObject; j++) {
-        Vector3 position = CalculateGridPosition(i, j);
-        GameObject iceBlock = InstantiateIceBlock(position);
-        ConfigurePhysicsAndNavigation(iceBlock);
-    }
-}</code></pre>
-                                                <b>Scalability:</b> System
-                                                automatically
-                                                generates ice grids of any size,
-                                                with each block being
-                                                independently
-                                                meltable and auto-regenerating
-                                                after
-                                                10 seconds. <p></p>
-                                                <b
-                                                    class="text-bg-secondary">Cable
-                                                    Physics</b>
-                                                <div class="featured-image">
-                                                    <a>
-                                                        <img
-                                                            class="img-fluid project-image d-block mx-auto gif-normal"
-                                                            src="assets/images/projects/IceMeltRope.gif"
-                                                            alt="Ice Melt Race rope physics gif"
-                                                            width="300" loading="lazy" decoding="async" />
-                                                    </a>
-                                                </div>
-                                                <b>Visual Animation
-                                                    Pipelining</b>
-                                                <pre><code class="language-csharp">// Cascading Scale Animation
-void Animate() {
-    for (int i = 0; i < cableSegments.Length; i++) {
-        LeanTween.scale(cableSegments[i].transform.GetChild(0).gameObject, 
-                       Vector3.one * 1.3f, 0.3f)
-                .setFrom(Vector3.one * 0.9f)
-                .setEaseOutSine()
-                .setLoopPingPong()
-                .setDelay(i * 0.05f); // Staggered animation
-    }
-}</code></pre>
-                                                <b>Visual Impact:</b> Creates
-                                                wave-like
-                                                animation effects that travel
-                                                along the cable, providing clear
-                                                visual feedback for resource
-                                                transfer. <p></p>
-                                                <b>Collision Detection</b>
-                                                <pre><code class="language-csharp">// Collision Detection Mode Management
-if (i != 0 && i != (segmentsQuantity - 1)) {
-    rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
-}
-// Only middle segments use expensive collision detection</code></pre>
-                                                <b>Result:</b> 60% reduction in
-                                                physics
-                                                calculation overhead by
-                                                optimizing collision detection
-                                                only where needed. <p></p>
-                                                <b>Intelligent Object
-                                                    Pooling</b>
-                                                <pre><code class="language-csharp">// Threshold-Based Effect Spawning
-Game_.instance.particle_.countToSpawnParticle++;
-if (countToSpawnParticle >= 10) {
-    LeanPool.Spawn(waterPuddleFx, position, rotation);
-    countToSpawnParticle = 0;
-}</code></pre>
-                                                <b>Result:</b> Reduces garbage
-                                                collection by 85% and maintains
-                                                consistent frame rates during
-                                                intensive melting sequences.
-                                                <p></p>
-                                                <b>Cable System
-                                                    Architecture</b><br>
-                                                <a>
-                                                    <img
-                                                        class="img-fluid project-image d-block mx-auto gif-normal"
-                                                        src="assets/images/projects/rope.png"
-                                                        alt="Rope system architecture"
-                                                        width="300" loading="lazy" decoding="async" />
-                                                </a> <br>
-                                                <b>Segmented Physics Chain</b>
-                                                <br>
-                                                <b>20+ Individual Segments:</b>
-                                                Each
-                                                with independent Rigidbody and
-                                                CapsuleCollider <br>
-                                                <b>ConfigurableJoint
-                                                    Connections:</b>
-                                                Precise spring-damper physics
-                                                simulation <br>
-                                                <b>Material Variation:</b>
-                                                Striped
-                                                patterns with alternating
-                                                materials <br>
-                                                <b>Layer Management:</b> Proper
-                                                collision layer assignment for
-                                                optimization <p></p>
-                                                <b>Connection Mechanics</b>
-                                                <pre><code class="language-csharp">public void ConnectCable(bool startSegment, Transform newTransform) {
-    AwakeRigidbodies(); // Activate physics
-    int id = startSegment ? 0 : cableSegments.Length - 1;
-    cableSegments[id].GetComponent<Rigidbody>().isKinematic = true;
-    cableSegments[id].transform.parent = newTransform;
-    
-    // Smooth connection animation
-    LeanTween.moveLocal(cableSegments[id].gameObject, Vector3.zero, 0.2f);
-    LeanTween.rotateLocal(cableSegments[id].gameObject, Vector3.zero, 0.2f);
-}</code></pre>
-                                                <b>Resource Transfer
-                                                    Visualization</b> <br>
-                                                <b>Bidirectional Flow:</b>
-                                                Forward
-                                                animation for fuel, backward for
-                                                water <br>
-                                                <b>Particle Integration:</b>
-                                                Fuel/water
-                                                jets activate on connection <br>
-                                                <b>Audio Feedback:</b> 3D
-                                                spatial
-                                                connection sounds <br>
-                                                <b>Automatic Disconnection:</b>
-                                                Smart
-                                                disconnection based on resource
-                                                levels <p></p>
-
-                                            </div><!--//desc-->
-                                        </div>
-                                    </div><!--//item-->
-
-                                    <hr class="divider" />
-
-                                    <h2 class="heading" data-i18n="projects.other">Other Projects</h2>
-                                    <!-- <div class="item row">
-                                        <a
-                                            class="col-md-4 col-12">
-                                            <img
-                                                class="img-fluid project-image rounded shadow-sm"
-                                                src="assets/images/projects/TennisVr.png"
-                                                alt="Tennis VR cover image"
-                                                loading="lazy" decoding="async" />
-                                        </a>
-                                        <div
-                                            class="desc col-md-8 col-12">
-                                            <h3
-                                                class="title"><a>TenisVR</a></h3>
-                                            <p class="mb-2" data-i18n="other.tennis.desc">Quest
-                                                2 game where
-                                                players try
-                                                to land the
-                                                return
-                                                inside the
-                                                line.
-                                                Developed
-                                                using
-                                                Unity and
-                                                Meta Quest
-                                                2</p>
-                                            <p></p>
-                                        </div>
-                                    </div> -->
-
-                                    <div class="item row">
-                                        <a
-                                            class="col-md-4 col-12">
-                                            <img
-                                                class="img-fluid project-image rounded shadow-sm"
-                                                src="assets/images/projects/rythm.png"
-                                                alt="Rhythm game cover image"
-                                                loading="lazy" decoding="async" />
-                                        </a>
-                                        <div
-                                            class="desc col-md-8 col-12">
-                                            <h3
-                                                class="title"><a>Rhythm
-                                                    game</a></h3>
-                                            <p class="mb-2" data-i18n="other.rhythm.desc">A
-                                                game like
-                                                Guitar Hero
-                                                where you
-                                                hit the
-                                                notes as
-                                                they come
-                                                down the
-                                                screen, you
-                                                could play
-                                                against
-                                                other player
-                                                or against
-                                                an
-                                                AI,
-                                                developed
-                                                using Unity
-                                                for a
-                                                renowned
-                                                music
-                                                festival.</p>
-                                        </div><!--//desc-->
-                                    </div><!--//item-->
-
-                                </div><!--//content-->
-                            </div><!--//section-inner-->
-                        </section><!--//section-->
-
-                        <section id="experience" class="experience section">
-                            <div
-                                class="section-inner shadow-sm rounded">
-                                <h2 class="heading" data-i18n="experience.heading">Work Experience</h2>
-                                <div class="content">
-                                    <div class="item">
-                                        <h3 class="title"><span data-i18n="experience.nex.title">Game Developer</span>
-                                            <span class="place"><a>Nex Digital, Brasil</a></span>
-                                            <span class="year" data-i18n="experience.nex.years">(January 2024 – January 2025)</span></h3>
-                                        <ul class="experience-list">
-                                            <li data-i18n="experience.nex.li1">Designed and developed custom games for brands and events, including VR and AR games, rhythm games, memory games, marathon simulation, etc.</li>
-                                            <li data-i18n="experience.nex.li2">Leveraged advanced technologies such as interactive floors, facial recognition, augmented reality, and virtual reality.</li>
-                                        </ul>
-                                    </div><!--//item-->
-                                    <div class="item">
-                                        <h3 class="title"><span data-i18n="experience.coruja.title">Game Developer</span>
-                                            <span class="place"><a>Coruja Games, Brasil</a></span>
-                                            <span class="year" data-i18n="experience.coruja.years">(March 2020 – May 2023)</span></h3>
-                                        <ul class="experience-list">
-                                            <li data-i18n="experience.coruja.li1">Extensive experience in creating prototypes, overseeing the entire game development process from ideation to launch.</li>
-                                            <li data-i18n="experience.coruja.li2">Implemented dynamic game mechanics and interactive systems using Unity and C#.</li>
-                                            <li data-i18n="experience.coruja.li3">Debugged and optimized games performance.</li>
-                                        </ul>
-                                    </div><!--//item-->
-
-                                    <div class="item">
-                                        <h3 class="title"><span data-i18n="experience.likin.title">Front-End Developer</span>
-                                            <span class="place"><a>Likin.do, Brasil</a></span>
-                                            <span class="year" data-i18n="experience.likin.years">(August 2017 – January 2020)</span></h3>
-                                        <ul class="experience-list">
-                                            <li data-i18n="experience.likin.li1">Developed and enhanced user-facing features and applications.</li>
-                                            <li data-i18n="experience.likin.li2">Integrated front-end interfaces with back-end systems and resolved performance issues.</li>
-                                            <li data-i18n="experience.likin.li3">Actively participated in Agile processes, including daily scrum meetings, reviews, and planning sessions.</li>
-                                        </ul>
-                                    </div><!--//item-->
-
-                                </div><!--//content-->
-                            </div><!--//section-inner-->
-                        </section><!--//section-->
-
-                    </div><!--//primary-->
-                    <div class="secondary col-lg-4 col-12">
-                        <aside class="info aside section">
-                            <div
-                                class="section-inner shadow-sm rounded reveal-right">
-                                <h2 class="heading sr-only" data-i18n="aside.info.heading">Basic Information</h2>
-                                <div class="content">
-                                    <ul
-                                        class="list-unstyled reveal-stagger">
-                                        <li><i
-                                                class="fas fa-map-marker-alt"></i><span
-                                                class="sr-only" data-i18n="aside.info.location.sr">Location:</span>Porto
-                                            Alegre, BR</li>
-                                        <li><i
-                                                class="fas fa-envelope"></i><span
-                                                class="sr-only">Email:</span><a
-                                                href="#">moreira.carloseduardo@gmail.com</a></li>
-                                        <!-- <li><i class="fas fa-link"></i><span class="sr-only">Website:</span><a href="#">https://www.website.com</a></li> -->
-                                    </ul>
-                                </div><!--//content-->
-                            </div><!--//section-inner-->
-                        </aside><!--//aside-->
-
-                        <aside class="skills aside section">
-                            <div
-                                class="section-inner shadow-sm rounded reveal-right">
-                                <h2 class="heading" data-i18n="aside.skills.heading">Skills</h2>
-                                <div class="content">
-                                    <p class="intro" data-i18n="aside.skills.intro">As a Game Developer, my expertise ranges from creative conception to technical implementation, with a focus on immersive and intuitive experiences. Below are some of my core technical skills and tools.</p>
-
-                                    <div class="skillset reveal-stagger">
-
-                                        <div class="item">
-                                            <h3 class="level-title">Unity3D & C#
-                                                <span class="level-label" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Extensive experience in game development, prototyping, and optimization." data-i18n-attr="data-bs-title">
-                                                    <i class="fas fa-info-circle"></i>
-                                                    <span class="level-text" data-i18n="aside.skills.level.advanced">Advanced</span>
-                                                </span>
-                                            </h3>
-                                            <div
-                                                class="level-bar progress">
-                                                <div
-                                                    class="progress-bar level-bar-inner"
-                                                    role="progressbar"
-                                                    style="width: 80%"
-                                                    aria-valuenow="80"
-                                                    aria-valuemin="0"
-                                                    aria-valuemax="100"></div>
-                                            </div></div><div
-                                            class="item">
-                                            <h3 class="level-title">Game Design (2D/3D, VR/AR)
-                                                <span class="level-label" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Creating dynamic mechanics and interactive systems for various platforms." data-i18n-attr="data-bs-title">
-                                                    <i class="fas fa-info-circle"></i>
-                                                    <span class="level-text" data-i18n="aside.skills.level.pro">Pro</span>
-                                                </span>
-                                            </h3>
-                                            <div
-                                                class="level-bar progress">
-                                                <div
-                                                    class="progress-bar level-bar-inner"
-                                                    role="progressbar"
-                                                    style="width: 68%"
-                                                    aria-valuenow="68"
-                                                    aria-valuemin="0"
-                                                    aria-valuemax="100"></div>
-                                            </div></div><div
-                                            class="item">
-                                            <h3 class="level-title">Godot & GDScript
-                                                <span class="level-label" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Creating dynamic mechanics and interactive systems for events." data-i18n-attr="data-bs-title">
-                                                    <i class="fas fa-info-circle"></i>
-                                                    <span class="level-text" data-i18n="aside.skills.level.intermediate">Intermediate</span>
-                                                </span>
-                                            </h3>
-                                            <div
-                                                class="level-bar progress">
-                                                <div
-                                                    class="progress-bar level-bar-inner"
-                                                    role="progressbar"
-                                                    style="width: 55%"
-                                                    aria-valuenow="55"
-                                                    aria-valuemin="0"
-                                                    aria-valuemax="100"></div>
-                                            </div></div><p><a class="more-link" href="https://www.linkedin.com/in/carlos-eduardo-m-31755b134/?locale=en_US" target="_blank"><i class="fas fa-external-link-alt"></i><span class="ms-1" data-i18n="aside.skills.moreLinkedIn">More on my LinkedIn</span></a></p>
-                                    </div>
-                                </div></div></aside>
-
-                        <aside class="education aside section">
-                            <div class="section-inner shadow-sm rounded reveal-right education-accent">
-                                <h2 class="heading" data-i18n="aside.education.heading"><i class="fas fa-graduation-cap"></i><span class="ms-1" data-i18n="aside.education.heading">Education</span></h2>
-                                <div class="content">
-                                    <p class="mb-1" data-i18n="aside.education.line1">Estácio, Brasil — Bachelor's degree in Technology, Full Stack Developer</p>
-                                    <p class="text-muted small" data-i18n="aside.education.line2">Expected December 2027</p>
-                                </div>
-                            </div>
-                        </aside>
-
-                        <aside
-                            class="languages aside section">
-                            <div
-                                class="section-inner shadow-sm rounded reveal-right">
-                                <h2 class="heading" data-i18n="aside.languages.heading">Languages</h2>
-                                <div class="content">
-                                    <ul
-                                        class="list-unstyled reveal-stagger">
-                                        <li class="item">
-                                            <span class="title"><strong data-i18n="aside.languages.portuguese.title">Portuguese:</strong></span>
-                                            <span class="level" data-i18n="aside.languages.portuguese.level">Native Speaker <br
-                                                    class="visible-xs" /><i
-                                                    class="fas fa-star"></i>
-                                                <i
-                                                    class="fas fa-star"></i>
-                                                <i
-                                                    class="fas fa-star"></i>
-                                                <i
-                                                    class="fas fa-star"></i>
-                                                <i
-                                                    class="fas fa-star"></i>
-                                            </span>
-                                        </li><!--//item-->
-                                        <li class="item">
-                                            <span class="title"><strong data-i18n="aside.languages.spanish.title">Spanish:</strong></span>
-                                            <span class="level" data-i18n="aside.languages.spanish.level">Native Speaker <br
-                                                    class="visible-xs" /><i
-                                                    class="fas fa-star"></i>
-                                                <i
-                                                    class="fas fa-star"></i>
-                                                <i
-                                                    class="fas fa-star"></i>
-                                                <i
-                                                    class="fas fa-star"></i>
-                                                <i
-                                                    class="fas fa-star"></i>
-                                            </span>
-                                        </li><!--//item-->
-                                        <li class="item">
-                                            <span class="title"><strong data-i18n="aside.languages.english.title">English:</strong></span>
-                                            <span class="level" data-i18n="aside.languages.english.level">B2 (Upper Intermediate):<br
-                                                    class="visible-xs" /><i
-                                                    class="fas fa-star"></i>
-                                                <i
-                                                    class="fas fa-star"></i>
-                                                <i
-                                                    class="fas fa-star"></i>
-                                                <i
-                                                    class="fas fa-star-half"></i>
-                                            </span>
-                                        </li><!--//item-->
-                                    </ul>
-                                </div><!--//content-->
-                            </div><!--//section-inner-->
-                        </aside><!--//section-->
-
-                        <aside
-                            class="credits aside section">
-                            <div
-                                class="section-inner shadow-sm rounded reveal-right">
-                                <h2 class="heading" data-i18n="aside.credits.heading">Credits</h2>
-                                <div class="content">
-                                    <ul
-                                        class="list-unstyled pb-2 reveal-stagger">
-                                        <li><a
-                                                href="https://getbootstrap.com/"
-                                                target="_blank"><i
-                                                    class="fas fa-external-link-alt"></i>Bootstrap</a></li>
-                                        <li><a
-                                                href="https://fortawesome.github.io/Font-Awesome/"
-                                                target="_blank"><i
-                                                    class="fas fa-external-link-alt"></i>FontAwesome</a></li>
-
-                                        <li><a
-                                                href="https://github.com/coliff/dark-mode-switch"><i
-                                                    class="fas fa-external-link-alt"></i>Dark
-                                                Mode
-                                                Switch</a></li>
-
-                                    </ul>
-
-                                </div><!--//content-->
-                            </div><!--//section-inner-->
-                        </aside><!--//section-->
-
-                    </div><!--//secondary-->
-                </div><!--//row-->
-            </div><!--//masonry-->
-
-            <!-- ******FOOTER****** -->
-            <footer id="footer" class="footer">
-                <div class="container text-center">
-                    <!--/* This template is free as long as you keep the attribution link below. Thank you for your support. :) If you'd like to use the template without the attribution, you can buy the commercial license via our website: themes.3rdwavemedia.com */-->
-                    <small class="copyright"><span data-i18n="footer.by">Designed with love</span></i> by <a
-                        href="https://themes.3rdwavemedia.com"
-                        target="_blank">Xiaoying
-                        Riley</a> for
-                    <span data-i18n="footer.for">developers</span></small>
-            </div><!--//container-->
-        </footer><!--//footer-->
-
-        <!-- Javascript -->
-        <script type="text/javascript"
-            src="assets/plugins/popper.min.js"></script>
-        <script type="text/javascript"
-            src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
-        <script type="text/javascript"
-            src="assets/plugins/vanilla-rss/dist/rss.global.min.js"></script>
-        <script type="text/javascript"
-            src="assets/plugins/dark-mode-switch/dark-mode-switch.min.js"></script>
-        <!-- github calendar plugin -->
-        <!-- <script type="text/javascript" src="assets/plugins/github-calendar/dist/github-calendar.min.js"></script> -->
-        <!-- github activity plugin -->
-        <!-- <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.2/mustache.min.js"></script> -->
-        <!-- <script type="text/javascript" src="assets/plugins/github-activity/src/github-activity.js"></script> -->
-    <!-- custom js -->
-    <script type="text/javascript" src="assets/js/main.js"></script>
-    <!-- i18n module -->
-    <script type="text/javascript" src="assets/js/i18n.js"></script>
-
-        <!-- Prism.js JavaScript -->
-        <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
-        <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
-        <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    // Smooth scroll to anchors
-                    document.documentElement.style.scrollBehavior = 'smooth';
-
-                    // Toggle buttons for project details
-                    const toggles = document.querySelectorAll('.toggle-details');
-                    const getI18n = (key, fallback) => {
-                        try {
-                            const code = localStorage.getItem('site_lang') || 'en';
-                            const dict = (window.__i18nDicts && window.__i18nDicts[code]) || null;
-                            if (!dict) return fallback;
-                            return key.split('.').reduce((acc, k) => acc && acc[k] != null ? acc[k] : null, dict) ?? fallback;
-                        } catch { return fallback; }
-                    };
-                    toggles.forEach((btn) => {
-                        const targetId = btn.getAttribute('data-bs-target');
-                        const collapseEl = document.querySelector(targetId);
-                        if (!collapseEl) return;
-
-                        collapseEl.addEventListener('show.bs.collapse', () => {
-                            btn.setAttribute('aria-expanded', 'true');
-                            const label = btn.querySelector('.label');
-                            const icon = btn.querySelector('i');
-                            if (label) label.textContent = getI18n('buttons.collapse','Collapse');
-                            if (icon) { icon.classList.remove('fa-chevron-down'); icon.classList.add('fa-chevron-up'); }
-                            // Ensure the start of content is visible after expand
-                            setTimeout(() => collapseEl.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
-                        });
-                        collapseEl.addEventListener('hide.bs.collapse', () => {
-                            btn.setAttribute('aria-expanded', 'false');
-                            const label = btn.querySelector('.label');
-                            const icon = btn.querySelector('i');
-                            if (label) label.textContent = getI18n('buttons.viewDetails','View details');
-                            if (icon) { icon.classList.remove('fa-chevron-up'); icon.classList.add('fa-chevron-down'); }
-                        });
-                    });
-
-                    // Single-button behavior: no footer close buttons; only swap label/chevron above
-
-                    // Initialize or refresh ScrollSpy
-                    try {
-                        const existing = bootstrap.ScrollSpy.getInstance(document.body);
-                        if (existing && existing.refresh) existing.refresh();
-                        else new bootstrap.ScrollSpy(document.body, { target: '#topnav', offset: 90 });
-                    } catch (e) { /* bootstrap may not be loaded yet */ }
-
-                    // Sync theme-color with dark mode toggle (for mobile status bar)
-                    (function syncThemeColor(){
-                        const meta = document.querySelector('meta[name="theme-color"]');
-                        const update = () => {
-                            const isDark = document.body.getAttribute('data-theme') === 'dark';
-                            if (meta) meta.setAttribute('content', isDark ? '#0B1220' : '#F3F5F7');
-                        };
-                        const obs = new MutationObserver(update);
-                        obs.observe(document.body, { attributes: true, attributeFilter: ['data-theme'] });
-                        update();
-                    })();
-                });
-            </script>
-        <script>
-            // IntersectionObserver: reveal animations and skill bars
-            (function(){
-                if (!('IntersectionObserver' in window)) return;
-                const io = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('is-visible');
-                            // Animate progress bars when visible
-                            if (entry.target.matches('.level-bar')) {
-                                const inner = entry.target.querySelector('.level-bar-inner');
-                                if (inner) {
-                                    const target = inner.getAttribute('aria-valuenow') || inner.style.width.replace('%','') || 0;
-                                    inner.style.width = target + '%';
-                                }
-                            }
-                            io.unobserve(entry.target);
-                        }
-                    });
-                }, { threshold: 0.12 });
-
-                // Mark sections/cards/headers to reveal
-                document.querySelectorAll('.section .section-inner, .featured-image, h2.heading, h3.text-bg-secondary, .item, .level-bar, .reveal-right, .reveal-scale').forEach(el => {
-                    el.classList.add('reveal');
-                    io.observe(el);
-                });
-            })();
-
-            // Navbar shadow intensifies on scroll
-            (function(){
-                const nav = document.querySelector('.navbar');
-                if (!nav) return;
-                const onScroll = () => {
-                    if (window.scrollY > 10) nav.classList.add('scrolled'); else nav.classList.remove('scrolled');
-                };
-                onScroll();
-                window.addEventListener('scroll', onScroll, { passive: true });
-            })();
-        </script>
-    </body>
+    <!-- Navegação de Case via modal é gerenciada em assets/js/main.js -->
+  </body>
 </html>

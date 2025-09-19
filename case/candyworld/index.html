@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CandyWorld – Dynamic Economy & Autonomous AI</title>
+  <meta name="theme-color" content="#0B1220">
+  <meta name="description" content="CandyWorld: Idle management with autonomous AI, dynamic economy, and an automated production chain balanced via curves." />
+  <link rel="canonical" href="https://moreiracarloseduardo.github.io/case/candyworld/" />
+  <meta property="og:title" content="CandyWorld – Dynamic Economy & Autonomous AI">
+  <meta property="og:description" content="Idle management with automated production chain, autonomous helpers, and curve‑balanced progression.">
+  <meta property="og:image" content="https://moreiracarloseduardo.github.io/assets/images/projects/candy.jpg">
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://moreiracarloseduardo.github.io/case/candyworld/" />
+  <meta property="og:locale" content="en_US" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="CandyWorld – Dynamic Economy & Autonomous AI" />
+  <meta name="twitter:description" content="Idle management with automated production chain, autonomous helpers, and curve‑balanced progression." />
+  <meta name="twitter:image" content="https://moreiracarloseduardo.github.io/assets/images/projects/candy.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="../../assets/plugins/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+  <style>
+    :root{ view-transition-name: none; }
+    .case-hero{min-height: 48vh; padding: var(--space-8) 0 var(--space-5); position:relative;}
+    .case-hero::before{content:""; position:absolute; inset:0; background: radial-gradient(circle at 65% 35%, rgba(var(--color-accent-rgb),0.18), transparent 60%), radial-gradient(circle at 25% 70%, rgba(var(--color-accent-alt-rgb),0.15), transparent 65%); filter: blur(24px); opacity:.8;}
+  .case-title{font-size:clamp(1.6rem,1.1rem + 2.2vw,2.6rem); color: var(--color-text-100); margin:0 0 .5rem; letter-spacing:-.5px;}
+    .case-sub{color: var(--color-text-500); max-width: 70ch;}
+    .case-meta{display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1rem}
+    .case-meta .metric-badge{font-size:.65rem}
+    .case-layout{display:grid; grid-template-columns: 260px 1fr; gap: var(--space-5);} 
+  @media (max-width: 992px){ .case-layout{grid-template-columns: 1fr;} .case-toc{position:static!important; margin-bottom: var(--space-4);} }
+    .case-toc{position: sticky; top: 96px; align-self:start; background: linear-gradient(155deg, var(--color-surface-700), var(--color-surface-600)); border:1px solid var(--color-border); border-radius: var(--radius); padding: var(--space-4);}
+    .case-toc h3{font-size:.85rem; text-transform:uppercase; letter-spacing:.8px; color: var(--color-text-300); margin:0 0 .5rem}
+    .case-toc a{display:block; color: var(--color-text-500); padding:.4rem .25rem; border-radius:8px}
+    .case-toc a.active{color:#fff; background: rgba(var(--color-accent-rgb),0.15); border:1px solid rgba(var(--color-accent-rgb),0.35)}
+    .case-content{display:grid; gap: var(--space-6);} 
+    .case-section{background: linear-gradient(160deg, var(--color-surface-700), var(--color-surface-600)); border:1px solid var(--color-border); border-radius: var(--radius); padding: var(--space-5);}
+    .progress-read{position:fixed; top:0; left:0; height:3px; width:0; background: linear-gradient(90deg, var(--color-accent), var(--color-accent-alt)); z-index:9999}
+  .case-hero-media{margin-top:1rem; border-radius: var(--radius); overflow:hidden; border:1px solid var(--color-border)}
+  
+  /* Critical mobile layout fixes */
+  @media (max-width: 768px) {
+    .case-layout {
+      grid-template-columns: 1fr !important;
+      gap: var(--space-3) !important;
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+    
+    .case-toc {
+      position: static !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 0 var(--space-3) 0 !important;
+      padding: var(--space-3) !important;
+    }
+    
+    .case-content {
+      width: 100% !important;
+      max-width: 100% !important;
+      gap: var(--space-3) !important;
+    }
+    
+    .case-section {
+      width: 100% !important;
+      max-width: 100% !important;
+      padding: var(--space-3) !important;
+      margin: 0 !important;
+      box-sizing: border-box !important;
+    }
+    
+    .case-title{font-size:clamp(1.35rem,1.05rem + 1.2vw,1.8rem);} 
+    .case-sub{font-size:clamp(.95rem,.9rem + .3vw,1.05rem);} 
+  }
+  @media (max-width: 576px){ 
+    .case-hero{ padding: var(--space-6) 0 var(--space-4);} 
+    .case-section {
+      padding: var(--space-2) var(--space-3) !important;
+    }
+    .case-toc {
+      padding: var(--space-2) !important;
+    }
+  }
+  @media (max-width: 480px) {
+    .case-title {
+      font-size: clamp(1.25rem, 1rem + 1vw, 1.6rem) !important;
+      line-height: 1.2;
+    }
+    .case-sub {
+      font-size: clamp(0.9rem, 0.85rem + 0.3vw, 1rem) !important;
+    }
+  }
+  @media (max-width: 360px) {
+    .case-title {
+      font-size: clamp(1.1rem, 0.9rem + 0.8vw, 1.4rem) !important;
+      line-height: 1.15;
+    }
+    .case-sub {
+      font-size: clamp(0.85rem, 0.8rem + 0.25vw, 0.95rem) !important;
+      line-height: 1.4;
+    }
+    .case-meta .metric-badge {
+      font-size: 0.6rem;
+    }
+    .case-section {
+      padding: var(--space-2) !important;
+    }
+  }
+  </style>
+  <script type="application/ld+json">{
+    "@context":"https://schema.org",
+    "@type":"Article",
+  "headline":"CandyWorld – Dynamic Economy & Autonomous AI",
+  "description":"Idle management with automated production chain, autonomous helpers, and curve‑balanced progression.",
+    "url":"https://moreiracarloseduardo.github.io/case/candyworld/",
+  "inLanguage":"en-US",
+    "image":"https://moreiracarloseduardo.github.io/assets/images/projects/candy.jpg",
+    "author": {"@type":"Person","name":"Carlos Eduardo"}
+  }</script>
+</head>
+<body>
+  <div class="progress-read" id="progressRead"></div>
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top" style="background: linear-gradient(140deg, var(--color-surface-700), var(--color-surface-600)); border-bottom:1px solid var(--color-border)">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="../../#top">
+        <img src="../../assets/images/profile.png" alt="Foto" class="nav-avatar" width="28" height="28" />
+        <span>Carlos Eduardo</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topnav" aria-controls="topnav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="topnav">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+          <li class="nav-item"><a class="nav-link" href="../../#featured-projects">Home</a></li>
+          <li class="nav-item nav-social d-flex align-items-center ms-lg-3">
+            <a href="https://www.linkedin.com/in/carlos-eduardo-m-31755b134/?locale=en_US" target="_blank" aria-label="LinkedIn" class="nav-social-link"><svg class="icon" aria-hidden="true"><use href="../../#i-linkedin"/></svg></a>
+            <a href="https://www.instagram.com/kadu_gamedev/" target="_blank" aria-label="Instagram" class="nav-social-link ms-2"><svg class="icon" aria-hidden="true"><use href="../../#i-instagram"/></svg></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <section class="case-hero">
+    <div class="container">
+  <h1 class="case-title" style="view-transition-name: vt-candy-title">CandyWorld – Dynamic Economy & Autonomous AI</h1>
+  <p class="case-sub">Idle management with automated production chain, autonomous helpers, and curve‑balanced progression.</p>
+      <div class="case-hero-media-wrap case-hero-media">
+        <picture data-opt-image>
+        <source type="image/avif" srcset="../../assets/images/projects/candy.jpg.avif">
+        <source type="image/webp" srcset="../../assets/images/projects/candy.jpg.webp">
+        <img src="../../assets/images/projects/candy.jpg" alt="CandyWorld cover" width="1280" height="720" style="width:100%;height:auto;view-transition-name: vt-candy-cover" loading="eager" decoding="async">
+        </picture>
+        <img class="case-hero-gif" src="../../assets/images/projects/CandyWorld.gif" alt="CandyWorld gameplay gif" loading="lazy" decoding="async" />
+      </div>
+    </div>
+  </section>
+  <main class="container" style="padding: var(--space-6) 0 var(--space-8)">
+    <div class="case-layout">
+  <aside class="case-toc" id="toc">
+    <h3>Contents</h3>
+    <div class="toc-links">
+      <a href="#overview">Overview</a>
+      <a href="#ai">AI Helpers</a>
+      <a href="#economy">Economy</a>
+      <a href="#results">Results</a>
+    </div>
+  </aside>
+      <div class="case-content">
+        <section id="overview" class="case-section">
+          <h2>Overview</h2>
+          <p><b class="text-bg-secondary">Technical Analysis: CandyWorld - Idle Management Game</b></p>
+          <p>CandyWorld is an idle/management mobile game project we developed in Unity 3D, focusing on creating an automated production chain and non-linear progression. This project served as an in-depth study of various <b>software architectures, design patterns</b>, and <b>performance optimizations</b> for mobile platforms.</p>
+          <p><b class="text-bg-secondary">Architecture and Design Patterns</b></p>
+          <p>CandyWorld's architecture was carefully planned to ensure scalability, maintainability, and robustness. We utilized the <b>State Machine Pattern</b> to manage the behavior of various entities like players, customers, and production processes. This allowed for controlled state transitions and simplified debugging, leading to predictable and logical behaviors for NPCs (Idle → Find → Move → Buy → Leave). The Singleton Pattern was employed to centralize game control and manage essential systems such as audio (AudioManager), particles (ParticleManager), and UI (UiManager), ensuring efficient global access. Complementarily, the <b>Component-Based Architecture</b> was crucial for modularizing each building, character, and object, making it easier to add new features and maintain the code without impacting other parts of the system.</p>
+          <div class="featured-image" style="margin:.5rem 0 1rem">
+            <img class="img-fluid project-image d-block mx-auto gif-normal" src="../../assets/images/projects/CandyWorld.gif" alt="CandyWorld gameplay gif" width="480" loading="lazy" decoding="async" />
+          </div>
+        </section>
+        <section id="ai" class="case-section">
+          <h2>AI Helpers</h2>
+          <p><b>Behavioral AI System:</b> We developed NPCs with autonomous behavior and decision-making. Navigation was implemented using Unity NavMesh, providing natural and efficient pathfinding. This includes a customer patience and satisfaction system to influence the gameplay experience.</p>
+          <div class="featured-image" style="margin:.5rem 0 1rem">
+            <img class="img-fluid project-image d-block mx-auto gif-normal" src="../../assets/images/projects/CandyCustumer.gif" alt="CandyWorld customer AI gif" width="300" loading="lazy" decoding="async" />
+          </div>
+          <div class="code-snippet-collapsible" data-snippet>
+<pre><code class="language-csharp">public enum AiStates { Idle, Find, Buy, Move, Leave };
+
+void Find_Enter() {
+  targetShelf = Game_.instance.buildingsManager.shelves[Random.Range(0, Game_.instance.upgrades.shelfsUnlocked)].GetComponent&lt;Shelf_&gt;();
+  NavMesh.SamplePosition(targetShelf.transform.position, out NavMeshHit hit, 10, NavMesh.AllAreas);
+  target = hit.position;
+  agent.SetDestination(target);
+    
+  // Dynamic product preference system
+  switch (targetShelf.tag) {
+    case "LollipopShelf":
+      productBubbleImage.sprite = productsSprites[0];
+      break;
+    // Visual feedback for customer intent
+  }
+  fsm.ChangeState(AiStates.Move);
+}</code></pre>
+            <button class="snippet-expand-btn" type="button" data-expand>Expand</button>
+          </div>
+          <p><b>Autonomous Helper AI System:</b> We created an automation system with NPCs that optimize production independently, with a dynamic task prioritization based on game state.</p>
+          <div class="featured-image" style="margin:.5rem 0 1rem">
+            <img class="img-fluid project-image d-block mx-auto gif-normal" src="../../assets/images/projects/CandyHelper.gif" alt="CandyWorld helper AI gif" width="300" loading="lazy" decoding="async" />
+          </div>
+          <div class="code-snippet-collapsible" data-snippet>
+<pre><code class="language-csharp">void Find_Enter() {
+    Vector3 target = Vector3.zero;
+    if (productsHolder.childCount > 0) {
+        targetShelf = FindShelf(); // Smart shelf selection algorithm
+    } else {
+        targetMachine = FindMachineWithMoreProducts(); // Production bottleneck detection
+        if (targetMachine != null) {
+            target = targetMachine.outShelf.transform.position;
+        }
+    }
+    
+    if (target != Vector3.zero) {
+        NavMesh.SamplePosition(target, out NavMeshHit hit, 20, NavMesh.AllAreas);
+        agent.SetDestination(hit.position);
+    }
+}</code></pre>
+            <button class="snippet-expand-btn" type="button" data-expand>Expand</button>
+          </div>
+        </section>
+    <section id="economy" class="case-section">
+      <h2>Economy</h2>
+      <p><b>Automated Production System:</b> We created a complete production pipeline, from plant and ingredient gathering to product transformation by machines, and finally, sales. Coroutines were used to manage asynchronous processes, and an automatic supply/demand balancing system was implemented to keep the game's economy dynamic.</p>
+          <div class="featured-image" style="margin:.5rem 0 1rem">
+            <img class="img-fluid project-image d-block mx-auto gif-normal" src="../../assets/images/projects/CandyProduction.gif" alt="CandyWorld production pipeline gif" width="300" loading="lazy" decoding="async" />
+          </div>
+          <div class="code-snippet-collapsible" data-snippet>
+<pre><code class="language-csharp">IEnumerator Factory() {
+  yield return new WaitForSeconds(1);
+  if (inShelf.GetLastCollectable() != null) {
+    Ingredient_ ingredient = inShelf.GetLastCollectable() as Ingredient_;
+    IngredientType ingredientType = ingredient.type;
+        
+    for (int i = 0; i &lt; productsPerIngredient; i++) {
+      // Animated production sequence
+      LeanTween.moveLocalY(piston, 0, .2f).setEase(LeanTweenType.easeInCubic).setLoopPingPong(1);
+      yield return new WaitForSeconds(.05f);
+            
+      Product_ currentProduct = Instantiate(product, productStartPoint.position, transform.rotation);
+      currentProduct.flavor = ingredientType;
+      currentProduct.setFlavorMaterial();
+            
+      // Conveyor belt animation with UV scrolling
+      LeanTween.value(gameObject, 0, 1, Game_.instance.upgrades.machineSpeedValue).setOnUpdate((float val) =&gt; {
+        conveyourRenderer.material.mainTextureOffset = new Vector2(0, -val * 2);
+      });
+            
+      yield return new WaitForSeconds(Game_.instance.upgrades.machineSpeedValue);
+      outShelf.SpawnCollectable(currentProduct);
+    }
+  }
+  StartCoroutine(Factory()); // Recursive loop for continuous production
+}</code></pre>
+            <button class="snippet-expand-btn" type="button" data-expand>Expand</button>
+          </div>
+      <p><b>Dynamic Progression System:</b> The game progression was carefully balanced using progression curves (AnimationCurve) and mathematical formulas for the upgrade system. This allowed for gradual and rewarding content unlocking, keeping players engaged long-term.</p>
+      <div class="code-snippet-collapsible" data-snippet>
+<pre><code class="language-csharp">public int holdItensValue {
+  get {
+    return (int)Game_.instance.priceManager.holdItens.Evaluate((float)holdItensLevel / (maxLevel - 1));
+  }
+}
+
+public float machineSpeedValue {
+  get {
+    return Game_.instance.priceManager.machineSpeed.Evaluate((float)machineSpeedLevel / (maxLevel - 1));
+  }
+}</code></pre>
+      <button class="snippet-expand-btn" type="button" data-expand>Expand</button>
+      </div>
+      <p><b>Data Management System: A Persistent Save/Load System:</b> To ensure player data persistence, we implemented an automatic data serialization system. A debounce system was integrated to optimize saves, and async/await operations were used to ensure save/load operations were non-blocking, preventing freezes in the user experience.</p>
+      <p><b>Contextual Tutorial:</b> We developed a step-by-step tutorial system with player action validation. Tutorial progress is persisted via PlayerPrefs, and dynamic UI with visual indicators offers non-intrusive guidance, allowing players to learn at their own pace without breaking the game's flow.</p>
+      <p><b>Optimizations and Performance</b></p>
+      <ul>
+      <li><b>Object Pooling:</b> Significantly reduced garbage collection for frequently instantiated particles and objects.</li>
+      <li><b>Tweening System:</b> Used for performant animations, resulting in fluid visual feedback without impacting frame rate.</li>
+      <li><b>Modular Loading:</b> A building manager system that activates/deactivates objects as needed, optimizing memory usage through lazy loading.</li>
+      </ul>
+        </section>
+        <section id="results" class="case-section">
+          <h2>Results</h2>
+          <p><b>Technical Challenges Solved</b></p>
+          <p>During CandyWorld's development, we faced and resolved complex challenges such as economic balancing (through mathematical curves), <b>mobile performance</b> optimization (rendering and memory), creating a <b>robust save system</b> (preventing data loss with debouncing), developing <b>behavioral AI</b> for natural and non-repetitive NPCs, and implementing a <b>non-intrusive tutorial</b>.</p>
+          <p><b>Results and Technical Metrics</b></p>
+          <p>CandyWorld achieved consistent <b>60 FPS</b> on mid-range devices and an <b>optimized memory footprint</b>, staying below <b>200MB</b>. The modular architecture ensures <b>high scalability</b> for easy content addition and <b>excellent maintainability</b>, with clear separation of responsibilities.</p>
+          <p>This project demonstrates my proficiency in <b>software architecture</b>, <b>mobile optimization</b>, <b>AI implementation</b>, <b>complex game design systems</b>, and <b>third-party SDK integration</b> essential competencies for developing commercial and high-performance games.</p>
+        </section>
+      </div>
+    </div>
+  </main>
+  <script src="../../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+  <script src="../../assets/js/main.js"></script>
+  <script>
+    (function(){
+      const toc = document.getElementById('toc');
+      const links = [...toc.querySelectorAll('a')];
+      const bar = document.getElementById('progressRead');
+      const secs = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+      
+      // TOC Collapsible for mobile
+      const tocHeader = toc.querySelector('h3');
+      
+      function setupMobileTOC() {
+        if (window.innerWidth <= 768) {
+          toc.classList.add('collapsed');
+          if (tocHeader && !tocHeader.onclick) {
+            tocHeader.addEventListener('click', function() {
+              toc.classList.toggle('collapsed');
+            });
+          }
+        } else {
+          toc.classList.remove('collapsed');
+          if (tocHeader) {
+            tocHeader.onclick = null;
+          }
+        }
+      }
+      
+      setupMobileTOC();
+      window.addEventListener('resize', setupMobileTOC);
+      
+      function onScroll() {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        bar.style.width = Math.max(0, (window.scrollY / Math.max(1, max)) * 100) + '%';
+      }
+      
+      const io = new IntersectionObserver(es => {
+        es.forEach(e => {
+          if (e.isIntersecting) {
+            links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
+          }
+        });
+      }, { rootMargin: '-35% 0px -55% 0px' });
+      
+      secs.forEach(s => io.observe(s));
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
+  </script>
+</body>
+</html>

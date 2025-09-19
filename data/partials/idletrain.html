@@ -1,0 +1,85 @@
+<div class="">
+  <div class="case-content">
+    <section class="case-section" aria-labelledby="idletrain-intro">
+      <h2 id="idletrain-intro">Technical Analysis: IdleTrain - Incremental Railway Management System</h2>
+      <p><b>IdleTrain</b> is a sophisticated idle/incremental mobile game we developed in Unity 3D, focusing on railway management, passenger transportation, and exponential progression mechanics. This project demonstrates advanced implementation of complex game systems, mathematical balancing, and performance optimization techniques for mobile platforms while maintaining engaging idle gameplay mechanics.</p>
+    </section>
+    <section class="case-section" aria-labelledby="idletrain-arq">
+      <h2 id="idletrain-arq">Architecture and Design Patterns</h2>
+      <p><b>IdleTrain's</b> architecture was meticulously designed using proven software engineering principles to ensure scalability and maintainability. We implemented the <b>State Machine Pattern</b> to manage core game flow transitions (Start → Game → End), providing deterministic state management and simplified debugging workflows.</p>
+      <p><b>The Singleton Pattern</b> was strategically employed for the central Game_ class, creating a unified access point for all critical systems including Audio_, Particle_, UI_, Camera_, and SaveSystem_. This architecture ensures efficient cross-system communication while maintaining loose coupling between components.</p>
+      <p><b>A Component-Based Architecture</b> was fundamental to the design, where each entity (Train_, Wagon_, Passenger_, Station_) operates as an independent, modular component with clearly defined responsibilities. This approach facilitated easy feature expansion and maintenance without affecting other system components.</p>
+    </section>
+    <section class="case-section" aria-labelledby="idletrain-mov">
+      <h2 id="idletrain-mov">Procedural Movement and Pathfinding System</h2>
+      <p>We developed a sophisticated movement system using Bézier curves (LTBezierPath) for smooth, natural train movement along complex railway tracks.</p>
+      <div class="featured-image"><img class="img-fluid project-image d-block mx-auto gif-normal" src="assets/images/projects/track.gif" alt="IdleTrain track bezier gif" width="300" loading="lazy" decoding="async" /></div>
+      <p><b>The system implements:</b></p>
+      <p><b>Ratio-based positioning</b> (0-1 normalized coordinates) for precise multi-object placement; <b>Dynamic path recalculation</b> when trains encounter fork junctions; <b>Real-time bezier curve interpolation</b> for fluid movement across varying track geometries.</p>
+<pre><code class="language-csharp">public void CalculateTrack(TrackSegment_ startSegment) {
+    // Dynamic pathfinding with bezier curve regeneration
+    bezier = new LTBezierPath(pathPoints);
+    Game_.instance.rule_.train.ratio = bezier.ratioAtPoint(pointRatio);
+}</code></pre>
+    </section>
+    <section class="case-section" aria-labelledby="idletrain-merge">
+      <h2 id="idletrain-merge">Intelligent Merge and Upgrade System</h2>
+      <p>We implemented a complex 3-to-1 merge algorithm with automatic detection and level progression:</p>
+      <div class="featured-image"><img class="img-fluid project-image d-block mx-auto gif-normal" src="assets/images/projects/merge.gif" alt="IdleTrain merge gif" width="300" loading="lazy" decoding="async" /></div>
+<pre><code class="language-csharp">public bool CanMerge() {
+    for (int i = 0; i &lt;= maxLevel; i++) {
+        for (int j = 0; j &lt; wagons.Count; j++) {
+            if (wagons[j].Level == i &amp;&amp; wagonsToMerge.Count &lt; 3) {
+                wagonsToMerge.Add(wagons[j]);
+            }
+        }
+    }
+    return wagonsToMerge.Count == 3;
+}</code></pre>
+      <p><b>Optimized scanning algorithm</b> that efficiently identifies merge opportunities; <b>Level-based material switching</b> with dynamic color progression; <b>Animated merge sequences</b> with particle effects and audio feedback.</p>
+    </section>
+    <section class="case-section" aria-labelledby="idletrain-economia">
+      <h2 id="idletrain-economia">Dynamic Economy and Progression Balancing</h2>
+      <p>The economic system features mathematically balanced progression curves: <b>Multi-variable upgrade pricing</b> with quadratic scaling; <b>Real-time money-per-second</b> calculation using sampling algorithms; <b>Track-based difficulty scaling</b> that adjusts progression per level; <b>Passenger value exponential scaling</b> (10 × 5^passenger_level).</p>
+<pre><code class="language-csharp">public ulong PriceFormula(float A, float B, float C, int level, int trackMultiplier) {
+    level = level + (trackMultiplier * Game_.instance.data.track);
+    return (ulong)(A * Mathf.Pow(level, 2) + (B * level) + C);
+}</code></pre>
+    </section>
+    <section class="case-section" aria-labelledby="idletrain-save">
+      <h2 id="idletrain-save">Robust Save/Load and Data Persistence</h2>
+      <p>We developed a comprehensive data persistence system with: <b>JSON serialization</b> for cross-platform compatibility; <b>Automatic data validation</b> and migration between game versions; <b>Debounced auto-save</b> to prevent performance spikes; <b>Data integrity checks</b> ensuring save file consistency.</p>
+    </section>
+    <section class="case-section" aria-labelledby="idletrain-audio">
+      <h2 id="idletrain-audio">Advanced Audio System Implementation</h2>
+      <p>We created a dynamic audio system with real-time pitch modulation based on train speed:</p>
+<pre><code class="language-csharp">float pitch = Mathf.Lerp(minPitch, maxPitch, speed / maxSpeed);
+audioSource.pitch = pitch;</code></pre>
+    </section>
+    <section class="case-section" aria-labelledby="idletrain-optimizations">
+      <h2 id="idletrain-optimizations">Optimizations and Performance</h2>
+      <p><b>Object Pooling:</b> Dramatically reduced garbage collection for frequently spawned UI elements (money effects, particles), maintaining consistent frame rates during intensive gameplay moments.</p>
+      <p><b>Coroutine-Based Asynchronous Operations:</b> Used coroutines for non-blocking operations like speed boosts and UI animations, preventing frame drops during complex calculations.</p>
+      <p><b>Efficient Component Caching:</b> Pre-cached frequently accessed components to eliminate expensive GetComponent() calls in Update loops, significantly improving CPU performance.</p>
+      <p><b>Dynamic Camera Management:</b> Implemented smooth camera transitions with mathematical interpolation, providing seamless visual feedback as players progress through track expansions.</p>
+    </section>
+    <section class="case-section" aria-labelledby="idletrain-challenges">
+      <h2 id="idletrain-challenges">Complex Technical Challenges Resolved</h2>
+      <p><b>Mathematical Game Balancing:</b> Developed and implemented exponential progression curves that maintain player engagement across extended play sessions while preventing economic exploitation.</p>
+      <p><b>Multi-Object Bezier Positioning:</b> Solved complex mathematical challenges in positioning multiple train cars along curved paths with accurate spacing and rotation.</p>
+      <p><b>Memory Management Optimization:</b> Implemented efficient object lifecycle management preventing memory leaks during extended gameplay sessions, crucial for idle game retention.</p>
+      <p><b>Cross-Platform Data Consistency:</b> Ensured save game compatibility across different devices and game versions through robust serialization and validation systems.</p>
+      <p><b>Real-Time Economic Calculations:</b> Developed efficient algorithms for calculating money-per-second metrics without impacting frame rate during intensive gameplay.</p>
+    </section>
+    <section class="case-section" aria-labelledby="idletrain-resultados">
+      <h2 id="idletrain-resultados">Technical Metrics and Results</h2>
+      <p><b>Consistent 60 FPS</b> on mid-tier mobile devices (Android 7.0+, iOS 12+) — <b>Memory footprint under 180MB</b> during peak gameplay with multiple systems active — <b>Load times under 3 seconds</b> for level transitions and game initialization — <b>Zero memory leaks</b> during extended testing sessions (8+ hours continuous play) — <b>Sub-100ms save operations</b> preventing gameplay interruption.</p>
+      <p>The modular architecture demonstrates <b>high scalability</b> for content expansion, <b>excellent maintainability</b> with clear separation of concerns, and <b>robust error handling</b> preventing crashes during edge cases.</p>
+    </section>
+    <section class="case-section" aria-labelledby="idletrain-competencias">
+      <h2 id="idletrain-competencias">Professional Impact and Technical Competencies</h2>
+      <p>This project showcases expertise in <b>advanced software architecture, mobile game optimization, complex mathematical balancing, idle game progression design, and professional SDK integration</b>. The implementation demonstrates production-ready code quality with comprehensive error handling, performance optimization, and scalable architecture suitable for commercial game development environments.</p>
+    </section>
+  </div>
+  <div class="case-sidebar"></div>
+</div>

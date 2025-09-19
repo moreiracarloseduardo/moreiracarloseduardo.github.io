@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IdleTrain – Procedural Bézier & Scalable Economy</title>
+  <meta name="theme-color" content="#0B1220">
+  <meta name="description" content="IdleTrain: Procedural Bézier curves, 3→1 merge, scalable economy, and robust persistence." />
+  <link rel="canonical" href="https://moreiracarloseduardo.github.io/case/idletrain/" />
+  <meta property="og:title" content="IdleTrain – Procedural Bézier & Scalable Economy">
+  <meta property="og:description" content="Procedural Bézier curves, 3→1 merge, scalable economy, and robust persistence.">
+  <meta property="og:image" content="https://moreiracarloseduardo.github.io/assets/images/projects/train.jpg">
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://moreiracarloseduardo.github.io/case/idletrain/" />
+  <meta property="og:locale" content="en_US" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="IdleTrain – Procedural Bézier & Scalable Economy" />
+  <meta name="twitter:description" content="Procedural Bézier curves, 3→1 merge, scalable economy, and robust persistence." />
+  <meta name="twitter:image" content="https://moreiracarloseduardo.github.io/assets/images/projects/train.jpg" />
+  <link rel="stylesheet" href="../../assets/plugins/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+  <style>
+    :root{ view-transition-name: none; }
+    .case-hero{min-height: 48vh; padding: var(--space-8) 0 var(--space-5); position:relative;}
+    .case-hero::before{content:""; position:absolute; inset:0; background: radial-gradient(circle at 65% 35%, rgba(var(--color-accent-rgb),0.18), transparent 60%), radial-gradient(circle at 25% 70%, rgba(var(--color-accent-alt-rgb),0.15), transparent 65%); filter: blur(24px); opacity:.8;}
+  .case-title{font-size:clamp(1.6rem,1.1rem + 2.2vw,2.6rem); color: var(--color-text-100); margin:0 0 .5rem; letter-spacing:-.5px;}
+    .case-sub{color: var(--color-text-500); max-width: 70ch;}
+    .case-meta{display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1rem}
+    .case-meta .metric-badge{font-size:.65rem}
+    .case-layout{display:grid; grid-template-columns: 260px 1fr; gap: var(--space-5);} 
+  @media (max-width: 992px){ .case-layout{grid-template-columns: 1fr;} .case-toc{position:static!important; margin-bottom: var(--space-4);} }
+    .case-toc{position: sticky; top: 96px; align-self:start; background: linear-gradient(155deg, var(--color-surface-700), var(--color-surface-600)); border:1px solid var(--color-border); border-radius: var(--radius); padding: var(--space-4);}
+    .case-toc h3{font-size:.85rem; text-transform:uppercase; letter-spacing:.8px; color: var(--color-text-300); margin:0 0 .5rem}
+    .case-toc a{display:block; color: var(--color-text-500); padding:.4rem .25rem; border-radius:8px}
+    .case-toc a.active{color:#fff; background: rgba(var(--color-accent-rgb),0.15); border:1px solid rgba(var(--color-accent-rgb),0.35)}
+    .case-content{display:grid; gap: var(--space-6);} 
+    .case-section{background: linear-gradient(160deg, var(--color-surface-700), var(--color-surface-600)); border:1px solid var(--color-border); border-radius: var(--radius); padding: var(--space-5);}
+    .progress-read{position:fixed; top:0; left:0; height:3px; width:0; background: linear-gradient(90deg, var(--color-accent), var(--color-accent-alt)); z-index:9999}
+  .case-hero-media{margin-top:1rem; border-radius: var(--radius); overflow:hidden; border:1px solid var(--color-border)}
+  
+  /* Critical mobile layout fixes */
+  @media (max-width: 768px) {
+    .case-layout {
+      grid-template-columns: 1fr !important;
+      gap: var(--space-3) !important;
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+    
+    .case-toc {
+      position: static !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 0 var(--space-3) 0 !important;
+      padding: var(--space-3) !important;
+    }
+    
+    .case-content {
+      width: 100% !important;
+      max-width: 100% !important;
+      gap: var(--space-3) !important;
+    }
+    
+    .case-section {
+      width: 100% !important;
+      max-width: 100% !important;
+      padding: var(--space-3) !important;
+      margin: 0 !important;
+      box-sizing: border-box !important;
+    }
+    
+    .case-title{font-size:clamp(1.35rem,1.05rem + 1.2vw,1.8rem);} 
+    .case-sub{font-size:clamp(.95rem,.9rem + .3vw,1.05rem);} 
+  }
+  @media (max-width: 576px){ 
+    .case-hero{ padding: var(--space-6) 0 var(--space-4);} 
+    .case-section {
+      padding: var(--space-2) var(--space-3) !important;
+    }
+    .case-toc {
+      padding: var(--space-2) !important;
+    }
+  }
+  @media (max-width: 480px) {
+    .case-title {
+      font-size: clamp(1.25rem, 1rem + 1vw, 1.6rem) !important;
+      line-height: 1.2;
+    }
+    .case-sub {
+      font-size: clamp(0.9rem, 0.85rem + 0.3vw, 1rem) !important;
+    }
+  }
+  @media (max-width: 360px) {
+    .case-title {
+      font-size: clamp(1.1rem, 0.9rem + 0.8vw, 1.4rem) !important;
+      line-height: 1.15;
+    }
+    .case-sub {
+      font-size: clamp(0.85rem, 0.8rem + 0.25vw, 0.95rem) !important;
+      line-height: 1.4;
+    }
+    .case-meta .metric-badge {
+      font-size: 0.6rem;
+    }
+    .case-section {
+      padding: var(--space-2) !important;
+    }
+  }
+  </style>
+  <script type="application/ld+json">{
+    "@context":"https://schema.org",
+    "@type":"Article",
+  "headline":"IdleTrain – Procedural Bézier & Scalable Economy",
+  "description":"Procedural Bézier curves, 3→1 merge, scalable economy, and robust persistence.",
+    "url":"https://moreiracarloseduardo.github.io/case/idletrain/",
+  "inLanguage":"en-US",
+    "image":"https://moreiracarloseduardo.github.io/assets/images/projects/train.jpg",
+    "author": {"@type":"Person","name":"Carlos Eduardo"}
+  }</script>
+</head>
+<body>
+  <div class="progress-read" id="progressRead"></div>
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top" style="background: linear-gradient(140deg, var(--color-surface-700), var(--color-surface-600)); border-bottom:1px solid var(--color-border)">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="../../#top">
+        <img src="../../assets/images/profile.png" alt="Foto" class="nav-avatar" width="28" height="28" />
+        <span>Carlos Eduardo</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topnav" aria-controls="topnav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="topnav">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+          <li class="nav-item"><a class="nav-link" href="../../#featured-projects">Home</a></li>
+          <li class="nav-item nav-social d-flex align-items-center ms-lg-3">
+            <a href="https://www.linkedin.com/in/carlos-eduardo-m-31755b134/?locale=en_US" target="_blank" aria-label="LinkedIn" class="nav-social-link"><svg class="icon" aria-hidden="true"><use href="../../#i-linkedin"/></svg></a>
+            <a href="https://www.instagram.com/kadu_gamedev/" target="_blank" aria-label="Instagram" class="nav-social-link ms-2"><svg class="icon" aria-hidden="true"><use href="../../#i-instagram"/></svg></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <section class="case-hero">
+    <div class="container">
+  <h1 class="case-title" style="view-transition-name: vt-idle-title">IdleTrain – Incremental Railway Management System</h1>
+  <p class="case-sub">Procedural Bézier movement, 3→1 merge, scalable economy and robust persistence.</p>
+      <div class="case-hero-media-wrap case-hero-media">
+        <picture data-opt-image>
+        <source type="image/avif" srcset="../../assets/images/projects/train.jpg.avif">
+        <source type="image/webp" srcset="../../assets/images/projects/train.jpg.webp">
+        <img src="../../assets/images/projects/train.jpg" alt="IdleTrain cover" width="1280" height="720" style="width:100%;height:auto;view-transition-name: vt-idle-cover" loading="eager" decoding="async">
+        </picture>
+        <img class="case-hero-gif" src="../../assets/images/projects/IdleTrain.gif" alt="IdleTrain gameplay gif" loading="lazy" decoding="async" />
+      </div>
+    </div>
+  </section>
+  <main class="container" style="padding: var(--space-6) 0 var(--space-8)">
+    <div class="case-layout">
+      <aside class="case-toc" id="toc">
+        <h3>Contents</h3>
+        <div class="toc-links">
+          <a href="#overview">Overview</a>
+          <a href="#movement">Procedural Movement</a>
+          <a href="#merge">Merge & Upgrades</a>
+          <a href="#economy">Economy</a>
+          <a href="#persistence">Save/Load</a>
+          <a href="#audio">Audio</a>
+          <a href="#optimization">Optimization</a>
+          <a href="#challenges">Challenges</a>
+          <a href="#results">Results</a>
+        </div>
+      </aside>
+      <div class="case-content">
+        <section id="overview" class="case-section">
+          <h2>Technical Analysis: IdleTrain – Incremental Railway Management System</h2>
+          <p><b>IdleTrain</b> is a sophisticated idle/incremental mobile game developed in Unity 3D, focusing on railway management, passenger transportation, and exponential progression mechanics. This project demonstrates advanced implementation of complex game systems, mathematical balancing, and performance optimization techniques for mobile platforms while maintaining engaging idle gameplay mechanics.</p>
+          <p><b>Architecture and Design Patterns</b></p>
+          <p>IdleTrain's architecture was meticulously designed using proven software engineering principles to ensure scalability and maintainability. We implemented the <b>State Machine Pattern</b> to manage core game flow transitions (Start → Game → End), providing deterministic state management and simplified debugging workflows. The <b>Singleton</b> pattern was strategically employed for the central <code>Game_</code> class, creating a unified access point for all critical systems including <code>Audio_</code>, <code>Particle_</code>, <code>UI_</code>, <code>Camera_</code>, and <code>SaveSystem_</code>. A <b>Component‑Based Architecture</b> was fundamental: each entity (Train_, Wagon_, Passenger_, Station_) operates as an independent, modular component with clearly defined responsibilities.</p>
+        </section>
+        <section id="movement" class="case-section">
+          <h2>Procedural Movement and Pathfinding System</h2>
+          <p>We developed a sophisticated movement system using Bézier curves (LTBezierPath) for smooth, natural train movement along complex railway tracks.</p>
+          <div class="featured-image" style="margin:.5rem 0 1rem">
+            <img class="img-fluid project-image d-block mx-auto gif-normal" src="../../assets/images/projects/track.gif" alt="IdleTrain track bezier gif" width="300" loading="lazy" decoding="async" />
+          </div>
+          <div class="code-snippet-collapsible" data-snippet>
+<pre><code class="language-csharp">public void CalculateTrack(TrackSegment_ startSegment) {
+    // Dynamic pathfinding with bezier curve regeneration
+    bezier = new LTBezierPath(pathPoints);
+    Game_.instance.rule_.train.ratio = bezier.ratioAtPoint(pointRatio);
+}</code></pre>
+            <button class="snippet-expand-btn" type="button" data-expand>Expand</button>
+          </div>
+          <p><b>The system implements:</b> ratio‑based positioning (0‑1 normalized), dynamic path recalculation at forks, and real‑time bezier interpolation for fluid movement across varying track geometries.</p>
+        </section>
+        <section id="merge" class="case-section">
+          <h2>Intelligent Merge and Upgrade System</h2>
+          <p>We implemented a complex 3‑to‑1 merge algorithm with automatic detection and level progression.</p>
+          <div class="featured-image" style="margin:.5rem 0 1rem">
+            <img class="img-fluid project-image d-block mx-auto gif-normal" src="../../assets/images/projects/merge.gif" alt="IdleTrain merge gif" width="300" loading="lazy" decoding="async" />
+          </div>
+          <div class="code-snippet-collapsible" data-snippet>
+<pre><code class="language-csharp">public bool CanMerge() {
+  for (int i = 0; i &lt;= maxLevel; i++) {
+    for (int j = 0; j &lt; wagons.Count; j++) {
+      if (wagons[j].Level == i &amp;&amp; wagonsToMerge.Count &lt; 3) {
+        wagonsToMerge.Add(wagons[j]);
+      }
+    }
+  }
+  return wagonsToMerge.Count == 3;
+}</code></pre>
+            <button class="snippet-expand-btn" type="button" data-expand>Expand</button>
+          </div>
+          <p><b>Economic balancing</b> through exponential pricing formulas:</p>
+          <div class="code-snippet-collapsible" data-snippet>
+<pre><code class="language-csharp">public ulong PriceFormula(float A, float B, float C, int level, int trackMultiplier) {
+    level = level + (trackMultiplier * Game_.instance.data.track);
+    return (ulong)(A * Mathf.Pow(level, 2) + (B * level) + C);
+}</code></pre>
+            <button class="snippet-expand-btn" type="button" data-expand>Expand</button>
+          </div>
+        </section>
+        <section id="economy" class="case-section">
+          <h2>Dynamic Economy and Progression Balancing</h2>
+          <p>The economic system features mathematically balanced progression curves: multi‑variable upgrade pricing with quadratic scaling, real‑time money‑per‑second calculation using sampling algorithms, track‑based difficulty scaling per level, and passenger value exponential scaling (10 × 5^passenger_level).</p>
+        </section>
+        <section id="persistence" class="case-section">
+          <h2>Robust Save/Load and Data Persistence</h2>
+          <p>We developed a comprehensive data persistence system with JSON serialization for cross‑platform compatibility, automatic data validation and migration between game versions, debounced auto‑save to prevent performance spikes, and data integrity checks ensuring save file consistency.</p>
+        </section>
+        <section id="audio" class="case-section">
+          <h2>Advanced Audio System Implementation</h2>
+          <p>Dynamic audio with real‑time pitch modulation based on train speed.</p>
+          <div class="code-snippet-collapsible" data-snippet>
+<pre><code class="language-csharp">float pitch = Mathf.Lerp(minPitch, maxPitch, speed / maxSpeed);
+audioSource.pitch = pitch;</code></pre>
+            <button class="snippet-expand-btn" type="button" data-expand>Expand</button>
+          </div>
+        </section>
+        <section id="optimization" class="case-section">
+          <h2>Optimizations and Performance</h2>
+          <ul>
+            <li><b>Object Pooling:</b> Dramatically reduced GC for frequently spawned UI elements and particles.</li>
+            <li><b>Coroutine‑Based Async:</b> Non‑blocking boosts and UI animations.</li>
+            <li><b>Efficient Component Caching:</b> Eliminated costly GetComponent() in Update loops.</li>
+            <li><b>Dynamic Camera Management:</b> Smooth transitions with mathematical interpolation.</li>
+          </ul>
+        </section>
+        <section id="challenges" class="case-section">
+          <h2>Complex Technical Challenges Resolved</h2>
+          <ul>
+            <li>Exponential progression curves balancing long‑term engagement while preventing exploits.</li>
+            <li>Multi‑object Bézier positioning with accurate spacing and rotation.</li>
+            <li>Memory lifecycle management preventing leaks during extended idle sessions.</li>
+            <li>Cross‑version save compatibility with validation/migration.</li>
+            <li>Real‑time economic metrics without impacting frame rate.</li>
+          </ul>
+        </section>
+        <section id="results" class="case-section">
+          <h2>Technical Metrics and Results</h2>
+          <p><b>Consistent 60 FPS</b> on mid‑tier mobile devices; <b>Memory footprint &lt; 180MB</b> during peak gameplay; <b>Load times &lt; 3s</b> for transitions; <b>Zero memory leaks</b> in 8h+ sessions; <b>Sub‑100ms save operations</b> with debouncing.</p>
+          <p>The modular architecture enables <b>high scalability</b>, <b>excellent maintainability</b>, and <b>robust error handling</b>, showcasing competencies in advanced software architecture, mobile optimization, complex balancing, idle progression design, and SDK integration.</p>
+        </section>
+      </div>
+    </div>
+  </main>
+  <script src="../../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+  <script src="../../assets/js/main.js"></script>
+  <script>
+    (function(){
+      const toc = document.getElementById('toc');
+      const links = [...toc.querySelectorAll('a')];
+      const bar = document.getElementById('progressRead');
+      const secs = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+      
+      // TOC Collapsible for mobile
+      const tocHeader = toc.querySelector('h3');
+      
+      function setupMobileTOC() {
+        if (window.innerWidth <= 768) {
+          toc.classList.add('collapsed');
+          if (tocHeader && !tocHeader.onclick) {
+            tocHeader.addEventListener('click', function() {
+              toc.classList.toggle('collapsed');
+            });
+          }
+        } else {
+          toc.classList.remove('collapsed');
+          if (tocHeader) {
+            tocHeader.onclick = null;
+          }
+        }
+      }
+      
+      setupMobileTOC();
+      window.addEventListener('resize', setupMobileTOC);
+      
+      function onScroll() {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        bar.style.width = Math.max(0, (window.scrollY / Math.max(1, max)) * 100) + '%';
+      }
+      
+      const io = new IntersectionObserver(es => {
+        es.forEach(e => {
+          if (e.isIntersecting) {
+            links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
+          }
+        });
+      }, { rootMargin: '-35% 0px -55% 0px' });
+      
+      secs.forEach(s => io.observe(s));
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
+  </script>
+</body>
+</html>

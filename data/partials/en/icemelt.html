@@ -1,0 +1,79 @@
+<div class="">
+  <div class="case-content">
+    <section class="case-section" aria-labelledby="icemelt-intro">
+      <h2 id="icemelt-intro">Technical Analysis: IceMeltRace</h2>
+      <p><b>IceMeltRace</b> features a real-time ice melting system combining advanced Unity tech for an immersive mechanic, demonstrating shader programming, real-time rendering, physics, and optimization expertise.</p>
+      <p><b>Key Achievement:</b> Fully dynamic ice interaction with flamethrower heat mapping, maintaining 60+ FPS while converting ice to water resources.</p>
+    </section>
+    <section class="case-section" aria-labelledby="icemelt-shader">
+      <h2 id="icemelt-shader">Heatmap Shader</h2>
+      <div class="featured-image"><img class="img-fluid project-image hover-lift" src="assets/images/projects/shader.jpg" alt="Ice shader preview" loading="lazy" decoding="async" /></div>
+<pre><code class="language-csharp">// Custom Ice Shader with Real-time Heat Mapping
+float4 heatData = SampleTexture2D(RenderTexture, screenUV);
+float meltThreshold = 0.5;
+float3 finalColor = lerp(iceColor, waterColor, heatData.r);
+float alpha = step(meltThreshold, heatData.r);
+</code></pre>
+      <p><b>Material Properties:</b> Heatmap RenderTexture input, Fresnel edges, normal mapping, transparency control, refraction.</p>
+      <p><b>Innovation:</b> Flamethrower particles paint heat values into a render texture read by the shader for realistic melting.</p>
+    </section>
+    <section class="case-section" aria-labelledby="icemelt-grid">
+      <h2 id="icemelt-grid">Modular Grid Architecture</h2>
+<pre><code class="language-csharp">// Procedural Ice Block Generation
+for (int i = 0; i &lt; widthObject; i++) {
+    for (int j = 0; j &lt; heightObject; j++) {
+        Vector3 position = CalculateGridPosition(i, j);
+        GameObject iceBlock = InstantiateIceBlock(position);
+        ConfigurePhysicsAndNavigation(iceBlock);
+    }
+}</code></pre>
+      <p><b>Scalability:</b> Auto-generates grids of any size; each block is independently meltable and auto-regenerates after 10 seconds.</p>
+    </section>
+    <section class="case-section" aria-labelledby="icemelt-cable">
+      <h2 id="icemelt-cable">Cable Physics</h2>
+      <div class="featured-image"><img class="img-fluid project-image d-block mx-auto gif-normal" src="assets/images/projects/IceMeltRope.gif" alt="Ice Melt Race rope physics gif" width="300" loading="lazy" decoding="async" /></div>
+<pre><code class="language-csharp">// Collision Detection Mode Management
+if (i != 0 &amp;&amp; i != (segmentsQuantity - 1)) {
+    rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
+}
+</code></pre>
+<pre><code class="language-csharp">// Cascading Scale Animation
+void Animate() {
+    for (int i = 0; i &lt; cableSegments.Length; i++) {
+        LeanTween.scale(cableSegments[i].transform.GetChild(0).gameObject, 
+                       Vector3.one * 1.3f, 0.3f)
+                .setFrom(Vector3.one * 0.9f)
+                .setEaseOutSine()
+                .setLoopPingPong()
+                .setDelay(i * 0.05f);
+    }
+}</code></pre>
+      <p><b>Impact:</b> Wave-like animations along the cable; clear resource flow feedback.</p>
+    </section>
+    <section class="case-section" aria-labelledby="icemelt-pooling">
+      <h2 id="icemelt-pooling">Intelligent Object Pooling</h2>
+<pre><code class="language-csharp">// Threshold-Based Effect Spawning
+Game_.instance.particle_.countToSpawnParticle++;
+if (countToSpawnParticle &gt;= 10) {
+    LeanPool.Spawn(waterPuddleFx, position, rotation);
+    countToSpawnParticle = 0;
+}</code></pre>
+      <p><b>Result:</b> ~85% GC reduction; consistent FPS during heavy melting.</p>
+    </section>
+    <section class="case-section" aria-labelledby="icemelt-architecture">
+      <h2 id="icemelt-architecture">Cable System Architecture</h2>
+      <div class="featured-image"><img class="img-fluid project-image d-block mx-auto gif-normal" src="assets/images/projects/rope.png" alt="Rope system architecture" width="300" loading="lazy" decoding="async" /></div>
+      <p><b>Segmented Physics Chain:</b> 20+ segments (Rigidbody + CapsuleCollider), <b>ConfigurableJoint</b> links, material variation, proper layers.</p>
+<pre><code class="language-csharp">public void ConnectCable(bool startSegment, Transform newTransform) {
+    AwakeRigidbodies();
+    int id = startSegment ? 0 : cableSegments.Length - 1;
+    cableSegments[id].GetComponent&lt;Rigidbody&gt;().isKinematic = true;
+    cableSegments[id].transform.parent = newTransform;
+    LeanTween.moveLocal(cableSegments[id].gameObject, Vector3.zero, 0.2f);
+    LeanTween.rotateLocal(cableSegments[id].gameObject, Vector3.zero, 0.2f);
+}</code></pre>
+      <p><b>Resource Transfer Visualization:</b> Bidirectional animation (fuel forward, water backward), particle jets, 3D audio feedback, and smart disconnection by resource level.</p>
+    </section>
+  </div>
+  <div class="case-sidebar"></div>
+</div>

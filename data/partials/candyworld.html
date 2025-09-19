@@ -1,0 +1,116 @@
+<div class="">
+  <div class="case-content">
+    <section class="case-section" aria-labelledby="candyworld-intro">
+      <h2 id="candyworld-intro">Technical Analysis: CandyWorld - Idle Management Game</h2>
+      <p><b>CandyWorld</b> is an idle/management mobile game project we developed in Unity 3D, focusing on creating an automated production chain and non-linear progression. This project served as an in-depth study of various <b>software architectures, design patterns</b>, and <b>performance optimizations</b> for mobile platforms.</p>
+    </section>
+    <section class="case-section" aria-labelledby="candyworld-arquitetura">
+      <h2 id="candyworld-arquitetura">Architecture and Design Patterns</h2>
+      <p><b>CandyWorld's</b> architecture was carefully planned to ensure scalability, maintainability, and robustness. We utilized the <b>State Machine Pattern</b> to manage the behavior of various entities like players, customers, and production processes. This allowed for controlled state transitions and simplified debugging, leading to predictable and logical behaviors for NPCs (Idle → Find → Move → Buy → Leave).</p>
+      <p>The <b>Singleton Pattern</b> was employed to centralize game control and manage essential systems such as audio (AudioManager), particles (ParticleManager), and UI (UiManager), ensuring efficient global access. Complementarily, the <b>Component-Based Architecture</b> was crucial for modularizing each building, character, and object, making it easier to add new features and maintain the code without impacting other parts of the system.</p>
+    </section>
+    <section class="case-section" aria-labelledby="candyworld-systems">
+      <h2 id="candyworld-systems">Implemented Technical Systems</h2>
+      <p><b>Behavioral AI System:</b> We developed NPCs with autonomous behavior and decision-making. Navigation was implemented using Unity NavMesh, providing natural and efficient pathfinding. This includes a customer patience and satisfaction system to influence the gameplay experience.</p>
+      <div class="featured-image"><img class="img-fluid project-image d-block mx-auto gif-normal" src="assets/images/projects/CandyCustumer.gif" alt="CandyWorld customer AI gif" width="300" loading="lazy" decoding="async" /></div>
+<pre><code class="language-csharp">public enum AiStates { Idle, Find, Buy, Move, Leave };
+
+void Find_Enter() {
+    targetShelf = Game_.instance.buildingsManager.shelves[Random.Range(0, Game_.instance.upgrades.shelfsUnlocked)].GetComponent&lt;Shelf_&gt;();
+    NavMesh.SamplePosition(targetShelf.transform.position, out NavMeshHit hit, 10, NavMesh.AllAreas);
+    target = hit.position;
+    agent.SetDestination(target);
+    
+    // Dynamic product preference system
+    switch (targetShelf.tag) {
+        case "LollipopShelf":
+            productBubbleImage.sprite = productsSprites[0];
+            break;
+        // Visual feedback for customer intent
+    }
+    fsm.ChangeState(AiStates.Move);
+}</code></pre>
+      <p><b>Autonomous Helper AI System:</b> We created an automation system with NPCs that optimize production independently, with a dynamic task prioritization based on game state.</p>
+<pre><code class="language-csharp">void Find_Enter() {
+    Vector3 target = Vector3.zero;
+    if (productsHolder.childCount &gt; 0) {
+        targetShelf = FindShelf(); // Smart shelf selection algorithm
+    } else {
+        targetMachine = FindMachineWithMoreProducts(); // Production bottleneck detection
+        if (targetMachine != null) {
+            target = targetMachine.outShelf.transform.position;
+        }
+    }
+    
+    if (target != Vector3.zero) {
+        NavMesh.SamplePosition(target, out NavMeshHit hit, 20, NavMesh.AllAreas);
+        agent.SetDestination(hit.position);
+    }
+}</code></pre>
+      <div class="featured-image"><img class="img-fluid project-image d-block mx-auto gif-normal" src="assets/images/projects/CandyHelper.gif" alt="CandyWorld helper AI gif" width="300" loading="lazy" decoding="async" /></div>
+      <p><b>Automated Production System:</b> We created a complete production pipeline, from plant and ingredient gathering to product transformation by machines, and finally, sales. Coroutines were used to manage asynchronous processes, and an automatic supply/demand balancing system was implemented to keep the game's economy dynamic.</p>
+      <div class="featured-image"><img class="img-fluid project-image d-block mx-auto gif-normal" src="assets/images/projects/CandyProduction.gif" alt="CandyWorld production pipeline gif" width="300" loading="lazy" decoding="async" /></div>
+<pre><code class="language-csharp">IEnumerator Factory() {
+    yield return new WaitForSeconds(1);
+    if (inShelf.GetLastCollectable() != null) {
+        Ingredient_ ingredient = inShelf.GetLastCollectable() as Ingredient_;
+        IngredientType ingredientType = ingredient.type;
+        
+        for (int i = 0; i &lt; productsPerIngredient; i++) {
+            // Animated production sequence
+            LeanTween.moveLocalY(piston, 0, .2f).setEase(LeanTweenType.easeInCubic).setLoopPingPong(1);
+            yield return new WaitForSeconds(.05f);
+            
+            Product_ currentProduct = Instantiate(product, productStartPoint.position, transform.rotation);
+            currentProduct.flavor = ingredientType;
+            currentProduct.setFlavorMaterial();
+            
+            // Conveyor belt animation with UV scrolling
+            LeanTween.value(gameObject, 0, 1, Game_.instance.upgrades.machineSpeedValue).setOnUpdate((float val) =&gt; {
+                conveyourRenderer.material.mainTextureOffset = new Vector2(0, -val * 2);
+            });
+            
+            yield return new WaitForSeconds(Game_.instance.upgrades.machineSpeedValue);
+            outShelf.SpawnCollectable(currentProduct);
+        }
+    }
+    StartCoroutine(Factory()); // Recursive loop for continuous production
+}</code></pre>
+    </section>
+    <section class="case-section" aria-labelledby="candyworld-progresso">
+      <h2 id="candyworld-progresso">Dynamic Progression System</h2>
+      <p>Game progression was carefully balanced using progression curves (AnimationCurve) and mathematical formulas for the upgrade system. This allowed for gradual and rewarding content unlocking, keeping players engaged long-term.</p>
+<pre><code class="language-csharp">public int holdItensValue {
+    get {
+        return (int)Game_.instance.priceManager.holdItens.Evaluate((float)holdItensLevel / (maxLevel - 1));
+    }
+}
+
+public float machineSpeedValue {
+    get {
+        return Game_.instance.priceManager.machineSpeed.Evaluate((float)machineSpeedLevel / (maxLevel - 1));
+    }
+}</code></pre>
+    </section>
+    <section class="case-section" aria-labelledby="candyworld-save">
+      <h2 id="candyworld-save">Data Management System</h2>
+      <p><b>Persistent Save/Load System:</b> To ensure player data persistence, we implemented an automatic data serialization system. A debounce system was integrated to optimize saves, and async/await operations were used to ensure save/load operations were non-blocking, preventing freezes in the user experience.</p>
+      <p><b>Contextual Tutorial:</b> We developed a step-by-step tutorial system with player action validation. Tutorial progress is persisted via PlayerPrefs, and dynamic UI with visual indicators offers non-intrusive guidance, allowing players to learn at their own pace without breaking the game's flow.</p>
+    </section>
+    <section class="case-section" aria-labelledby="candyworld-optimizations">
+      <h2 id="candyworld-optimizations">Optimizations and Performance</h2>
+      <p><b>Object Pooling:</b> Significantly reduced garbage collection for frequently instantiated particles and objects.</p>
+      <p><b>Tweening System:</b> Used for performant animations, resulting in fluid visual feedback without impacting frame rate.</p>
+      <p><b>Modular Loading:</b> A building manager system that activates/deactivates objects as needed, optimizing memory usage through lazy loading.</p>
+    </section>
+    <section class="case-section" aria-labelledby="candyworld-challenges">
+      <h2 id="candyworld-challenges">Technical Challenges Solved</h2>
+      <p>During CandyWorld's development, we faced and resolved complex challenges such as economic balancing (through mathematical curves), <b>mobile performance</b> (with rendering and memory management optimization), creating a <b>robust save system</b> (preventing data loss with debouncing), developing <b>behavioral AI</b> for natural and non-repetitive NPCs, and implementing a <b>non-intrusive tutorial</b>.</p>
+    </section>
+    <section class="case-section" aria-labelledby="candyworld-resultados">
+      <h2 id="candyworld-resultados">Results and Technical Metrics</h2>
+      <p>CandyWorld achieved consistent <b>60 FPS</b> on mid-range devices and an <b>optimized memory footprint</b>, staying below <b>200MB</b>. The modular architecture ensures <b>high scalability</b> for easy content addition and <b>excellent maintainability</b>, with clear separation of responsibilities. This project demonstrates proficiency in <b>software architecture, mobile optimization, AI implementation, complex game design systems, and third-party SDK integration</b> essential competencies for developing commercial and high-performance games.</p>
+    </section>
+  </div>
+  <div class="case-sidebar"></div>
+</div>

@@ -1,0 +1,83 @@
+<div class="">
+  <div class="case-content">
+    <section class="case-section" id="intro">
+      <h2>Análise Técnica: TennisVR - Física Realista para Meta Quest 2</h2>
+      <p>Jogo para Meta Quest 2 onde os jogadores tentam acertar a bola dentro da quadra adversária. Desenvolvido com Unity, o projeto focou em uma simulação de física avançada para garantir uma experiência de rebatida realista e imersiva.</p>
+      <p><b>TennisVR</b> é um projeto para Meta Quest 2 que explora os limites da simulação de física para criar uma experiência de tênis virtual autêntica. O principal objetivo foi replicar a sensação e o controle de uma raquete real, permitindo que os jogadores executem desde rebatidas simples até jogadas complexas como topspins e slices com naturalidade.</p>
+    </section>
+    <section class="case-section" id="desafio">
+      <h2>O Desafio: A Física da Rebatida em Realidade Virtual</h2>
+      <p>O maior desafio em qualquer jogo de esporte VR que envolve rebater um objeto é a física. Uma implementação com um único <b>collider</b> na raquete não captura as nuances de uma rebatida real. Nesse cenário, não importa se o jogador acerta a bola com a ponta da raquete ou com o "ponto doce" (sweet spot); a velocidade resultante tenderia a ser a mesma, dependendo apenas da velocidade geral do controle. Isso quebra a imersão, pois um jogador experiente espera que a ponta da raquete, movendo-se em um arco, tenha uma velocidade muito maior que a base próxima à mão.</p>
+    </section>
+    <section class="case-section" id="multiponto">
+      <h2>Solução 1: Simulação de Física Multi‑Ponto na Raquete</h2>
+      <p>Para resolver esse problema, implementei uma técnica que simula múltiplos pontos de contato na raquete. Em vez de usar um único collider, a superfície da raquete foi equipada com uma grade de "cápsulas seguidoras" invisíveis, cada uma com seu próprio <b>Rigidbody</b> e <b>Collider</b>.</p>
+      <p>Essas cápsulas não fazem parte da raquete em si, mas a seguem em tempo real. No <b>FixedUpdate()</b>, cada cápsula calcula a velocidade necessária para alcançar seu ponto correspondente na raquete. Como resultado, as cápsulas na extremidade da raquete movem-se mais rápido do que aquelas perto do cabo, simulando o arco de movimento. A bola de tênis colide apenas com essas cápsulas, garantindo que o ponto de impacto determine com precisão a velocidade e a direção da rebatida.</p>
+<pre><code class="language-csharp">// Script que controla cada cápsula seguidora da raquete
+public class RacketPhysicsProxy : MonoBehaviour
+{
+    private Transform followTarget;
+    private Rigidbody rb;
+
+    [SerializeField]
+    private float sensitivity = 100f; // Ajusta a rapidez com que a cápsula segue a raquete
+
+    void Awake()
+    {
+        rb = GetComponent&lt;Rigidbody&gt;();
+    }
+
+    public void SetFollowTarget(Transform target)
+    {
+        followTarget = target;
+        transform.position = target.position;
+        transform.rotation = target.rotation;
+    }
+
+    void FixedUpdate() // O cálculo de física ocorre aqui
+    {
+        // Calcula a velocidade necessária para mover a cápsula até a posição do alvo na raquete
+        Vector3 destination = followTarget.position;
+        Vector3 velocity = (destination - rb.position) * sensitivity;
+        rb.velocity = velocity; // Aplica a velocidade calculada
+        rb.rotation = followTarget.rotation; // Mantém a rotação alinhada
+    }
+}</code></pre>
+    </section>
+    <section class="case-section" id="magnus">
+      <h2>Solução 2: Adicionando Rotação com o Efeito Magnus</h2>
+      <p>Uma rebatida de tênis não se resume apenas à velocidade; a rotação (spin) é fundamental. Para simular os efeitos de <b>topspin</b> e <b>slice</b>, implementei o <b>Efeito Magnus</b>. No momento do impacto, o sistema calcula a velocidade angular (spin) a ser aplicada na bola com base na velocidade e no ângulo da raquete. Em seguida, durante o voo, uma força contínua é aplicada em seu <b>Rigidbody</b>, perpendicular à sua direção de movimento e ao seu eixo de rotação, produzindo uma trajetória autêntica.</p>
+<pre><code class="language-csharp">// Script aplicado na bola de tênis para simular o Efeito Magnus
+[RequireComponent(typeof(Rigidbody))]
+public class TennisBallPhysics : MonoBehaviour
+{
+    private Rigidbody rb;
+    [SerializeField] private float magnusCoefficient = 0.05f;
+
+    void Start() { rb = GetComponent&lt;Rigidbody&gt;(); }
+
+    void FixedUpdate()
+    {
+        if (rb.velocity.magnitude &gt; 0.1f)
+        {
+            Vector3 magnusForce = magnusCoefficient * Vector3.Cross(rb.angularVelocity, rb.velocity);
+            rb.AddForce(magnusForce);
+        }
+    }
+
+    // Chamado no momento da colisão
+    public void ApplySpinOnHit(Vector3 racketVelocity, Vector3 hitNormal)
+    {
+        float spinAmount = Vector3.Dot(racketVelocity, hitNormal);
+        Vector3 spinAxis = Vector3.Cross(rb.velocity, racketVelocity).normalized;
+        rb.angularVelocity = spinAxis * spinAmount * 20f; // Multiplicador para efeito visível
+    }
+}</code></pre>
+    </section>
+    <section class="case-section" id="resultados">
+      <h2>Resultados e Competências Técnicas</h2>
+      <p>A combinação dessas técnicas resultou em uma experiência de tênis VR intuitiva e fisicamente precisa. O projeto demonstra proficiência em <b>simulação de física avançada</b>, <b>gameplay para VR</b> e tradução de fenômenos reais em mecânicas interativas na <b>Unity</b>.</p>
+    </section>
+  </div>
+  <div class="case-sidebar"></div>
+  </div>

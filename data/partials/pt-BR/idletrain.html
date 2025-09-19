@@ -1,0 +1,64 @@
+<div class="">
+  <div class="case-content">
+    <section class="case-section" aria-labelledby="idletrain-intro">
+      <h2 id="idletrain-intro">Análise Técnica: IdleTrain - Sistema Incremental Ferroviário</h2>
+      <p><b>IdleTrain</b> é um jogo mobile incremental focado em gestão ferroviária, transporte de passageiros e progressão exponencial. Demonstra implementação avançada de sistemas, balanceamento matemático e otimizações para mobile mantendo gameplay idle envolvente.</p>
+    </section>
+    <section class="case-section" aria-labelledby="idletrain-arq">
+      <h2 id="idletrain-arq">Arquitetura e Padrões</h2>
+      <p><b>State Machine</b> para o fluxo (Start → Game → End); <b>Singleton</b> para Game_ (ponto único de acesso a Audio_, Particle_, UI_, Camera_, SaveSystem_); <b>Arquitetura por Componentes</b> (Train_, Wagon_, Passenger_, Station_).</p>
+    </section>
+    <section class="case-section" aria-labelledby="idletrain-mov">
+      <h2 id="idletrain-mov">Movimento Procedural e Pathfinding</h2>
+      <p>Curvas Bézier via <code>LTBezierPath</code> para movimento natural em trilhos complexos.</p>
+      <div class="featured-image"><img class="img-fluid project-image d-block mx-auto gif-normal" src="assets/images/projects/track.gif" alt="IdleTrain track bezier gif" width="300" loading="lazy" decoding="async" /></div>
+<pre><code class="language-csharp">public void CalculateTrack(TrackSegment_ startSegment) {
+    bezier = new LTBezierPath(pathPoints);
+    Game_.instance.rule_.train.ratio = bezier.ratioAtPoint(pointRatio);
+}</code></pre>
+    </section>
+    <section class="case-section" aria-labelledby="idletrain-merge">
+      <h2 id="idletrain-merge">Merge 3→1 e Upgrades</h2>
+      <p>Algoritmo de merge com detecção automática e progressão de nível.</p>
+      <div class="featured-image"><img class="img-fluid project-image d-block mx-auto gif-normal" src="assets/images/projects/merge.gif" alt="IdleTrain merge gif" width="300" loading="lazy" decoding="async" /></div>
+<pre><code class="language-csharp">public bool CanMerge() {
+    for (int i = 0; i &lt;= maxLevel; i++) {
+        for (int j = 0; j &lt; wagons.Count; j++) {
+            if (wagons[j].Level == i &amp;&amp; wagonsToMerge.Count &lt; 3) wagonsToMerge.Add(wagons[j]);
+        }
+    }
+    return wagonsToMerge.Count == 3;
+}</code></pre>
+    </section>
+    <section class="case-section" aria-labelledby="idletrain-economia">
+      <h2 id="idletrain-economia">Economia e Progressão</h2>
+      <p>Preço quadrático com multiplicador de trilhos; cálculo de money-per-second; dificuldade por trilho; valor de passageiro exponencial.</p>
+<pre><code class="language-csharp">public ulong PriceFormula(float A, float B, float C, int level, int trackMultiplier) {
+    level = level + (trackMultiplier * Game_.instance.data.track);
+    return (ulong)(A * Mathf.Pow(level, 2) + (B * level) + C);
+}</code></pre>
+    </section>
+    <section class="case-section" aria-labelledby="idletrain-save">
+      <h2 id="idletrain-save">Persistência Robusta</h2>
+      <p>Serialização JSON, validação e migração, auto-save com debounce e checagem de integridade.</p>
+    </section>
+    <section class="case-section" aria-labelledby="idletrain-audio">
+      <h2 id="idletrain-audio">Áudio Dinâmico</h2>
+<pre><code class="language-csharp">float pitch = Mathf.Lerp(minPitch, maxPitch, speed / maxSpeed);
+audioSource.pitch = pitch;</code></pre>
+    </section>
+    <section class="case-section" aria-labelledby="idletrain-opt">
+      <h2 id="idletrain-opt">Otimizações e Performance</h2>
+      <p>Object Pooling; operações assíncronas via Coroutines; cache de componentes; transições de câmera dinâmicas.</p>
+    </section>
+    <section class="case-section" aria-labelledby="idletrain-desafios">
+      <h2 id="idletrain-desafios">Desafios Técnicos Resolvidos</h2>
+      <p>Balanceamento exponencial de progressão; posicionamento multi-objeto em Bézier; gestão de memória; consistência de dados cross-platform; algoritmos eficientes de money-per-second.</p>
+    </section>
+    <section class="case-section" aria-labelledby="idletrain-resultados">
+      <h2 id="idletrain-resultados">Métricas Técnicas e Resultados</h2>
+      <p><b>60 FPS</b> em devices mid-tier; memória &lt; <b>180MB</b>; carregamento &lt; <b>3s</b>; <b>zero memory leaks</b> em longas sessões; saves &lt; <b>100ms</b>. Arquitetura escalável, de fácil manutenção e robusta.</p>
+    </section>
+  </div>
+  <div class="case-sidebar"></div>
+</div>
