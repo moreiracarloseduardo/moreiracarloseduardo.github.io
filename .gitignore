@@ -1,2 +1,41 @@
 .DS_Store
 config.codekit
+
+# Node / Vite
+node_modules/
+dist/
+.vite-cache/
+.eslintcache
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Env / local
+.env
+.env.local
+.env.*.local
+
+# Coverage / reports
+coverage/
+*.lcov
+
+# OS / Editor
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Misc build outputs
+*.tgz
+*.zip
+
+# Cache
+.cache/
+/.parcel-cache
+
+# Optional: ignore generated images variants (uncomment to skip tracking)
+# assets/images/projects/*.webp
+# assets/images/projects/*.avif
