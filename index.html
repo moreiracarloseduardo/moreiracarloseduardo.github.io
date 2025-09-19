@@ -322,121 +322,15 @@
   <script src="assets/js/main.js"></script>
   <!-- hero-gradient.js removido: substituído por CSS-only gradient words -->
   <script src="assets/js/bg-webgl.js"></script>
-    <script src="assets/js/i18n.js"></script>
-    <script src="assets/js/hero-glitch.js"></script>
+  <script src="assets/js/i18n.js"></script>
+  <!-- FX disabled: glitch script commented out for performance -->
+  <!-- <script src="assets/js/hero-glitch.js"></script> -->
 
-  <!-- Shader-like refraction filters (per-word instances created via script) -->
+  <!-- FX disabled: refraction filters commented out for performance -->
+  <!--
   <svg width="0" height="0" style="position:absolute"><defs id="defs-refraction"></defs></svg>
-  <script>
-    (function(){
-      const prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const title = document.getElementById('hero-title');
-      if(!title) return;
-      const defs = document.getElementById('defs-refraction');
-      const words = Array.from(title.querySelectorAll('.gradient-word'));
-      if (!defs || words.length===0) return;
-
-      // Create a separate filter per word with unique seed
-      const filters = words.map((el, idx)=>{
-        const fid = `f-refraction-${idx}`;
-        const f = document.createElementNS('http://www.w3.org/2000/svg', 'filter');
-        f.setAttribute('id', fid);
-        // Use bounding box units for subtle XY drift per word
-        f.setAttribute('filterUnits','objectBoundingBox');
-        f.setAttribute('x','-0.2'); f.setAttribute('y','-0.2'); f.setAttribute('width','1.4'); f.setAttribute('height','1.4');
-        f.setAttribute('color-interpolation-filters','sRGB');
-        const turb = document.createElementNS(f.namespaceURI,'feTurbulence');
-        turb.setAttribute('type','fractalNoise');
-        turb.setAttribute('baseFrequency','0.012');
-  turb.setAttribute('numOctaves','2');
-        turb.setAttribute('seed', String(3 + idx*11));
-        turb.setAttribute('result','noise');
-        const cm = document.createElementNS(f.namespaceURI,'feColorMatrix');
-        cm.setAttribute('in','noise');
-        cm.setAttribute('type','matrix');
-        cm.setAttribute('values','0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.8 0');
-        cm.setAttribute('result','alphaNoise');
-        const disp = document.createElementNS(f.namespaceURI,'feDisplacementMap');
-        disp.setAttribute('in','SourceGraphic');
-        disp.setAttribute('in2','alphaNoise');
-        disp.setAttribute('scale','0');
-        // Alternate channel selectors slightly between words
-        disp.setAttribute('xChannelSelector', (idx % 2 === 0) ? 'R' : 'G');
-        disp.setAttribute('yChannelSelector', (idx % 3 === 0) ? 'G' : 'B');
-        disp.setAttribute('result','disp');
-        const blur = document.createElementNS(f.namespaceURI,'feGaussianBlur');
-        blur.setAttribute('in','disp');
-  blur.setAttribute('stdDeviation','0.15');
-        f.appendChild(turb); f.appendChild(cm); f.appendChild(disp); f.appendChild(blur);
-        defs.appendChild(f);
-        el.style.filter = `url(#${fid})`;
-        return {el, turb, disp, fid, idx, filter: f};
-      });
-
-      if (prefersReduce) return; // no animation
-
-      let t0 = performance.now();
-      // Episodic animation with burst/rest per word
-      const perWordTiming = filters.map(({idx})=>({
-        burstDur: 8 + Math.random()*0.8, // 1.2–2.0s bursts
-        restDur: 8 + Math.random()*2.5,  // 2.5–5.0s rests
-        phase: Math.random()*Math.PI*2 + idx*0.7,
-        panX: (Math.random()*2-1) * 0.02,  // -0.02..0.02 bbox drift
-        panY: (Math.random()*2-1) * 0.02
-      }));
-
-      function frame(now){
-        const t = (now - t0) / 1000;
-        // ultra-slow scanline drift (global)
-        const scan = ((t * 8/40) % 8);
-        title.style.setProperty('--scan-x', scan.toFixed(2) + 'px');
-
-        filters.forEach((F, i)=>{
-          const {turb, disp, filter} = F;
-          const cfg = perWordTiming[i];
-          const cycle = cfg.burstDur + cfg.restDur;
-          const tt = (t + i*0.37) % cycle;
-          const inBurst = tt < cfg.burstDur;
-
-          // subtle base noise always on
-          const base = 0.010 + Math.sin(t*0.25 + cfg.phase)*0.0015;
-          turb.setAttribute('baseFrequency', base.toFixed(4));
-
-          // scale rises during burst, idles during rest (reduced intensity)
-          let scale;
-          if (inBurst){
-            const bt = tt / cfg.burstDur; // 0..1
-            const ease = Math.sin(bt*Math.PI);
-            scale = 1.2 + ease*2.0; // peak ~3.2
-          } else {
-            scale = 0.3 + Math.sin(t*0.2 + cfg.phase*0.5)*0.3; // very subtle idle shimmer
-          }
-          disp.setAttribute('scale', scale.toFixed(1));
-
-          // light XY drift of filter region
-          const dx = cfg.panX * Math.sin(t*0.15 + cfg.phase);
-          const dy = cfg.panY * Math.cos(t*0.18 + cfg.phase*0.8);
-          if (filter){
-            filter.setAttribute('x', (-0.2 + dx).toFixed(3));
-            filter.setAttribute('y', (-0.2 + dy).toFixed(3));
-          }
-        });
-        raf = requestAnimationFrame(frame);
-      }
-      let raf = requestAnimationFrame(frame);
-
-      // Micro interaction: very gentle bump only on hovered word
-      title.addEventListener('pointermove', (e)=>{
-        const target = e.target;
-        const idx = words.indexOf(target.closest('.gradient-word'));
-        if (idx >= 0) {
-          const f = filters[idx];
-          if (f && f.disp) f.disp.setAttribute('scale','2.0');
-        }
-      });
-      window.addEventListener('pagehide', ()=> cancelAnimationFrame(raf));
-    })();
-  </script>
+  <script>/* refraction disabled */</script>
+  -->
 
     <!-- Navegação de Case via modal é gerenciada em assets/js/main.js -->
   </body>

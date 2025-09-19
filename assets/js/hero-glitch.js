@@ -8,8 +8,10 @@
     const DEBUG = QS.has('glitchDebug') || (localStorage.getItem('glitchDebug') === '1');
     const dlog = (...args)=>{ if (DEBUG) console.log('[glitch]', ...args); };
     if (DEBUG) console.info('[glitch] debug mode ON');
-    const MODE = (QS.get('glitchMode') || localStorage.getItem('glitchMode') || 'med').toLowerCase();
+    const MODE = (QS.get('glitchMode') || localStorage.getItem('glitchMode') || 'low').toLowerCase();
+    const SCHED = (QS.get('glitchSched') || localStorage.getItem('glitchSched') || 'word').toLowerCase();
     if (DEBUG) dlog('mode:', MODE);
+    if (DEBUG) dlog('sched:', SCHED);
 
     function splitIntoGlyphs(el) {
         const accent = el.getAttribute('data-accent') || '1';
@@ -22,7 +24,8 @@
             const span = document.createElement('span');
             span.className = 'glyph';
             span.setAttribute('data-accent', accent);
-            span.textContent = ch;
+            // Preserve spacing between words: convert spaces to NBSP so they don't collapse in inline-block spans
+            span.textContent = (ch === ' ') ? '\u00A0' : ch;
             frag.appendChild(span);
         }
         el.textContent = '';
@@ -47,29 +50,41 @@
         rotateMax: 3.2,
         scaleMax: 0.36,
         burstMin: 820,
-        burstMax: 1420
+        burstMax: 1420,
+        GLOBAL_MIN: 2200,
+        GLOBAL_MAX: 4200,
+        wordGlyphsMin: 3,
+        wordGlyphsMax: 6
     } : MODE === 'low' ? {
         GLITCH_MIN: 1400,
         GLITCH_MAX: 4600,
         JITTER: [-10,-8,-6,-4,-2,0,2,4,6,8,10],
         clusterProb: 0.35,
-        flutterProb: 0.3,
+        flutterProb: 0.0,
         skewMax: 2.5,
         rotateMax: 1.6,
         scaleMax: 0.18,
         burstMin: 520,
-        burstMax: 1060
+        burstMax: 900,
+        GLOBAL_MIN: 6200,
+        GLOBAL_MAX: 10000,
+        wordGlyphsMin: 1,
+        wordGlyphsMax: 1
     } : {
         GLITCH_MIN: 900,
         GLITCH_MAX: 3200,
         JITTER: [-16,-14,-12,-10,-8,-6,-4,-3,-2,-1,0,1,2,3,4,6,8,10,12,14,16],
         clusterProb: 0.55,
-        flutterProb: 0.5,
+        flutterProb: 0.2,
         skewMax: 4.0,
         rotateMax: 2.5,
         scaleMax: 0.28,
         burstMin: 680,
-        burstMax: 1360
+        burstMax: 1360,
+        GLOBAL_MIN: 3000,
+        GLOBAL_MAX: 6000,
+        wordGlyphsMin: 2,
+        wordGlyphsMax: 4
     };
 
     const GLITCH_MIN = CFG.GLITCH_MIN;
@@ -125,11 +140,11 @@
             g.classList.add('flash');
             setTimeout(()=> g.classList.remove('flash'), 140);
             if (DEBUG) dlog('values id=', gid, {gx,gy,sk,rot,sc});
-            // Cluster: tente aplicar também nos dois vizinhos se existirem
-            if (Math.random() < CFG.clusterProb) {
+            // Cluster (glyph mode only)
+            if (SCHED === 'glyph' && Math.random() < CFG.clusterProb) {
                 const neighbors = [g.previousElementSibling, g.nextElementSibling].filter(n=>n && n.classList && n.classList.contains('glyph'));
                 neighbors.forEach((sib, idx)=>{
-                    const atten = 0.55 - idx*0.15; // vizinhos com intensidade decrescente
+                    const atten = 0.55 - idx*0.15;
                     const gx2 = Math.sign(gx) * Math.max(1, Math.abs(gx)*atten);
                     const gy2 = Math.sign(gy) * Math.max(1, Math.abs(gy)*atten);
                     const sk2 = sk * atten;
@@ -139,8 +154,7 @@
                     sib.style.setProperty('--gskx', (-sk2) + 'deg');
                     sib.style.setProperty('--gs', Math.max(1, sc - 0.08));
                     sib.style.setProperty('--grot', rot2 + 'deg');
-                    sib.classList.add('glitch');
-                    sib.classList.add('flash');
+                    sib.classList.add('glitch','flash');
                     setTimeout(()=> sib.classList.remove('flash'), 140);
                     if (DEBUG) dlog('neighbor id=', gid, 'idx=', idx, {gx2,gy2,sk2,rot2});
                     setTimeout(() => {
@@ -153,8 +167,8 @@
                     }, 520 + Math.random() * 520);
                 });
             }
-            // Flutter: pequenas variações dentro do mesmo burst
-            if (Math.random() < CFG.flutterProb){
+            // Flutter (glyph mode only)
+            if (SCHED === 'glyph' && Math.random() < CFG.flutterProb){
                 const start = performance.now();
                 const dur = 180 + Math.random()*220;
                 function flutter(now){
@@ -166,7 +180,6 @@
                 }
                 requestAnimationFrame(flutter);
             }
-            // Longer burst window (more visible)
             const burstDur = CFG.burstMin + Math.random() * (CFG.burstMax - CFG.burstMin);
             setTimeout(() => {
                 g.classList.remove('glitch');
@@ -188,21 +201,81 @@
                     }
                     else { word.setAttribute('data-nr', String(c)); }
                 }
-                scheduleGlyphGlitch(g); // reschedule
+                if (SCHED === 'glyph') scheduleGlyphGlitch(g);
             }, burstDur);
         }, delay);
     }
 
-    // Stagger per word: slight bias so each word has its own rhythm
-    words.forEach((word, wi) => {
-        const glyphs = word.querySelectorAll('.glyph');
-        glyphs.forEach((g, i) => {
-            // initial small random delay per glyph + per-word offset
-            const baseDelay = wi * 150 + Math.random() * 200;
-            if (!g.__glitchWired) g.__glitchWired = true;
-            setTimeout(() => scheduleGlyphGlitch(g), baseDelay);
+    // Word-level scheduler
+    function triggerWordGlitch(word){
+        if (!word || !word.isConnected) return;
+        const glyphs = Array.from(word.querySelectorAll('.glyph'));
+        if (glyphs.length === 0) return;
+        const kmin = CFG.wordGlyphsMin, kmax = CFG.wordGlyphsMax;
+        const count = Math.min(glyphs.length, Math.max(1, Math.floor(kmin + Math.random()*(kmax - kmin + 1))));
+        const chosen = new Set();
+        while (chosen.size < count) chosen.add(glyphs[Math.floor(Math.random()*glyphs.length)]);
+        const myId = ++__glitchId;
+        if (DEBUG) dlog('word-burst id=', myId, 'wordIdx=', Array.from(title.querySelectorAll('.gradient-word')).indexOf(word), 'glyphs=', chosen.size);
+        const c0 = parseInt(word.getAttribute('data-nr')||'0',10)+1;
+        word.setAttribute('data-nr', String(c0));
+        word.classList.add('no-refract');
+        const dur = Math.round(CFG.burstMin + Math.random()*(CFG.burstMax - CFG.burstMin));
+        chosen.forEach((g)=>{
+            const gx = JITTER[Math.floor(Math.random() * JITTER.length)];
+            const gy = JITTER[Math.floor(Math.random() * JITTER.length)];
+            const sk = (Math.random() < 0.35 ? (Math.random() * 2 - 1) * Math.min(2.0, CFG.skewMax) : 0);
+            const sc = (Math.random() < 0.35 ? (1 + Math.random() * Math.min(0.14, CFG.scaleMax)) : 1);
+            const rot = (Math.random() < 0.35 ? (Math.random()*2-1) * Math.min(1.4, CFG.rotateMax) : 0);
+            g.style.setProperty('--gx', gx + 'px');
+            g.style.setProperty('--gy', gy + 'px');
+            g.style.setProperty('--gskx', sk + 'deg');
+            g.style.setProperty('--gs', sc);
+            g.style.setProperty('--grot', rot + 'deg');
+            g.classList.add('glitch','flash');
+            setTimeout(()=> g.classList.remove('flash'), 100);
         });
-    });
+        setTimeout(()=>{
+            chosen.forEach((g)=>{
+                g.classList.remove('glitch','flash');
+                g.style.removeProperty('--gx');
+                g.style.removeProperty('--gy');
+                g.style.removeProperty('--gskx');
+                g.style.removeProperty('--gs');
+                g.style.removeProperty('--grot');
+            });
+            const c = Math.max(0, (parseInt(word.getAttribute('data-nr')||'1',10) - 1));
+            if (c===0) { word.classList.remove('no-refract'); word.removeAttribute('data-nr'); }
+            else { word.setAttribute('data-nr', String(c)); }
+        }, dur);
+    }
+
+    function scheduleGlobalWordGlitch(){
+        const delay = CFG.GLOBAL_MIN + Math.random()*(CFG.GLOBAL_MAX - CFG.GLOBAL_MIN);
+        const myEpoch = EPOCH;
+        setTimeout(()=>{
+            if (myEpoch !== EPOCH) { if (DEBUG) dlog('global-skip reason=epoch-mismatch'); return scheduleGlobalWordGlitch(); }
+            const wordsNow = Array.from(title.querySelectorAll('.gradient-word'));
+            if (wordsNow.length === 0) return scheduleGlobalWordGlitch();
+            const word = wordsNow[Math.floor(Math.random()*wordsNow.length)];
+            triggerWordGlitch(word);
+            scheduleGlobalWordGlitch();
+        }, delay);
+    }
+
+    // Start scheduling
+    if (SCHED === 'glyph') {
+        words.forEach((word, wi) => {
+            const glyphs = word.querySelectorAll('.glyph');
+            glyphs.forEach((g, i) => {
+                const baseDelay = wi * 150 + Math.random() * 200;
+                if (!g.__glitchWired) g.__glitchWired = true;
+                setTimeout(() => scheduleGlyphGlitch(g), baseDelay);
+            });
+        });
+    } else {
+        scheduleGlobalWordGlitch();
+    }
 
     // Expose to allow re-splitting after i18n text changes
     let __IS_SPLITTING = false;
@@ -213,19 +286,23 @@
         if (DEBUG) dlog('epoch++ ->', EPOCH);
         const words = title.querySelectorAll('.gradient-word');
         words.forEach(splitIntoGlyphs);
-        words.forEach((word, wi) => {
-            word.querySelectorAll('.glyph').forEach((g) => {
-                if (!g.__glitchWired) {
-                    g.__glitchWired = true;
-                    const baseDelay = wi * 150 + Math.random() * 200;
-                    setTimeout(() => scheduleGlyphGlitch(g), baseDelay);
-                }
+        if (SCHED === 'glyph') {
+            words.forEach((word, wi) => {
+                word.querySelectorAll('.glyph').forEach((g) => {
+                    if (!g.__glitchWired) {
+                        g.__glitchWired = true;
+                        const baseDelay = wi * 150 + Math.random() * 200;
+                        setTimeout(() => scheduleGlyphGlitch(g), baseDelay);
+                    }
+                });
             });
-        });
+        } else {
+            scheduleGlobalWordGlitch();
+        }
         __IS_SPLITTING = false;
     };
 
-    // Mutation observer to re-apply split if content changes (e.g., i18n reloads)
+    // Mutation observer
     try {
         let debTimer;
         const obs = new MutationObserver(() => {

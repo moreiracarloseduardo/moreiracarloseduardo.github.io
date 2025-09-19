@@ -543,7 +543,8 @@ body[data-theme="dark"] canvas#bg-webgl {
 /* Sparkles discretos (2 por palavra, longa duração/baixa frequência) */
 .hero-title .gradient-word::before,
 .hero-title .gradient-word::after {
-  content: "";
+  /* FX disabled: sparkles off */
+  content: none !important;
   position: absolute;
   top: 40%;
   left: -8%;
