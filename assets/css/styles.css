@@ -432,7 +432,9 @@ body[data-theme="dark"] canvas#bg-webgl {
   z-index: 1;
   isolation: isolate;
   text-wrap: balance;
-  hyphens: auto;
+  hyphens: none;
+  word-break: normal;
+  overflow-wrap: normal;
 }
 
 /* Gradient text: CSS-only, baseline-alinhado */
@@ -593,6 +595,16 @@ body[data-theme="dark"] canvas#bg-webgl {
   position: relative;
   line-height: 1em;
 }
+/* Evita quebra dentro de palavras splitadas em glyphs */
+.hero-title .gradient-word .gw { white-space: nowrap; display: inline-block; }
+/* Garante que conector + próxima palavra não quebrem de linha */
+.hero-title .nbpair { white-space: nowrap; display: inline-block; }
+
+/* Keep small connector words with the next chunk to avoid single-letter lines */
+.hero-title .gradient-word.nb { white-space: nowrap; }
+
+/* Reduce chances of widows/orphans by slight negative letter-spacing on small widths */
+/* Removido ajuste de letter-spacing que causava artefatos de quebra */
 
 /* Fallback: if background-clip:text unsupported, show plain text */
 @supports not (-webkit-background-clip: text) {
@@ -753,11 +765,29 @@ body[data-theme="dark"] canvas#bg-webgl {
 
 @media (max-width: 760px) {
   .hero-title {
-    font-size: clamp(2rem, 1.6rem + 4vw, 3rem);
+    font-size: clamp(1.85rem, 1.4rem + 4vw, 2.85rem);
+    text-wrap: pretty;
   }
 
   .hero-sub {
     font-size: clamp(1rem, .9rem + 1vw, 1.35rem);
+  }
+}
+
+/* Extra fine-tuning for very small screens to avoid overflow of last word */
+@media (max-width: 420px) {
+  .hero-title {
+    font-size: clamp(1.7rem, 1.2rem + 4vw, 2.3rem);
+  }
+}
+@media (max-width: 390px) {
+  .hero-title {
+    font-size: clamp(1.6rem, 1.1rem + 4.5vw, 2.15rem);
+  }
+}
+@media (max-width: 360px) {
+  .hero-title {
+    font-size: clamp(1.5rem, 1.05rem + 5vw, 2.0rem);
   }
 }
 

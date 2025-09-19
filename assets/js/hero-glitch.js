@@ -38,23 +38,44 @@
     function splitIntoGlyphs(el) {
         const accent = el.getAttribute('data-accent') || '1';
         const first = el.firstElementChild;
-        const hasGlyphs = !!(first && first.classList && first.classList.contains('glyph'));
+        const hasGlyphs = !!(first && (first.classList && (first.classList.contains('glyph') || first.classList.contains('gw'))));
         if (hasGlyphs) return; // já está splitado corretamente
         const raw = el.textContent || '';
-        // Se houver espaço inicial/final, mova-o para fora do span para evitar desalinhamento visual
-        let lead = raw.startsWith(' ');
-        let trail = raw.endsWith(' ');
+        // Normaliza bordas: espaços externos permanecem fora do .gradient-word
+        let lead = /^\s/.test(raw);
+        let trail = /\s$/.test(raw);
         const text = raw.trim();
         if (lead) el.insertAdjacentText('beforebegin', ' ');
         if (trail) el.insertAdjacentText('afterend', ' ');
+
+        // Tokens: palavras (\S+) e espaços (\s+)
+        const tokens = text.match(/\S+|\s+/g) || [];
         const frag = document.createDocumentFragment();
-        for (const ch of text) {
-            const span = document.createElement('span');
-            span.className = 'glyph';
-            span.setAttribute('data-accent', accent);
-            // Preserve espacos internos como NBSP para não colapsar
-            span.textContent = (ch === ' ') ? '\u00A0' : ch;
-            frag.appendChild(span);
+        const CONNECTORS = new Set(['and','e']);
+        let makeNextNbsp = false;
+        for (const tk of tokens) {
+            if (/^\s+$/.test(tk)) {
+                // espaço entre palavras
+                const sp = document.createTextNode(makeNextNbsp ? '\u00A0' : ' ');
+                frag.appendChild(sp);
+                makeNextNbsp = false;
+                continue;
+            }
+            // É palavra
+            const gw = document.createElement('span');
+            gw.className = 'gw';
+            // constrói glyphs dentro da palavra
+            for (const ch of tk) {
+                const s = document.createElement('span');
+                s.className = 'glyph';
+                s.setAttribute('data-accent', accent);
+                s.textContent = ch;
+                gw.appendChild(s);
+            }
+            frag.appendChild(gw);
+            // Se for conector simples, define NBSP para próximo espaço
+            const core = tk.toLowerCase().replace(/[\.,;:!\?…]+$/,'');
+            if (CONNECTORS.has(core)) makeNextNbsp = true;
         }
         el.textContent = '';
         el.appendChild(frag);
@@ -62,6 +83,23 @@
 
     const words = Array.from(title.querySelectorAll('.gradient-word'));
     words.forEach(splitIntoGlyphs);
+    // Cola conectores .gradient-word.nb com o próximo .gradient-word para evitar ficar sozinho em linha
+    function glueNbPairs(){
+        const nbs = Array.from(title.querySelectorAll('.gradient-word.nb'));
+        nbs.forEach(nb=>{
+            const next = nb.nextElementSibling;
+            if (!next || !next.classList || !next.classList.contains('gradient-word')) return;
+            if (nb.parentElement && nb.parentElement.classList && nb.parentElement.classList.contains('nbpair')) return;
+            const wrap = document.createElement('span'); wrap.className = 'nbpair';
+            nb.parentNode.insertBefore(wrap, nb);
+            wrap.appendChild(nb);
+            // converte espaço intermediário em NBSP quando presente
+            const sib = wrap.nextSibling;
+            if (sib && sib.nodeType===3 && !/\S/.test(sib.nodeValue)) { sib.nodeValue='\u00A0'; wrap.appendChild(sib); }
+            wrap.appendChild(next);
+        });
+    }
+    glueNbPairs();
     if (DEBUG) dlog('words:', words.length, 'glyphs:', title.querySelectorAll('.glyph').length);
 
     const prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -254,16 +292,19 @@
     }
 
     let __globalTimer = null;
+    let __paused = false;
     let __lastWordIdx = -1;
     let __hoverIdx = -1;
     let __lastHoverBurst = 0;
     const HOVER_COOLDOWN = 3500; // ms
     function scheduleGlobalWordGlitch(nextDelay){
+        if (__paused) return;
         if (__globalTimer) { clearTimeout(__globalTimer); __globalTimer = null; }
         const delay = (typeof nextDelay === 'number') ? nextDelay : (CFG.GLOBAL_MIN + Math.random()*(CFG.GLOBAL_MAX - CFG.GLOBAL_MIN));
         const myEpoch = EPOCH;
         __globalTimer = setTimeout(()=>{
             __globalTimer = null;
+            if (__paused) return; 
             if (myEpoch !== EPOCH) { if (DEBUG) dlog('global-skip reason=epoch-mismatch'); return scheduleGlobalWordGlitch(); }
             const wordsNow = Array.from(title.querySelectorAll('.gradient-word'));
             if (wordsNow.length === 0) return scheduleGlobalWordGlitch();
@@ -299,8 +340,9 @@
         __IS_SPLITTING = true;
         EPOCH++; // invalidate previously scheduled timers
         if (DEBUG) dlog('epoch++ ->', EPOCH);
-        const words = title.querySelectorAll('.gradient-word');
-        words.forEach(splitIntoGlyphs);
+    const words = title.querySelectorAll('.gradient-word');
+    words.forEach(splitIntoGlyphs);
+    glueNbPairs();
         if (SCHED === 'glyph') {
             words.forEach((word, wi) => {
                 word.querySelectorAll('.glyph').forEach((g) => {
@@ -333,6 +375,7 @@
 
     // Hover priority: dispara burst na palavra sob o cursor com cooldown
     title.addEventListener('pointermove', (e)=>{
+        if (__paused) return;
         const w = e.target && e.target.closest && e.target.closest('.gradient-word');
         if (!w) { __hoverIdx = -1; return; }
         const wordsNow = Array.from(title.querySelectorAll('.gradient-word'));
@@ -365,4 +408,27 @@
             });
         }, 800);
     };
+
+    // --- Controle de pausa/resume ---
+    function pauseGlitch(reason){
+        if (__paused) return;
+        __paused = true;
+        if (DEBUG) dlog('paused', reason||'');
+        if (__globalTimer) { clearTimeout(__globalTimer); __globalTimer = null; }
+    }
+    function resumeGlitch(reason){
+        if (!__paused) return;
+        __paused = false;
+        if (DEBUG) dlog('resumed', reason||'');
+        scheduleGlobalWordGlitch(600);
+    }
+    document.addEventListener('visibilitychange', ()=>{
+        if (document.hidden) pauseGlitch('visibility-hidden');
+        else if (!document.querySelector('.modal.show')) resumeGlitch('visibility-visible');
+    });
+    document.addEventListener('show.bs.modal', ()=> pauseGlitch('modal-open'));
+    document.addEventListener('hidden.bs.modal', ()=>{ if (!document.hidden && !document.querySelector('.modal.show')) resumeGlitch('modal-closed'); });
+    // Expose APIs
+    window.__heroGlitchPause = pauseGlitch;
+    window.__heroGlitchResume = resumeGlitch;
 })();
