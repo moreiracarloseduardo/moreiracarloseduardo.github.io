@@ -12,19 +12,47 @@
     const SCHED = (QS.get('glitchSched') || localStorage.getItem('glitchSched') || 'word').toLowerCase();
     if (DEBUG) dlog('mode:', MODE);
     if (DEBUG) dlog('sched:', SCHED);
+    // Bind mode to DOM so CSS can adapt visuals per mode
+    try { title.setAttribute('data-glitch-mode', MODE); } catch(_) {}
+
+    // Batched DOM writes to avoid layout thrashing
+    const __writeQueue = [];
+    let __writeScheduled = false;
+    function __flushWrites(){
+        const q = __writeQueue.splice(0);
+        for (const fn of q){ try { fn(); } catch(_){} }
+        __writeScheduled = false;
+    }
+    function enqueueWrite(fn){
+        __writeQueue.push(fn);
+        if (!__writeScheduled) {
+            __writeScheduled = true;
+            requestAnimationFrame(__flushWrites);
+        }
+    }
+    function setStyles(el, kv){ enqueueWrite(()=>{ for (const k in kv) el.style.setProperty(k, kv[k]); }); }
+    function removeStyles(el, props){ enqueueWrite(()=>{ props.forEach(p=> el.style.removeProperty(p)); }); }
+    function addClasses(el, arr){ enqueueWrite(()=> el.classList.add(...arr)); }
+    function removeClasses(el, arr){ enqueueWrite(()=> el.classList.remove(...arr)); }
 
     function splitIntoGlyphs(el) {
         const accent = el.getAttribute('data-accent') || '1';
         const first = el.firstElementChild;
         const hasGlyphs = !!(first && first.classList && first.classList.contains('glyph'));
         if (hasGlyphs) return; // já está splitado corretamente
-        const text = el.textContent || '';
+        const raw = el.textContent || '';
+        // Se houver espaço inicial/final, mova-o para fora do span para evitar desalinhamento visual
+        let lead = raw.startsWith(' ');
+        let trail = raw.endsWith(' ');
+        const text = raw.trim();
+        if (lead) el.insertAdjacentText('beforebegin', ' ');
+        if (trail) el.insertAdjacentText('afterend', ' ');
         const frag = document.createDocumentFragment();
         for (const ch of text) {
             const span = document.createElement('span');
             span.className = 'glyph';
             span.setAttribute('data-accent', accent);
-            // Preserve spacing between words: convert spaces to NBSP so they don't collapse in inline-block spans
+            // Preserve espacos internos como NBSP para não colapsar
             span.textContent = (ch === ' ') ? '\u00A0' : ch;
             frag.appendChild(span);
         }
@@ -68,8 +96,8 @@
         burstMax: 900,
         GLOBAL_MIN: 6200,
         GLOBAL_MAX: 10000,
-        wordGlyphsMin: 1,
-        wordGlyphsMax: 1
+        wordGlyphsMin: 3,
+        wordGlyphsMax: 3
     } : {
         GLITCH_MIN: 900,
         GLITCH_MAX: 3200,
@@ -108,16 +136,16 @@
             const wi = wordsNow.indexOf(word);
             const gi = Array.from(word ? word.querySelectorAll('.glyph') : []).indexOf(g);
             if (DEBUG) dlog('start id=', gid, 'word#', wi, 'glyph#', gi, 'char="'+(g.textContent||'')+'"');
-            // Check current filter state
-            if (word) {
+            // Check current filter state (apenas em debug para evitar layouts)
+            if (DEBUG && word) {
                 const styleFilter = word.style && word.style.filter;
                 const compFilter = getComputedStyle(word).filter;
                 dlog('filter(before): style=', styleFilter || '(none)', 'computed=', compFilter || '(none)');
             }
             if (word) {
                 const c = parseInt(word.getAttribute('data-nr')||'0',10)+1;
-                word.setAttribute('data-nr', String(c));
-                word.classList.add('no-refract');
+                enqueueWrite(()=>{ word.setAttribute('data-nr', String(c)); });
+                addClasses(word, ['no-refract']);
                 if (DEBUG) {
                     dlog('no-refract applied id=', gid, 'refcount=', c);
                     const compAfter = getComputedStyle(word).filter;
@@ -130,15 +158,11 @@
             const sk = (Math.random() < 0.7 ? (Math.random() * 2 - 1) * CFG.skewMax : 0);
             const sc = (Math.random() < 0.8 ? (1 + Math.random() * CFG.scaleMax) : 1);
             const rot = (Math.random() < 0.7 ? (Math.random()*2-1) * CFG.rotateMax : 0);
-            g.style.setProperty('--gx', gx + 'px');
-            g.style.setProperty('--gy', gy + 'px');
-            g.style.setProperty('--gskx', sk + 'deg');
-            g.style.setProperty('--gs', sc);
-            g.style.setProperty('--grot', rot + 'deg');
-            g.classList.add('glitch');
+            setStyles(g, {'--gx': gx+'px', '--gy': gy+'px', '--gskx': sk+'deg', '--gs': String(sc), '--grot': rot+'deg'});
+            addClasses(g, ['glitch']);
             // quick flash spike for perception
-            g.classList.add('flash');
-            setTimeout(()=> g.classList.remove('flash'), 140);
+            addClasses(g, ['flash']);
+            setTimeout(()=> removeClasses(g, ['flash']), 140);
             if (DEBUG) dlog('values id=', gid, {gx,gy,sk,rot,sc});
             // Cluster (glyph mode only)
             if (SCHED === 'glyph' && Math.random() < CFG.clusterProb) {
@@ -149,21 +173,13 @@
                     const gy2 = Math.sign(gy) * Math.max(1, Math.abs(gy)*atten);
                     const sk2 = sk * atten;
                     const rot2 = rot * (atten*0.8);
-                    sib.style.setProperty('--gx', (idx===0? -gx2: gx2) + 'px');
-                    sib.style.setProperty('--gy', gy2 + 'px');
-                    sib.style.setProperty('--gskx', (-sk2) + 'deg');
-                    sib.style.setProperty('--gs', Math.max(1, sc - 0.08));
-                    sib.style.setProperty('--grot', rot2 + 'deg');
-                    sib.classList.add('glitch','flash');
-                    setTimeout(()=> sib.classList.remove('flash'), 140);
+                    setStyles(sib, {'--gx': (idx===0? -gx2: gx2)+'px', '--gy': gy2+'px', '--gskx': (-sk2)+'deg', '--gs': String(Math.max(1, sc-0.08)), '--grot': rot2+'deg'});
+                    addClasses(sib, ['glitch','flash']);
+                    setTimeout(()=> removeClasses(sib, ['flash']), 140);
                     if (DEBUG) dlog('neighbor id=', gid, 'idx=', idx, {gx2,gy2,sk2,rot2});
                     setTimeout(() => {
-                        sib.classList.remove('glitch');
-                        sib.style.removeProperty('--gx');
-                        sib.style.removeProperty('--gy');
-                        sib.style.removeProperty('--gskx');
-                        sib.style.removeProperty('--gs');
-                        sib.style.removeProperty('--grot');
+                        removeClasses(sib, ['glitch']);
+                        removeStyles(sib, ['--gx','--gy','--gskx','--gs','--grot']);
                     }, 520 + Math.random() * 520);
                 });
             }
@@ -175,31 +191,26 @@
                     const t = (now - start)/dur;
                     if (t >= 1) return;
                     const jig = (Math.random()*2-1) * 1.0;
-                    g.style.setProperty('--gx', (gx + jig) + 'px');
+                    setStyles(g, {'--gx': (gx + jig)+'px'});
                     requestAnimationFrame(flutter);
                 }
                 requestAnimationFrame(flutter);
             }
             const burstDur = CFG.burstMin + Math.random() * (CFG.burstMax - CFG.burstMin);
             setTimeout(() => {
-                g.classList.remove('glitch');
-                g.classList.remove('flash');
-                g.style.removeProperty('--gx');
-                g.style.removeProperty('--gy');
-                g.style.removeProperty('--gskx');
-                g.style.removeProperty('--gs');
-                g.style.removeProperty('--grot');
+                removeClasses(g, ['glitch','flash']);
+                removeStyles(g, ['--gx','--gy','--gskx','--gs','--grot']);
                 if (word){
                     const c = Math.max(0, (parseInt(word.getAttribute('data-nr')||'1',10) - 1));
-                    if (c===0) { 
-                        word.classList.remove('no-refract'); 
-                        word.removeAttribute('data-nr'); 
+                    if (c===0) {
+                        removeClasses(word, ['no-refract']);
+                        enqueueWrite(()=>{ try{ word.removeAttribute('data-nr'); }catch(_){} });
                         if (DEBUG) {
                             const compAfter = getComputedStyle(word).filter;
                             dlog('filter(after-remove):', compAfter || '(none)');
                         }
                     }
-                    else { word.setAttribute('data-nr', String(c)); }
+                    else { enqueueWrite(()=>{ word.setAttribute('data-nr', String(c)); }); }
                 }
                 if (SCHED === 'glyph') scheduleGlyphGlitch(g);
             }, burstDur);
@@ -217,9 +228,9 @@
         while (chosen.size < count) chosen.add(glyphs[Math.floor(Math.random()*glyphs.length)]);
         const myId = ++__glitchId;
         if (DEBUG) dlog('word-burst id=', myId, 'wordIdx=', Array.from(title.querySelectorAll('.gradient-word')).indexOf(word), 'glyphs=', chosen.size);
-        const c0 = parseInt(word.getAttribute('data-nr')||'0',10)+1;
-        word.setAttribute('data-nr', String(c0));
-        word.classList.add('no-refract');
+    const c0 = parseInt(word.getAttribute('data-nr')||'0',10)+1;
+    enqueueWrite(()=>{ word.setAttribute('data-nr', String(c0)); });
+    addClasses(word, ['no-refract']);
         const dur = Math.round(CFG.burstMin + Math.random()*(CFG.burstMax - CFG.burstMin));
         chosen.forEach((g)=>{
             const gx = JITTER[Math.floor(Math.random() * JITTER.length)];
@@ -227,38 +238,42 @@
             const sk = (Math.random() < 0.35 ? (Math.random() * 2 - 1) * Math.min(2.0, CFG.skewMax) : 0);
             const sc = (Math.random() < 0.35 ? (1 + Math.random() * Math.min(0.14, CFG.scaleMax)) : 1);
             const rot = (Math.random() < 0.35 ? (Math.random()*2-1) * Math.min(1.4, CFG.rotateMax) : 0);
-            g.style.setProperty('--gx', gx + 'px');
-            g.style.setProperty('--gy', gy + 'px');
-            g.style.setProperty('--gskx', sk + 'deg');
-            g.style.setProperty('--gs', sc);
-            g.style.setProperty('--grot', rot + 'deg');
-            g.classList.add('glitch','flash');
-            setTimeout(()=> g.classList.remove('flash'), 100);
+            setStyles(g, {'--gx': gx+'px', '--gy': gy+'px', '--gskx': sk+'deg', '--gs': String(sc), '--grot': rot+'deg'});
+            addClasses(g, ['glitch','flash']);
+            setTimeout(()=> removeClasses(g, ['flash']), 100);
         });
         setTimeout(()=>{
             chosen.forEach((g)=>{
-                g.classList.remove('glitch','flash');
-                g.style.removeProperty('--gx');
-                g.style.removeProperty('--gy');
-                g.style.removeProperty('--gskx');
-                g.style.removeProperty('--gs');
-                g.style.removeProperty('--grot');
+                removeClasses(g, ['glitch','flash']);
+                removeStyles(g, ['--gx','--gy','--gskx','--gs','--grot']);
             });
             const c = Math.max(0, (parseInt(word.getAttribute('data-nr')||'1',10) - 1));
-            if (c===0) { word.classList.remove('no-refract'); word.removeAttribute('data-nr'); }
-            else { word.setAttribute('data-nr', String(c)); }
+            if (c===0) { removeClasses(word, ['no-refract']); enqueueWrite(()=>{ try{ word.removeAttribute('data-nr'); }catch(_){} }); }
+            else { enqueueWrite(()=>{ word.setAttribute('data-nr', String(c)); }); }
         }, dur);
     }
 
-    function scheduleGlobalWordGlitch(){
-        const delay = CFG.GLOBAL_MIN + Math.random()*(CFG.GLOBAL_MAX - CFG.GLOBAL_MIN);
+    let __globalTimer = null;
+    let __lastWordIdx = -1;
+    let __hoverIdx = -1;
+    let __lastHoverBurst = 0;
+    const HOVER_COOLDOWN = 3500; // ms
+    function scheduleGlobalWordGlitch(nextDelay){
+        if (__globalTimer) { clearTimeout(__globalTimer); __globalTimer = null; }
+        const delay = (typeof nextDelay === 'number') ? nextDelay : (CFG.GLOBAL_MIN + Math.random()*(CFG.GLOBAL_MAX - CFG.GLOBAL_MIN));
         const myEpoch = EPOCH;
-        setTimeout(()=>{
+        __globalTimer = setTimeout(()=>{
+            __globalTimer = null;
             if (myEpoch !== EPOCH) { if (DEBUG) dlog('global-skip reason=epoch-mismatch'); return scheduleGlobalWordGlitch(); }
             const wordsNow = Array.from(title.querySelectorAll('.gradient-word'));
             if (wordsNow.length === 0) return scheduleGlobalWordGlitch();
-            const word = wordsNow[Math.floor(Math.random()*wordsNow.length)];
-            triggerWordGlitch(word);
+            // choose index different from last when possible
+            let idx = Math.floor(Math.random()*wordsNow.length);
+            if (wordsNow.length > 1 && idx === __lastWordIdx) {
+                idx = (idx + 1 + Math.floor(Math.random()*(wordsNow.length-1))) % wordsNow.length;
+            }
+            __lastWordIdx = idx;
+            triggerWordGlitch(wordsNow[idx]);
             scheduleGlobalWordGlitch();
         }, delay);
     }
@@ -315,6 +330,24 @@
         });
         obs.observe(title, { childList: true, subtree: true, characterData: true });
     } catch (_) { }
+
+    // Hover priority: dispara burst na palavra sob o cursor com cooldown
+    title.addEventListener('pointermove', (e)=>{
+        const w = e.target && e.target.closest && e.target.closest('.gradient-word');
+        if (!w) { __hoverIdx = -1; return; }
+        const wordsNow = Array.from(title.querySelectorAll('.gradient-word'));
+        const idx = wordsNow.indexOf(w);
+        __hoverIdx = idx;
+        const now = performance.now();
+        if (idx >= 0 && (now - __lastHoverBurst) > HOVER_COOLDOWN) {
+            __lastHoverBurst = now;
+            __lastWordIdx = idx; // evita repetição imediata após hover
+            triggerWordGlitch(w);
+            // Reagenda o global para mais tarde (bias para não competir com hover)
+            scheduleGlobalWordGlitch(CFG.GLOBAL_MAX);
+        }
+    });
+    title.addEventListener('pointerleave', ()=>{ __hoverIdx = -1; });
 
     // Manual test hook: trigger a visible burst now
     window.__heroGlitchBurstAll = function(){
