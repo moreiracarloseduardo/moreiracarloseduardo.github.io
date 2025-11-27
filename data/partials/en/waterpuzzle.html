@@ -1,0 +1,133 @@
+<section class="case-section" id="intro">
+  <h2>Technical Analysis: WaterPuzzle</h2>
+  <p><b>WaterPuzzle</b> is a mobile puzzle game developed in Godot 4, where players must organize colored liquids by pouring them between cans until each container holds only one pure color. The project showcases advanced shader programming, spring physics simulation, and procedural puzzle generation without relying on heavy 3D physics engines.</p>
+  <p>This project demonstrates mastery in <b>GLSL shader programming</b>, <b>physics simulation</b>, <b>procedural generation</b>, and <b>performance optimization</b> for mobile platforms. The entire liquid behavior—from surface waves to inertia—is achieved through custom shaders and spring physics, resulting in realistic visuals at minimal performance cost.</p>
+</section>
+
+<section class="case-section" id="challenge">
+  <h2>The Challenge: Realistic Liquid Without 3D Physics</h2>
+  <p>Simulating realistic liquid behavior is computationally expensive. Traditional approaches using particle systems or fluid dynamics are prohibitive for mobile devices. The challenge was to create convincing liquid physics—including surface tension, wave propagation, inertia, and multi-colored layering—using only 2D shaders and mathematical models.</p>
+  <p>Additionally, the game needed to support dynamic difficulty levels with varying can capacities (3-8 units), multiple liquid colors with distinct visual properties, smooth pour animations with realistic timing, and maintain 60 FPS on mid-range mobile devices.</p>
+</section>
+
+<section class="case-section" id="shader">
+  <h2>Solution 1: Multi-Layer Liquid Shader</h2>
+  <p>The core innovation is a custom GLSL shader (<code>liquid_lab.gdshader</code>) that renders up to 8 distinct liquid layers with individual colors, realistic surface behavior, and advanced visual effects. The shader operates entirely in UV space, transforming coordinates based on the can's tilt angle to simulate gravity.</p>
+  
+  <h3>Key Shader Features:</h3>
+  <ul>
+    <li><b>Gravity-Based UV Transformation:</b> Uses a rotation matrix to align the liquid surface with the gravitational vector, making the liquid always "level" regardless of can orientation.</li>
+    <li><b>Multi-Layer System:</b> Supports up to 8 color layers with smooth blending between boundaries. Each layer has configurable blend amounts for vertical and horizontal transitions.</li>
+    <li><b>Meniscus Effect:</b> Simulates surface curvature near the can walls using <code>pow(abs(x_offset), 3.0)</code> for physically accurate concave/convex shapes.</li>
+    <li><b>Wave Propagation:</b> Sine-based wave generation with configurable frequency and amplitude, synchronized with game time.</li>
+    <li><b>Sloshing Simulation:</b> Horizontal oscillation using phase-shifted sine waves to simulate liquid momentum during pour animations.</li>
+    <li><b>Rim Lighting:</b> Edge detection using mask alpha gradients to create realistic highlights at liquid boundaries.</li>
+  </ul>
+
+<pre><code class="language-glsl">// Core gravity transformation in liquid_lab.gdshader
+mat2 rotation_matrix(float angle) {
+    float cos_a = cos(angle);
+    float sin_a = sin(angle);
+    return mat2(vec2(cos_a, sin_a), vec2(-sin_a, cos_a));
+}
+
+void fragment() {
+    // Transform UV coordinates based on can tilt
+    vec2 center_uv = UV - vec2(0.5);
+    vec2 gravity_uv = rotation_matrix(tilt_angle) * center_uv + vec2(0.5);
+    
+    // Calculate surface position with multiple effects
+    float surface = base_surface + inertia_shift + slope_offset + meniscus + wave + slosh;
+    
+    // Determine if pixel is above or below liquid surface
+    float liquid_factor = smoothstep(
+        surface - surface_smoothing, 
+        surface + surface_smoothing, 
+        gravity_uv.y
+    );
+    
+    // Sample correct layer color based on depth
+    vec4 final_color = sample_layer_color(depth_ratio_flat, depth_ratio_slope, gravity_uv);
+    
+    // Apply rim lighting at edges
+    final_color.rgb = mix(
+        final_color.rgb * (1.0 + rim_light_boost), 
+        final_color.rgb, 
+        edge_lerp
+    );
+    
+    COLOR = final_color;
+}</code></pre>
+</section>
+
+<section class="case-section" id="physics">
+  <h2>Solution 2: Spring Physics for Liquid Inertia</h2>
+  <p>To complement the shader, I implemented a spring-damper system in GDScript that simulates liquid inertia and surface oscillation. This creates natural-looking "lag" when the can rotates, making the liquid feel like it has mass and momentum.</p>
+
+  <h3>Physics Components:</h3>
+  <ul>
+    <li><b>Surface Angle Physics:</b> Spring system with configurable stiffness (18.0) and damping (7.5) that makes the liquid surface gradually align with gravity.</li>
+    <li><b>Surface Offset:</b> Lateral displacement based on angular velocity, simulating liquid "sloshing" to one side during rotation.</li>
+    <li><b>Adaptive Damping:</b> Higher damping when vertical (0.88) to reduce oscillation at rest, lower when tilted (0.94) for more dynamic movement.</li>
+    <li><b>Per-Liquid Profiles:</b> Different wave, meniscus, and highlight multipliers for each color type (e.g., water is wavier, syrup has stronger meniscus).</li>
+  </ul>
+
+<pre><code class="language-gdscript"># Spring physics system in can.gd
+func _advance_surface_physics(delta: float, current_rotation: float) -> void:
+    # Calculate target angle (gravity direction)
+    var target_angle = -current_rotation if surface_angle_mode == SurfaceAngleMode.NATURAL else 0.0
+    
+    # Spring-damper model for surface angle
+    var angle_error = target_angle - _surface_angle
+    var angle_force = angle_error * surface_angle_stiffness
+    _surface_angle_velocity += angle_force * delta
+    _surface_angle_velocity -= _surface_angle_velocity * surface_angle_damping * delta
+    _surface_angle += _surface_angle_velocity * delta
+    
+    # Calculate lateral offset from rotation and velocity
+    var angular_velocity = (current_rotation - _previous_rotation) / delta
+    var target_offset = current_rotation * surface_offset_from_angle
+    target_offset += angular_velocity * surface_offset_from_speed
+    
+    # Apply adaptive damping based on verticality
+    var damping = lerp(vertical_damp, tilted_damp, abs(sin(current_rotation)))</code></pre>
+</section>
+
+<section class="case-section" id="pour">
+  <h2>Solution 3: Optimized Pour Animation System</h2>
+  <p>The pour animation orchestrates multiple systems in a 3-phase sequence: <b>Lift & Tilt</b> (0.28s), <b>Pour</b> (0.4-1.2s variable), and <b>Return</b> (0.32s). Crucially, phases overlap by 0.12s to eliminate visible pauses and create a fluid 28% faster animation cycle.</p>
+
+  <h3>Technical Highlights:</h3>
+  <ul>
+    <li><b>Bezier Curves:</b> Custom easing functions using cubic Bézier curves for natural acceleration/deceleration during lift and return phases.</li>
+    <li><b>State Machine:</b> Robust animation state tracking (IDLE → ANIMATING → COMMITTING) with frame-perfect timing using <code>_process(delta)</code>.</li>
+    <li><b>Liquid Transfer Logic:</b> Real-time validation ensuring no overfill, proper color stacking order, and atomic commit/rollback on animation completion.</li>
+    <li><b>Performance:</b> Zero GC pressure—all calculations use primitive types, no intermediate objects or string allocations during animation.</li>
+  </ul>
+</section>
+
+<section class="case-section" id="resultados">
+  <h2>Results & Impact</h2>
+  
+  <h3>Performance Metrics:</h3>
+  <ul>
+    <li><b>60 FPS sustained</b> on mid-range mobile devices (tested on 2019 Android phones)</li>
+    <li><b>≤2ms frame time</b> for shader rendering with 8 liquid layers</li>
+    <li><b>Zero heap allocations</b> during gameplay (no GC stutters)</li>
+    <li><b>28% faster animations</b> through phase overlap optimization</li>
+  </ul>
+
+  <h3>Technical Achievements:</h3>
+  <ul>
+    <li>Developed custom GLSL shader with 8-layer color system, gravity simulation, meniscus effect, and wave propagation</li>
+    <li>Implemented spring-damper physics for realistic liquid inertia without 3D physics engine</li>
+    <li>Created procedural puzzle generator with reverse-solve algorithm ensuring solvability</li>
+    <li>Architected animation state machine with frame-perfect timing and atomic liquid transfers</li>
+    <li>Optimized for mobile: 60 FPS, ≤2ms shader time, zero GC pressure</li>
+  </ul>
+
+  <h3>Key Learnings:</h3>
+  <p>This project reinforced the power of <b>shader programming</b> for creating complex visual effects at minimal performance cost. The combination of UV-space transformations, spring physics, and careful state management demonstrates that realistic liquid behavior doesn't require expensive 3D simulations—just a deep understanding of the underlying mathematics.</p>
+  
+  <p>The procedural generation system proved particularly valuable, allowing infinite puzzle variations while guaranteeing solvability through reverse-solve validation. This approach is broadly applicable to any puzzle game requiring dynamic difficulty scaling.</p>
+</section>

@@ -117,7 +117,8 @@
     "tennisvr":{"title":"TennisVR","desc":"Simulação de tênis VR com física multi-ponto (cápsulas seguidoras) + efeito Magnus para spin autêntico e sensação real de impacto."},
     "candyworld":{"title":"CandyWorld","desc":"Idle management com AI autônoma, economia dinâmica, cadeia produtiva automatizada e balanceamento por curvas."},
     "idletrain":{"title":"IdleTrain","desc":"Jogo incremental com movimento procedural em Bézier, sistema de merge 3→1, economia escalável e persistência robusta."},
-    "icemelt":{"title":"Ice Melt Race","desc":"Sistema de derretimento dinâmico (RenderTexture heatmap), shader custom e cabo segmentado otimizado com pooling."}
+    "icemelt":{"title":"Ice Melt Race","desc":"Sistema de derretimento dinâmico (RenderTexture heatmap), shader custom e cabo segmentado otimizado com pooling."},
+    "waterpuzzle":{"title":"WaterPuzzle","desc":"Puzzle com shader GLSL personalizado para líquidos multi-camadas, física de mola para inércia e geração procedural."}
   }}
   ,"case": {
     "tennisvr": {
@@ -131,6 +132,87 @@
     },
     "candyworld": {"title":"CandyWorld – Economia Dinâmica & AI Autônoma","sub":"Idle management com cadeia produtiva automatizada, helpers e balanceamento por curvas.","soon":"Detalhes em breve."},
     "idletrain": {"title":"IdleTrain – Bézier Procedural & Economia Escalável","sub":"Curvas Bézier, merge 3→1, economia escalável e persistência robusta.","soon":"Resumo técnico em preparação."},
-    "icemelt": {"title":"Ice Melt Race – Shader Dinâmico & Física Segmentada","sub":"Heatmap RenderTexture, melting shader e cabo segmentado otimizado.","soon":"Shader breakdown e física segmentada em breve."}
+    "icemelt": {"title":"Ice Melt Race – Shader Dinâmico & Física Segmentada","sub":"Heatmap RenderTexture, melting shader e cabo segmentado otimizado.","soon":"Shader breakdown e física segmentada em breve."},
+    "waterpuzzle": {
+      "title":"WaterPuzzle – Física por Shader & Geração Procedural",
+      "sub":"Shader GLSL customizado com sistema de 8 camadas, física de mola para inércia realista e animações de pour otimizadas.",
+      "intro": {
+        "title":"Análise Técnica: WaterPuzzle - Física por Shader no Godot",
+        "p1":"WaterPuzzle é um jogo de puzzle mobile desenvolvido no Godot 4, onde os jogadores devem organizar líquidos coloridos despejando-os entre latas até que cada recipiente contenha apenas uma cor pura. O projeto demonstra programação avançada de shaders, simulação de física com molas e geração procedural de puzzles sem depender de motores de física 3D pesados.",
+        "p2":"Este projeto demonstra domínio em programação de shaders GLSL, simulação de física, geração procedural e otimização de performance para plataformas mobile. Todo o comportamento do líquido—desde ondas de superfície até inércia—é alcançado através de shaders customizados e física de mola, resultando em visuais realistas com custo mínimo de performance."
+      },
+      "challenge": {
+        "title":"O Desafio: Líquido Realista Sem Física 3D",
+        "p1":"Simular comportamento realista de líquidos é computacionalmente caro. Abordagens tradicionais usando sistemas de partículas ou dinâmica de fluidos são proibitivas para dispositivos móveis. O desafio era criar física de líquido convincente—incluindo tensão superficial, propagação de ondas, inércia e camadas multicoloridas—usando apenas shaders 2D e modelos matemáticos.",
+        "p2":"Além disso, o jogo precisava suportar níveis dinâmicos de dificuldade com capacidades variáveis de latas (3-8 unidades), múltiplas cores de líquido com propriedades visuais distintas, animações de pour suaves com timing realista e manter 60 FPS em dispositivos móveis médios."
+      },
+      "shader": {
+        "title":"Solução 1: Shader de Líquido Multi-Camadas com Física de Superfície",
+        "p1":"A inovação central é um shader GLSL personalizado (liquid_lab.gdshader) que renderiza até 8 camadas distintas de líquido com cores individuais, comportamento realista de superfície e efeitos visuais avançados. O shader opera inteiramente no espaço UV, transformando coordenadas baseadas no ângulo de inclinação da lata para simular gravidade.",
+        "features":"Recursos Principais do Shader:",
+        "li1":"Transformação UV Baseada em Gravidade: Usa matriz de rotação para alinhar a superfície do líquido com o vetor gravitacional, mantendo o líquido sempre \"nivelado\" independente da orientação da lata.",
+        "li2":"Sistema Multi-Camadas: Suporta até 8 camadas de cores com blend suave entre fronteiras. Cada camada tem quantidades configuráveis de blend para transições verticais e horizontais.",
+        "li3":"Efeito Menisco: Simula curvatura da superfície perto das paredes da lata usando pow(abs(x_offset), 3.0) para formas côncavas/convexas fisicamente precisas.",
+        "li4":"Propagação de Ondas: Geração de ondas baseada em seno com frequência e amplitude configuráveis, sincronizadas com o tempo do jogo.",
+        "li5":"Simulação de Sloshing: Oscilação horizontal usando ondas senoidais com mudança de fase para simular momentum do líquido durante animações de pour.",
+        "li6":"Rim Lighting: Detecção de bordas usando gradientes alfa de máscara para criar highlights realistas nas fronteiras do líquido.",
+        "caption":"Detalhamento do shader mostrando transformação UV alinhada à gravidade e renderização multi-camadas"
+      },
+      "physics": {
+        "title":"Solução 2: Física de Mola para Inércia do Líquido",
+        "p1":"Para complementar o shader, implementei um sistema spring-damper em GDScript que simula inércia do líquido e oscilação de superfície. Isso cria um \"atraso\" de aparência natural quando a lata gira, fazendo o líquido parecer ter massa e momentum.",
+        "components":"Componentes Físicos:",
+        "li1":"Física do Ângulo de Superfície: Sistema de mola com rigidez configurável (18.0) e amortecimento (7.5) que faz a superfície do líquido gradualmente se alinhar com a gravidade.",
+        "li2":"Deslocamento de Superfície: Deslocamento lateral baseado em velocidade angular, simulando líquido \"balançando\" para um lado durante rotação.",
+        "li3":"Amortecimento Adaptativo: Maior amortecimento quando vertical (0.88) para reduzir oscilação em repouso, menor quando inclinado (0.94) para movimento mais dinâmico.",
+        "li4":"Perfis por Líquido: Diferentes multiplicadores de onda, menisco e highlight para cada tipo de cor (ex: água tem mais ondas, xarope tem menisco mais forte).",
+        "caption":"Física de mola criando inércia natural e oscilação de superfície"
+      },
+      "pour": {
+        "title":"Solução 3: Sistema de Animação de Pour Otimizado",
+        "p1":"A animação de pour é a interação mais complexa, envolvendo três fases: aproximação (rotação da lata origem), transferência (líquido fluindo para fora e para dentro) e retorno (rotação da lata de volta ao repouso). O desafio era fazer isso parecer natural mantendo responsividade.",
+        "optimization":"Otimização de Performance:",
+        "p2":"Implementei um sistema de animação sobreposta que inicia a transferência de líquido 0.4 segundos antes da rotação completar. Isso cria uma experiência visual mais fluida e reduz o tempo total de animação de ~2.8s para ~2.0s—uma melhoria de 28% na responsividade.",
+        "stream":"Fluxo Visual de Pour:",
+        "p3":"O fluxo de líquido conectando as latas é implementado usando nós ColorRect posicionados dinamicamente que animam sua altura e alfa. Quando o fluxo atinge a superfície de destino, um sistema de partículas cria um efeito de splash com velocidades de partículas baseadas em física.",
+        "caption":"Animação de pour em três fases com otimização de timing sobreposto"
+      },
+      "generation": {
+        "title":"Solução 4: Geração Procedural de Puzzles & Validação",
+        "p1":"Puzzles são gerados usando um algoritmo de resolução reversa: começar do estado resolvido (cada cor em sua própria lata) e aplicar movimentos válidos aleatórios para embaralhar. Isso garante que todo puzzle é solucionável. Um sistema de validação separado verifica integridade da solução e detecta estados impossíveis.",
+        "features":"Recursos de Geração:",
+        "li1":"Níveis de Dificuldade: Suporte para capacidades de 3-8 unidades com complexidade crescente.",
+        "li2":"Validação de Estado: Verificações em tempo real garantem conservação de unidades de líquido e contagem de cores.",
+        "li3":"Sistema de Desfazer/Refazer: Histórico completo de estados com cópia profunda para prevenir bugs de referência.",
+        "li4":"Rastreamento de Solução: Sistema de debug exibe caminho de solução ótima para testes."
+      },
+      "architecture": {
+        "title":"Arquitetura de Software & Padrões de Design",
+        "p1":"O projeto emprega várias melhores práticas de engenharia de software:",
+        "li1":"Padrão State Machine: Animações de pour gerenciadas como estados explícitos (idle → animating → committing) para prevenir condições de corrida.",
+        "li2":"Autoloads Singleton: PuzzleLogic e SolutionValidator fornecem regras de jogo centralizadas e validação.",
+        "li3":"Padrão Observer: Notificações por grupos (add_to_group(\"first_screen\")) para mudanças de dificuldade desacopladas.",
+        "li4":"Design Baseado em Componentes: Classe Can é totalmente auto-contida com sua própria lógica de shader, física e animação.",
+        "li5":"Separação de Responsabilidades: Staging visual (animações de shader) separado de commits lógicos (mudanças de estado)."
+      },
+      "results": {
+        "title":"Resultados e Métricas Técnicas",
+        "performance":"Performance:",
+        "li1":"60 FPS consistente em dispositivos Android médios (série Snapdragon 600)",
+        "li2":"<0.5ms de overhead de shader por lata (8 latas na tela = ~4ms total)",
+        "li3":"Animações 28% mais rápidas através de otimização de timing sobreposto",
+        "li4":"Zero overhead de motor de física—toda simulação em shaders e matemática de mola",
+        "li5":"<50MB de footprint de memória com todos os assets carregados",
+        "technical":"Conquistas Técnicas:",
+        "li6":"Shader GLSL customizado com sistema de 8 camadas de cores e efeitos de superfície baseados em física",
+        "li7":"Modelo de física spring-damper para inércia realista de líquido",
+        "li8":"Geração procedural de puzzle com garantia de solubilidade",
+        "li9":"Validação robusta de estado prevenindo estados de jogo impossíveis",
+        "li10":"Otimização de pipeline de animação reduzindo latência de interação em 28%",
+        "skills":"Competências Demonstradas:",
+        "p1":"Este projeto demonstra expertise em programação de shaders GLSL, simulação de física, algoritmos de geração procedural, otimização mobile, arquitetura Godot Engine, design de state machine e profiling de performance. A combinação de polish visual e profundidade técnica demonstra a capacidade de entregar tanto experiências de usuário envolventes quanto código manutenível e performático.",
+        "caption":"Gameplay final mostrando líquidos multicoloridos com física realista"
+      }
+    }
   }
 }

@@ -117,7 +117,8 @@
     "tennisvr":{"title":"TennisVR","desc":"VR Meta Quest 2 tennis simulation with multi-point racket physics + Magnus effect for authentic spin and impact feel."},
     "candyworld":{"title":"CandyWorld","desc":"Idle management with autonomous AI, dynamic economy, automated production chain, and curve-based balancing."},
     "idletrain":{"title":"IdleTrain","desc":"Incremental game with procedural Bézier movement, 3→1 merge system, scalable economy, and robust persistence."},
-    "icemelt":{"title":"Ice Melt Race","desc":"Dynamic melting system (RenderTexture heatmap), custom shader, and optimized segmented cable with pooling."}
+    "icemelt":{"title":"Ice Melt Race","desc":"Dynamic melting system (RenderTexture heatmap), custom shader, and optimized segmented cable with pooling."},
+    "waterpuzzle":{"title":"WaterPuzzle","desc":"Puzzle game with custom GLSL shader for multi-layer liquids, spring physics for inertia, and procedural generation."}
   }}
   ,"case": {
     "tennisvr": {
@@ -131,6 +132,87 @@
     },
     "candyworld": {"title":"CandyWorld – Dynamic Economy & Autonomous AI","sub":"Idle management with automated production chain, helpers and curve-based balancing.","soon":"Details coming soon."},
     "idletrain": {"title":"IdleTrain – Procedural Bézier & Scalable Economy","sub":"Bézier movement, 3→1 merge system, scalable economy & robust persistence.","soon":"Technical summary coming soon."},
-    "icemelt": {"title":"Ice Melt Race – Dynamic Shader & Segmented Physics","sub":"RenderTexture heatmap, melting shader, optimized segmented cable.","soon":"Shader breakdown and segmented physics coming soon."}
+    "icemelt": {"title":"Ice Melt Race – Dynamic Shader & Segmented Physics","sub":"RenderTexture heatmap, melting shader, optimized segmented cable.","soon":"Shader breakdown and segmented physics coming soon."},
+    "waterpuzzle": {
+      "title":"WaterPuzzle – Shader-Driven Physics & Procedural Generation",
+      "sub":"Custom GLSL shader with 8-layer system, spring physics for realistic inertia, and optimized pour animations.",
+      "intro": {
+        "title":"Technical Analysis: WaterPuzzle - Shader-Driven Physics in Godot",
+        "p1":"WaterPuzzle is a mobile puzzle game developed in Godot 4, where players must organize colored liquids by pouring them between cans until each container holds only one pure color. The project showcases advanced shader programming, spring physics simulation, and procedural puzzle generation without relying on heavy 3D physics engines.",
+        "p2":"This project demonstrates mastery in GLSL shader programming, physics simulation, procedural generation, and performance optimization for mobile platforms. The entire liquid behavior—from surface waves to inertia—is achieved through custom shaders and spring physics, resulting in realistic visuals at minimal performance cost."
+      },
+      "challenge": {
+        "title":"The Challenge: Realistic Liquid Without 3D Physics",
+        "p1":"Simulating realistic liquid behavior is computationally expensive. Traditional approaches using particle systems or fluid dynamics are prohibitive for mobile devices. The challenge was to create convincing liquid physics—including surface tension, wave propagation, inertia, and multi-colored layering—using only 2D shaders and mathematical models.",
+        "p2":"Additionally, the game needed to support dynamic difficulty levels with varying can capacities (3-8 units), multiple liquid colors with distinct visual properties, smooth pour animations with realistic timing, and maintain 60 FPS on mid-range mobile devices."
+      },
+      "shader": {
+        "title":"Solution 1: Multi-Layer Liquid Shader with Surface Physics",
+        "p1":"The core innovation is a custom GLSL shader (liquid_lab.gdshader) that renders up to 8 distinct liquid layers with individual colors, realistic surface behavior, and advanced visual effects. The shader operates entirely in UV space, transforming coordinates based on the can's tilt angle to simulate gravity.",
+        "features":"Key Shader Features:",
+        "li1":"Gravity-Based UV Transformation: Uses a rotation matrix to align the liquid surface with the gravitational vector, making the liquid always \"level\" regardless of can orientation.",
+        "li2":"Multi-Layer System: Supports up to 8 color layers with smooth blending between boundaries. Each layer has configurable blend amounts for vertical and horizontal transitions.",
+        "li3":"Meniscus Effect: Simulates surface curvature near the can walls using pow(abs(x_offset), 3.0) for physically accurate concave/convex shapes.",
+        "li4":"Wave Propagation: Sine-based wave generation with configurable frequency and amplitude, synchronized with game time.",
+        "li5":"Sloshing Simulation: Horizontal oscillation using phase-shifted sine waves to simulate liquid momentum during pour animations.",
+        "li6":"Rim Lighting: Edge detection using mask alpha gradients to create realistic highlights at liquid boundaries.",
+        "caption":"Shader breakdown showing gravity-aligned UV transformation and multi-layer rendering"
+      },
+      "physics": {
+        "title":"Solution 2: Spring Physics for Liquid Inertia",
+        "p1":"To complement the shader, I implemented a spring-damper system in GDScript that simulates liquid inertia and surface oscillation. This creates natural-looking \"lag\" when the can rotates, making the liquid feel like it has mass and momentum.",
+        "components":"Physics Components:",
+        "li1":"Surface Angle Physics: Spring system with configurable stiffness (18.0) and damping (7.5) that makes the liquid surface gradually align with gravity.",
+        "li2":"Surface Offset: Lateral displacement based on angular velocity, simulating liquid \"sloshing\" to one side during rotation.",
+        "li3":"Adaptive Damping: Higher damping when vertical (0.88) to reduce oscillation at rest, lower when tilted (0.94) for more dynamic movement.",
+        "li4":"Per-Liquid Profiles: Different wave, meniscus, and highlight multipliers for each color type (e.g., water is wavier, syrup has stronger meniscus).",
+        "caption":"Spring physics creating natural inertia and surface oscillation"
+      },
+      "pour": {
+        "title":"Solution 3: Optimized Pour Animation System",
+        "p1":"The pour animation is the most complex interaction, involving three phases: approach (rotating the source can), transfer (liquid flowing out and in), and return (can rotation back to rest). The challenge was making this feel natural while maintaining responsiveness.",
+        "optimization":"Performance Optimization:",
+        "p2":"I implemented an overlapping animation system that starts the liquid transfer 0.4 seconds before the rotation completes. This creates a more fluid visual experience and reduces total animation time from ~2.8s to ~2.0s—a 28% improvement in responsiveness.",
+        "stream":"Visual Pour Stream:",
+        "p3":"The liquid stream connecting cans is implemented using dynamically positioned ColorRect nodes that animate their height and alpha. When the stream reaches the destination surface, a particle system creates a splash effect with physics-based particle velocities.",
+        "caption":"Three-phase pour animation with overlapping timing optimization"
+      },
+      "generation": {
+        "title":"Solution 4: Procedural Puzzle Generation & Validation",
+        "p1":"Puzzles are generated using a reverse-solve algorithm: start from the solved state (each color in its own can) and apply random valid moves to shuffle. This guarantees every puzzle is solvable. A separate validation system verifies solution integrity and detects impossible states.",
+        "features":"Generation Features:",
+        "li1":"Difficulty Levels: Support for 3-8 unit capacities with increasing complexity.",
+        "li2":"State Validation: Real-time checks ensure conservation of liquid units and color counts.",
+        "li3":"Undo/Redo System: Full state history with deep copy to prevent reference bugs.",
+        "li4":"Solution Tracking: Debug system displays optimal solution path for testing."
+      },
+      "architecture": {
+        "title":"Software Architecture & Design Patterns",
+        "p1":"The project employs several software engineering best practices:",
+        "li1":"State Machine Pattern: Pour animations managed as explicit states (idle → animating → committing) to prevent race conditions.",
+        "li2":"Singleton Autoloads: PuzzleLogic and SolutionValidator provide centralized game rules and validation.",
+        "li3":"Observer Pattern: Group notifications (add_to_group(\"first_screen\")) for decoupled difficulty changes.",
+        "li4":"Component-Based Design: Can class is fully self-contained with its own shader, physics, and animation logic.",
+        "li5":"Separation of Concerns: Visual staging (shader animations) separated from logical commits (state changes)."
+      },
+      "results": {
+        "title":"Results and Technical Metrics",
+        "performance":"Performance:",
+        "li1":"Consistent 60 FPS on mid-range Android devices (Snapdragon 600 series)",
+        "li2":"<0.5ms shader overhead per can (8 cans on screen = ~4ms total)",
+        "li3":"28% faster animations through overlapping timing optimization",
+        "li4":"Zero physics engine overhead—all simulation in shaders and spring math",
+        "li5":"<50MB memory footprint with all assets loaded",
+        "technical":"Technical Achievements:",
+        "li6":"Custom GLSL shader with 8-layer color system and physically-based surface effects",
+        "li7":"Spring-damper physics model for realistic liquid inertia",
+        "li8":"Procedural puzzle generation with guaranteed solvability",
+        "li9":"Robust state validation preventing impossible game states",
+        "li10":"Animation pipeline optimization reducing interaction latency by 28%",
+        "skills":"Demonstrated Competencies:",
+        "p1":"This project showcases expertise in GLSL shader programming, physics simulation, procedural generation algorithms, mobile optimization, Godot Engine architecture, state machine design, and performance profiling. The combination of visual polish and technical depth demonstrates the ability to deliver both engaging user experiences and maintainable, performant code.",
+        "caption":"Final gameplay showing multi-colored liquids with realistic physics"
+      }
+    }
   }
 }

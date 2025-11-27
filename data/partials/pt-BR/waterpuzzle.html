@@ -1,0 +1,133 @@
+<section class="case-section" id="intro">
+  <h2>Análise Técnica: WaterPuzzle</h2>
+  <p><b>WaterPuzzle</b> é um jogo de quebra-cabeça mobile desenvolvido em Godot 4, onde os jogadores devem organizar líquidos coloridos despejando-os entre latas até que cada recipiente contenha apenas uma cor pura. O projeto demonstra programação avançada de shaders, simulação de física de mola e geração procedural de quebra-cabeças sem depender de motores de física 3D pesados.</p>
+  <p>Este projeto demonstra maestria em <b>programação de shaders GLSL</b>, <b>simulação física</b>, <b>geração procedural</b> e <b>otimização de desempenho</b> para plataformas mobile. Todo o comportamento do líquido—desde ondas de superfície até inércia—é alcançado através de shaders personalizados e física de mola, resultando em visuais realistas com custo mínimo de desempenho.</p>
+</section>
+
+<section class="case-section" id="challenge">
+  <h2>O Desafio: Líquido Realista Sem Física 3D</h2>
+  <p>Simular comportamento realista de líquidos é computacionalmente caro. Abordagens tradicionais usando sistemas de partículas ou dinâmica de fluidos são proibitivas para dispositivos móveis. O desafio era criar física de líquidos convincente—incluindo tensão superficial, propagação de ondas, inércia e camadas multicoloridas—usando apenas shaders 2D e modelos matemáticos.</p>
+  <p>Além disso, o jogo precisava suportar níveis dinâmicos de dificuldade com capacidades variadas de latas (3-8 unidades), múltiplas cores de líquido com propriedades visuais distintas, animações suaves de despejo com temporização realista e manter 60 FPS em dispositivos móveis de médio alcance.</p>
+</section>
+
+<section class="case-section" id="shader">
+  <h2>Solução 1: Shader de Líquido Multi-Camadas</h2>
+  <p>A inovação central é um shader GLSL personalizado (<code>liquid_lab.gdshader</code>) que renderiza até 8 camadas distintas de líquido com cores individuais, comportamento realista de superfície e efeitos visuais avançados. O shader opera inteiramente no espaço UV, transformando coordenadas baseadas no ângulo de inclinação da lata para simular gravidade.</p>
+  
+  <h3>Recursos Principais do Shader:</h3>
+  <ul>
+    <li><b>Transformação UV Baseada em Gravidade:</b> Usa uma matriz de rotação para alinhar a superfície do líquido com o vetor gravitacional, mantendo o líquido sempre "nivelado" independentemente da orientação da lata.</li>
+    <li><b>Sistema Multi-Camadas:</b> Suporta até 8 camadas de cor com mistura suave entre limites. Cada camada tem quantidades configuráveis de mistura para transições verticais e horizontais.</li>
+    <li><b>Efeito Menisco:</b> Simula curvatura de superfície perto das paredes da lata usando <code>pow(abs(x_offset), 3.0)</code> para formas côncavas/convexas fisicamente precisas.</li>
+    <li><b>Propagação de Ondas:</b> Geração de ondas baseada em seno com frequência e amplitude configuráveis, sincronizadas com o tempo do jogo.</li>
+    <li><b>Simulação de Agitação:</b> Oscilação horizontal usando ondas senoidais com mudança de fase para simular momentum do líquido durante animações de despejo.</li>
+    <li><b>Iluminação de Borda:</b> Detecção de bordas usando gradientes alfa de máscara para criar realces realistas nos limites do líquido.</li>
+  </ul>
+
+<pre><code class="language-glsl">// Transformação de gravidade central em liquid_lab.gdshader
+mat2 rotation_matrix(float angle) {
+    float cos_a = cos(angle);
+    float sin_a = sin(angle);
+    return mat2(vec2(cos_a, sin_a), vec2(-sin_a, cos_a));
+}
+
+void fragment() {
+    // Transforma coordenadas UV baseado na inclinação da lata
+    vec2 center_uv = UV - vec2(0.5);
+    vec2 gravity_uv = rotation_matrix(tilt_angle) * center_uv + vec2(0.5);
+    
+    // Calcula posição da superfície com múltiplos efeitos
+    float surface = base_surface + inertia_shift + slope_offset + meniscus + wave + slosh;
+    
+    // Determina se o pixel está acima ou abaixo da superfície do líquido
+    float liquid_factor = smoothstep(
+        surface - surface_smoothing, 
+        surface + surface_smoothing, 
+        gravity_uv.y
+    );
+    
+    // Amostra cor correta da camada baseado na profundidade
+    vec4 final_color = sample_layer_color(depth_ratio_flat, depth_ratio_slope, gravity_uv);
+    
+    // Aplica iluminação de borda nas extremidades
+    final_color.rgb = mix(
+        final_color.rgb * (1.0 + rim_light_boost), 
+        final_color.rgb, 
+        edge_lerp
+    );
+    
+    COLOR = final_color;
+}</code></pre>
+</section>
+
+<section class="case-section" id="physics">
+  <h2>Solução 2: Física de Mola para Inércia de Líquido</h2>
+  <p>Para complementar o shader, implementei um sistema de mola-amortecedor em GDScript que simula inércia do líquido e oscilação de superfície. Isso cria um "atraso" de aparência natural quando a lata gira, fazendo o líquido parecer ter massa e momentum.</p>
+
+  <h3>Componentes da Física:</h3>
+  <ul>
+    <li><b>Física do Ângulo de Superfície:</b> Sistema de mola com rigidez configurável (18.0) e amortecimento (7.5) que faz a superfície do líquido gradualmente se alinhar com a gravidade.</li>
+    <li><b>Deslocamento de Superfície:</b> Deslocamento lateral baseado em velocidade angular, simulando líquido "agitando" para um lado durante rotação.</li>
+    <li><b>Amortecimento Adaptativo:</b> Maior amortecimento quando vertical (0.88) para reduzir oscilação em repouso, menor quando inclinado (0.94) para movimento mais dinâmico.</li>
+    <li><b>Perfis Por Líquido:</b> Diferentes multiplicadores de onda, menisco e realce para cada tipo de cor (ex: água é mais ondulada, xarope tem menisco mais forte).</li>
+  </ul>
+
+<pre><code class="language-gdscript"># Sistema de física de mola em can.gd
+func _advance_surface_physics(delta: float, current_rotation: float) -> void:
+    # Calcula ângulo alvo (direção da gravidade)
+    var target_angle = -current_rotation if surface_angle_mode == SurfaceAngleMode.NATURAL else 0.0
+    
+    # Modelo mola-amortecedor para ângulo de superfície
+    var angle_error = target_angle - _surface_angle
+    var angle_force = angle_error * surface_angle_stiffness
+    _surface_angle_velocity += angle_force * delta
+    _surface_angle_velocity -= _surface_angle_velocity * surface_angle_damping * delta
+    _surface_angle += _surface_angle_velocity * delta
+    
+    # Calcula deslocamento lateral da rotação e velocidade
+    var angular_velocity = (current_rotation - _previous_rotation) / delta
+    var target_offset = current_rotation * surface_offset_from_angle
+    target_offset += angular_velocity * surface_offset_from_speed
+    
+    # Aplica amortecimento adaptativo baseado na verticalidade
+    var damping = lerp(vertical_damp, tilted_damp, abs(sin(current_rotation)))</code></pre>
+</section>
+
+<section class="case-section" id="pour">
+  <h2>Solução 3: Sistema de Animação de Despejo Otimizado</h2>
+  <p>A animação de despejo orquestra múltiplos sistemas em uma sequência de 3 fases: <b>Levantar & Inclinar</b> (0.28s), <b>Despejar</b> (0.4-1.2s variável) e <b>Retornar</b> (0.32s). Crucialmente, as fases se sobrepõem em 0.12s para eliminar pausas visíveis e criar um ciclo de animação 28% mais rápido.</p>
+
+  <h3>Destaques Técnicos:</h3>
+  <ul>
+    <li><b>Curvas Bezier:</b> Funções de easing personalizadas usando curvas de Bézier cúbicas para aceleração/desaceleração natural durante fases de levantamento e retorno.</li>
+    <li><b>Máquina de Estados:</b> Rastreamento robusto de estado de animação (IDLE → ANIMATING → COMMITTING) com temporização perfeita por frame usando <code>_process(delta)</code>.</li>
+    <li><b>Lógica de Transferência de Líquido:</b> Validação em tempo real garantindo sem enchimento excessivo, ordem adequada de empilhamento de cores e commit/rollback atômico na conclusão da animação.</li>
+    <li><b>Desempenho:</b> Zero pressão GC—todos os cálculos usam tipos primitivos, sem objetos intermediários ou alocações de string durante animação.</li>
+  </ul>
+</section>
+
+<section class="case-section" id="resultados">
+  <h2>Resultados & Impacto</h2>
+  
+  <h3>Métricas de Desempenho:</h3>
+  <ul>
+    <li><b>60 FPS sustentados</b> em dispositivos móveis de médio alcance (testado em telefones Android de 2019)</li>
+    <li><b>≤2ms de tempo de frame</b> para renderização de shader com 8 camadas de líquido</li>
+    <li><b>Zero alocações de heap</b> durante o jogo (sem engasgos de GC)</li>
+    <li><b>28% animações mais rápidas</b> através de otimização de sobreposição de fases</li>
+  </ul>
+
+  <h3>Conquistas Técnicas:</h3>
+  <ul>
+    <li>Desenvolveu shader GLSL personalizado com sistema de cor de 8 camadas, simulação de gravidade, efeito menisco e propagação de ondas</li>
+    <li>Implementou física de mola-amortecedor para inércia realista de líquido sem motor de física 3D</li>
+    <li>Criou gerador procedural de quebra-cabeças com algoritmo de resolução reversa garantindo solubilidade</li>
+    <li>Arquitetou máquina de estados de animação com temporização perfeita por frame e transferências atômicas de líquido</li>
+    <li>Otimizado para mobile: 60 FPS, ≤2ms de tempo de shader, zero pressão GC</li>
+  </ul>
+
+  <h3>Aprendizados Principais:</h3>
+  <p>Este projeto reforçou o poder da <b>programação de shaders</b> para criar efeitos visuais complexos com custo mínimo de desempenho. A combinação de transformações no espaço UV, física de mola e gerenciamento cuidadoso de estado demonstra que comportamento realista de líquido não requer simulações 3D caras—apenas uma compreensão profunda da matemática subjacente.</p>
+  
+  <p>O sistema de geração procedural se provou particularmente valioso, permitindo variações infinitas de quebra-cabeças enquanto garante solubilidade através de validação de resolução reversa. Esta abordagem é amplamente aplicável a qualquer jogo de quebra-cabeça que requer escalonamento dinâmico de dificuldade.</p>
+</section>

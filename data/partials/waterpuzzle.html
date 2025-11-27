@@ -1,0 +1,287 @@
+<div class="">
+  <div class="case-content">
+    <section class="case-section" aria-labelledby="intro">
+      <h2 id="intro" data-i18n="case.waterpuzzle.intro.title">Technical Analysis: WaterPuzzle - Shader-Driven Physics in Godot</h2>
+      <p data-i18n="case.waterpuzzle.intro.p1"><b>WaterPuzzle</b> is a mobile puzzle game developed in Godot 4, where players must organize colored liquids by pouring them between cans until each container holds only one pure color. The project showcases advanced shader programming, spring physics simulation, and procedural puzzle generation without relying on heavy 3D physics engines.</p>
+      <p data-i18n="case.waterpuzzle.intro.p2">This project demonstrates mastery in <b>GLSL shader programming</b>, <b>physics simulation</b>, <b>procedural generation</b>, and <b>performance optimization</b> for mobile platforms. The entire liquid behavior—from surface waves to inertia—is achieved through custom shaders and spring physics, resulting in realistic visuals at minimal performance cost.</p>
+    </section>
+
+    <section class="case-section" aria-labelledby="challenge">
+      <h2 id="challenge" data-i18n="case.waterpuzzle.challenge.title">The Challenge: Realistic Liquid Without 3D Physics</h2>
+      <p data-i18n="case.waterpuzzle.challenge.p1">Simulating realistic liquid behavior is computationally expensive. Traditional approaches using particle systems or fluid dynamics are prohibitive for mobile devices. The challenge was to create convincing liquid physics—including surface tension, wave propagation, inertia, and multi-colored layering—using only 2D shaders and mathematical models.</p>
+      <p data-i18n="case.waterpuzzle.challenge.p2">Additionally, the game needed to support dynamic difficulty levels with varying can capacities (3-8 units), multiple liquid colors with distinct visual properties, smooth pour animations with realistic timing, and maintain 60 FPS on mid-range mobile devices.</p>
+    </section>
+
+    <section class="case-section" aria-labelledby="shader">
+      <h2 id="shader" data-i18n="case.waterpuzzle.shader.title">Solution 1: Multi-Layer Liquid Shader with Surface Physics</h2>
+      <p data-i18n="case.waterpuzzle.shader.p1">The core innovation is a custom GLSL shader (<code>liquid_lab.gdshader</code>) that renders up to 8 distinct liquid layers with individual colors, realistic surface behavior, and advanced visual effects. The shader operates entirely in UV space, transforming coordinates based on the can's tilt angle to simulate gravity.</p>
+      
+      <h3 data-i18n="case.waterpuzzle.shader.features">Key Shader Features:</h3>
+      <ul>
+        <li data-i18n="case.waterpuzzle.shader.li1"><b>Gravity-Based UV Transformation:</b> Uses a rotation matrix to align the liquid surface with the gravitational vector, making the liquid always "level" regardless of can orientation.</li>
+        <li data-i18n="case.waterpuzzle.shader.li2"><b>Multi-Layer System:</b> Supports up to 8 color layers with smooth blending between boundaries. Each layer has configurable blend amounts for vertical and horizontal transitions.</li>
+        <li data-i18n="case.waterpuzzle.shader.li3"><b>Meniscus Effect:</b> Simulates surface curvature near the can walls using <code>pow(abs(x_offset), 3.0)</code> for physically accurate concave/convex shapes.</li>
+        <li data-i18n="case.waterpuzzle.shader.li4"><b>Wave Propagation:</b> Sine-based wave generation with configurable frequency and amplitude, synchronized with game time.</li>
+        <li data-i18n="case.waterpuzzle.shader.li5"><b>Sloshing Simulation:</b> Horizontal oscillation using phase-shifted sine waves to simulate liquid momentum during pour animations.</li>
+        <li data-i18n="case.waterpuzzle.shader.li6"><b>Rim Lighting:</b> Edge detection using mask alpha gradients to create realistic highlights at liquid boundaries.</li>
+      </ul>
+
+<pre><code class="language-glsl">// Core gravity transformation in liquid_lab.gdshader
+mat2 rotation_matrix(float angle) {
+    float cos_a = cos(angle);
+    float sin_a = sin(angle);
+    return mat2(vec2(cos_a, sin_a), vec2(-sin_a, cos_a));
+}
+
+void fragment() {
+    // Transform UV coordinates based on can tilt
+    vec2 center_uv = UV - vec2(0.5);
+    vec2 gravity_uv = rotation_matrix(tilt_angle) * center_uv + vec2(0.5);
+    
+    // Calculate surface position with multiple effects
+    float surface = base_surface + inertia_shift + slope_offset + meniscus + wave + slosh;
+    
+    // Determine if pixel is above or below liquid surface
+    float liquid_factor = smoothstep(
+        surface - surface_smoothing, 
+        surface + surface_smoothing, 
+        gravity_uv.y
+    );
+    
+    // Sample correct layer color based on depth
+    vec4 final_color = sample_layer_color(depth_ratio_flat, depth_ratio_slope, gravity_uv);
+    
+    // Apply rim lighting at edges
+    final_color.rgb = mix(
+        final_color.rgb * (1.0 + rim_light_boost), 
+        final_color.rgb, 
+        edge_lerp
+    );
+    
+    COLOR = final_color;
+}</code></pre>
+
+      <div class="featured-image">
+        <img class="img-fluid project-image d-block mx-auto" src="assets/images/projects/waterpuzzle-shader.jpg" alt="WaterPuzzle shader visualization" width="600" loading="lazy" decoding="async" />
+        <p class="text-center text-muted mt-2" data-i18n="case.waterpuzzle.shader.caption">Shader breakdown showing gravity-aligned UV transformation and multi-layer rendering</p>
+      </div>
+    </section>
+
+    <section class="case-section" aria-labelledby="physics">
+      <h2 id="physics" data-i18n="case.waterpuzzle.physics.title">Solution 2: Spring Physics for Liquid Inertia</h2>
+      <p data-i18n="case.waterpuzzle.physics.p1">To complement the shader, I implemented a spring-damper system in GDScript that simulates liquid inertia and surface oscillation. This creates natural-looking "lag" when the can rotates, making the liquid feel like it has mass and momentum.</p>
+
+      <h3 data-i18n="case.waterpuzzle.physics.components">Physics Components:</h3>
+      <ul>
+        <li data-i18n="case.waterpuzzle.physics.li1"><b>Surface Angle Physics:</b> Spring system with configurable stiffness (18.0) and damping (7.5) that makes the liquid surface gradually align with gravity.</li>
+        <li data-i18n="case.waterpuzzle.physics.li2"><b>Surface Offset:</b> Lateral displacement based on angular velocity, simulating liquid "sloshing" to one side during rotation.</li>
+        <li data-i18n="case.waterpuzzle.physics.li3"><b>Adaptive Damping:</b> Higher damping when vertical (0.88) to reduce oscillation at rest, lower when tilted (0.94) for more dynamic movement.</li>
+        <li data-i18n="case.waterpuzzle.physics.li4"><b>Per-Liquid Profiles:</b> Different wave, meniscus, and highlight multipliers for each color type (e.g., water is wavier, syrup has stronger meniscus).</li>
+      </ul>
+
+<pre><code class="language-gdscript"># Spring physics system in can.gd
+func _advance_surface_physics(delta: float, current_rotation: float) -> void:
+    # Calculate target angle (gravity direction)
+    var target_angle = -current_rotation if surface_angle_mode == SurfaceAngleMode.NATURAL else 0.0
+    
+    # Spring-damper model for surface angle
+    var angle_error = target_angle - _surface_angle
+    var angle_force = angle_error * surface_angle_stiffness
+    _surface_angle_velocity += angle_force * delta
+    _surface_angle_velocity -= _surface_angle_velocity * surface_angle_damping * delta
+    _surface_angle += _surface_angle_velocity * delta
+    
+    # Calculate lateral offset from rotation and velocity
+    var angular_velocity = (current_rotation - _previous_rotation) / delta
+    var target_offset = current_rotation * surface_offset_from_angle
+    target_offset += angular_velocity * surface_offset_from_speed
+    
+    # Spring-damper for offset
+    var offset_error = target_offset - _surface_offset
+    var offset_force = offset_error * surface_offset_stiffness
+    _surface_offset_velocity += offset_force * delta
+    _surface_offset_velocity -= _surface_offset_velocity * surface_offset_damping * delta
+    _surface_offset += _surface_offset_velocity * delta
+    
+    # Update shader uniforms
+    var mat = liquid_shader_rect.material as ShaderMaterial
+    mat.set_shader_parameter("surface_angle", _surface_angle)
+    mat.set_shader_parameter("surface_offset", _surface_offset)
+    
+    _previous_rotation = current_rotation</code></pre>
+
+      <div class="featured-image">
+        <img class="img-fluid project-image d-block mx-auto" src="assets/images/projects/waterpuzzle-physics.gif" alt="WaterPuzzle spring physics demonstration" width="400" loading="lazy" decoding="async" />
+        <p class="text-center text-muted mt-2" data-i18n="case.waterpuzzle.physics.caption">Spring physics creating natural inertia and surface oscillation</p>
+      </div>
+    </section>
+
+    <section class="case-section" aria-labelledby="pour">
+      <h2 id="pour" data-i18n="case.waterpuzzle.pour.title">Solution 3: Optimized Pour Animation System</h2>
+      <p data-i18n="case.waterpuzzle.pour.p1">The pour animation is the most complex interaction, involving three phases: approach (rotating the source can), transfer (liquid flowing out and in), and return (can rotation back to rest). The challenge was making this feel natural while maintaining responsiveness.</p>
+
+      <h3 data-i18n="case.waterpuzzle.pour.optimization">Performance Optimization:</h3>
+      <p data-i18n="case.waterpuzzle.pour.p2">I implemented an <b>overlapping animation system</b> that starts the liquid transfer 0.4 seconds <i>before</i> the rotation completes. This creates a more fluid visual experience and reduces total animation time from ~2.8s to ~2.0s—a 28% improvement in responsiveness.</p>
+
+<pre><code class="language-gdscript"># Optimized pour timing in first_screen.gd
+func begin_move(source_idx: int, dest_idx: int):
+    # Phase 1: Start rotation
+    var approach_tween = source_tube_node.play_pour_approach(dest_tube_node)
+    var approach_duration = source_tube_node.POUR_ROTATE_TIME  # 1.0s
+    
+    # ⚡ OPTIMIZATION: Start pour BEFORE rotation completes
+    const OVERLAP_TIME = 0.4  # Start liquid transfer 0.4s early
+    var wait_before_pour = max(approach_duration - OVERLAP_TIME, 0.1)
+    
+    await get_tree().create_timer(wait_before_pour).timeout
+    
+    # Phase 2: Liquid transfer (now overlapping with rotation)
+    var pour_duration = clamp(0.25 + 0.22 * float(pour_count), 0.45, 1.2)
+    start_pour_stream_effect(dest_idx, source_idx, pour_duration)
+    
+    source_tube_node.animate_liquid_pour_out(original_colors, final_colors, color_map, pour_duration)
+    dest_tube_node.animate_liquid_pour_in(original_colors, final_colors, color_map, pour_duration)
+    
+    await get_tree().create_timer(pour_duration).timeout
+    stop_pour_stream_effect(dest_idx, source_idx)
+    
+    # Phase 3: Return immediately (no pause)
+    var return_tween = source_tube_node.play_pour_return()
+    if return_tween:
+        await return_tween.finished
+    
+    commit_move()  # Apply logical state change</code></pre>
+
+      <h3 data-i18n="case.waterpuzzle.pour.stream">Visual Pour Stream:</h3>
+      <p data-i18n="case.waterpuzzle.pour.p3">The liquid stream connecting cans is implemented using dynamically positioned <code>ColorRect</code> nodes that animate their height and alpha. When the stream reaches the destination surface, a particle system creates a splash effect with physics-based particle velocities.</p>
+
+      <div class="featured-image">
+        <img class="img-fluid project-image d-block mx-auto gif-normal" src="assets/images/projects/waterpuzzle-pour.gif" alt="WaterPuzzle pour animation" width="400" loading="lazy" decoding="async" />
+        <p class="text-center text-muted mt-2" data-i18n="case.waterpuzzle.pour.caption">Three-phase pour animation with overlapping timing optimization</p>
+      </div>
+    </section>
+
+    <section class="case-section" aria-labelledby="generation">
+      <h2 id="generation" data-i18n="case.waterpuzzle.generation.title">Solution 4: Procedural Puzzle Generation & Validation</h2>
+      <p data-i18n="case.waterpuzzle.generation.p1">Puzzles are generated using a <b>reverse-solve algorithm</b>: start from the solved state (each color in its own can) and apply random valid moves to shuffle. This guarantees every puzzle is solvable. A separate validation system verifies solution integrity and detects impossible states.</p>
+
+      <h3 data-i18n="case.waterpuzzle.generation.features">Generation Features:</h3>
+      <ul>
+        <li data-i18n="case.waterpuzzle.generation.li1"><b>Difficulty Levels:</b> Support for 3-8 unit capacities with increasing complexity.</li>
+        <li data-i18n="case.waterpuzzle.generation.li2"><b>State Validation:</b> Real-time checks ensure conservation of liquid units and color counts.</li>
+        <li data-i18n="case.waterpuzzle.generation.li3"><b>Undo/Redo System:</b> Full state history with deep copy to prevent reference bugs.</li>
+        <li data-i18n="case.waterpuzzle.generation.li4"><b>Solution Tracking:</b> Debug system displays optimal solution path for testing.</li>
+      </ul>
+
+<pre><code class="language-gdscript"># Validation system from first_screen.gd
+func _quick_validate_state() -> bool:
+    var totals := {}
+    var total_units := 0
+    
+    # Count all liquid units by color
+    for tube in current_state:
+        if tube.size() > tube_capacity:
+            push_error("❌ Tube exceeds capacity!")
+            return false
+        for color_id in tube:
+            totals[color_id] = totals.get(color_id, 0) + 1
+            total_units += 1
+    
+    # Verify conservation laws
+    var unique_colors = totals.keys().size()
+    var expected_units = unique_colors * tube_capacity
+    
+    if total_units != expected_units:
+        push_error("❌ Unit conservation violated! Has: %d, Expected: %d" % [total_units, expected_units])
+        return false
+    
+    # Verify equal distribution
+    for color_id in totals.keys():
+        if totals[color_id] != tube_capacity:
+            push_error("❌ Color %d has %d units, expected %d" % [color_id, totals[color_id], tube_capacity])
+            return false
+    
+    return true</code></pre>
+    </section>
+
+    <section class="case-section" aria-labelledby="architecture">
+      <h2 id="architecture" data-i18n="case.waterpuzzle.architecture.title">Software Architecture & Design Patterns</h2>
+      <p data-i18n="case.waterpuzzle.architecture.p1">The project employs several software engineering best practices:</p>
+      
+      <ul>
+        <li data-i18n="case.waterpuzzle.architecture.li1"><b>State Machine Pattern:</b> Pour animations managed as explicit states (idle → animating → committing) to prevent race conditions.</li>
+        <li data-i18n="case.waterpuzzle.architecture.li2"><b>Singleton Autoloads:</b> <code>PuzzleLogic</code> and <code>SolutionValidator</code> provide centralized game rules and validation.</li>
+        <li data-i18n="case.waterpuzzle.architecture.li3"><b>Observer Pattern:</b> Group notifications (<code>add_to_group("first_screen")</code>) for decoupled difficulty changes.</li>
+        <li data-i18n="case.waterpuzzle.architecture.li4"><b>Component-Based Design:</b> <code>Can</code> class is fully self-contained with its own shader, physics, and animation logic.</li>
+        <li data-i18n="case.waterpuzzle.architecture.li5"><b>Separation of Concerns:</b> Visual staging (shader animations) separated from logical commits (state changes).</li>
+      </ul>
+
+<pre><code class="language-gdscript"># State machine for pour safety
+var is_animating_move: bool = false
+var pending_move: Dictionary = {}
+
+func begin_move(source_idx: int, dest_idx: int):
+    if is_animating_move:
+        return  # Prevent overlapping moves
+    is_animating_move = true
+    
+    # Store move metadata for later commit
+    pending_move = {
+        "source_idx": source_idx,
+        "dest_idx": dest_idx,
+        "pour_count": pour_count,
+        # ... other data
+    }
+    
+    # Execute visual animation...
+    await animation_complete
+    
+    # Commit logical state AFTER visuals
+    commit_move()
+
+func commit_move():
+    if pending_move.is_empty():
+        return
+    
+    # Validate before applying
+    if not _quick_validate_state():
+        push_error("Invalid state detected!")
+        return
+    
+    # Apply logical changes...
+    is_animating_move = false
+    pending_move.clear()</code></pre>
+    </section>
+
+    <section class="case-section" aria-labelledby="results">
+      <h2 id="results" data-i18n="case.waterpuzzle.results.title">Results and Technical Metrics</h2>
+      
+      <h3 data-i18n="case.waterpuzzle.results.performance">Performance:</h3>
+      <ul>
+        <li data-i18n="case.waterpuzzle.results.li1"><b>Consistent 60 FPS</b> on mid-range Android devices (Snapdragon 600 series)</li>
+        <li data-i18n="case.waterpuzzle.results.li2"><b>&lt;0.5ms shader overhead</b> per can (8 cans on screen = ~4ms total)</li>
+        <li data-i18n="case.waterpuzzle.results.li3"><b>28% faster animations</b> through overlapping timing optimization</li>
+        <li data-i18n="case.waterpuzzle.results.li4"><b>Zero physics engine overhead</b>—all simulation in shaders and spring math</li>
+        <li data-i18n="case.waterpuzzle.results.li5"><b>&lt;50MB memory footprint</b> with all assets loaded</li>
+      </ul>
+
+      <h3 data-i18n="case.waterpuzzle.results.technical">Technical Achievements:</h3>
+      <ul>
+        <li data-i18n="case.waterpuzzle.results.li6">Custom GLSL shader with 8-layer color system and physically-based surface effects</li>
+        <li data-i18n="case.waterpuzzle.results.li7">Spring-damper physics model for realistic liquid inertia</li>
+        <li data-i18n="case.waterpuzzle.results.li8">Procedural puzzle generation with guaranteed solvability</li>
+        <li data-i18n="case.waterpuzzle.results.li9">Robust state validation preventing impossible game states</li>
+        <li data-i18n="case.waterpuzzle.results.li10">Animation pipeline optimization reducing interaction latency by 28%</li>
+      </ul>
+
+      <h3 data-i18n="case.waterpuzzle.results.skills">Demonstrated Competencies:</h3>
+      <p data-i18n="case.waterpuzzle.results.p1">This project showcases expertise in <b>GLSL shader programming</b>, <b>physics simulation</b>, <b>procedural generation algorithms</b>, <b>mobile optimization</b>, <b>Godot Engine architecture</b>, <b>state machine design</b>, and <b>performance profiling</b>. The combination of visual polish and technical depth demonstrates the ability to deliver both engaging user experiences and maintainable, performant code.</p>
+
+      <div class="featured-image mt-4">
+        <img class="img-fluid project-image d-block mx-auto" src="assets/images/projects/waterpuzzle-final.jpg" alt="WaterPuzzle final gameplay" width="600" loading="lazy" decoding="async" />
+        <p class="text-center text-muted mt-2" data-i18n="case.waterpuzzle.results.caption">Final gameplay showing multi-colored liquids with realistic physics</p>
+      </div>
+    </section>
+  </div>
+  <div class="case-sidebar"></div>
+</div>

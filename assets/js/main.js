@@ -210,6 +210,14 @@ function openModalEl(el){
       tags: ['Shader','Physics','FX'],
       cover: 'assets/images/projects/ice.jpg',
       gif: 'assets/images/projects/IceMeltRope.gif'
+    },
+    waterpuzzle: {
+      id:'waterpuzzle',
+      title: 'WaterPuzzle – Shader-Driven Physics & Procedural Generation',
+      subtitle: 'Custom GLSL shader with spring-damper inertia, optimized pour cycle, and guaranteed-solvable procedural puzzles.',
+      tags: ['Godot','Shader','Physics'],
+      cover: 'assets/images/projects/waterpuzzle.png',
+      gif: 'assets/images/projects/waterpuzzle.gif'
     }
   };
 

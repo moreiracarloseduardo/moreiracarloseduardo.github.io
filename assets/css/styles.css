@@ -1368,7 +1368,7 @@ body[data-theme="dark"] .navbar.navbar-light {
 
 /* ===== Project Cards / Featured Projects ===== */
 .project-grid {
-  --cols: 4;
+  --cols: 3;
   display: grid;
   column-gap: var(--space-5);
   row-gap: calc(var(--space-5) + 8px);
