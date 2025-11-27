@@ -1,0 +1,16 @@
+{
+  "id": "waterpuzzle",
+  "title": "IdleTrain – Movimento Bézier & Economia Escalável",
+  "subtitle": "Incremental railway com curvas Bézier, merge 3→1, economia matemática e persistência robusta.",
+  "tags": ["Procedural", "Economy", "Optimization", "Data"],
+  "metrics": ["60 FPS", "<180MB", "Merge 3→1", "Bezier Path"],
+  "sections": [
+    {"id": "overview", "heading": "Visão Geral", "body": "IdleTrain combina gerenciamento incremental com movimento procedural suave e economia escalável."},
+    {"id": "movement", "heading": "Movimento Procedural Bézier", "body": "Interpolação via LTBezierPath; ratio normalizado 0-1 para multi-objetos.", "code": "public void CalculateTrack(TrackSegment_ startSegment) {\n    bezier = new LTBezierPath(pathPoints);\n    Game_.instance.rule_.train.ratio = bezier.ratioAtPoint(pointRatio);\n}", "language": "csharp"},
+    {"id": "merge", "heading": "Sistema de Merge 3→1", "body": "Varredura otimizada identifica três wagons mesmo nível e promove upgrade animado.", "code": "public bool CanMerge() {\n    for (int i = 0; i <= maxLevel; i++) {\n        for (int j = 0; j < wagons.Count; j++) {\n            if (wagons[j].Level == i && wagonsToMerge.Count < 3) {\n                wagonsToMerge.Add(wagons[j]);\n            }\n        }\n    }\n    return wagonsToMerge.Count == 3;\n}", "language": "csharp"},
+    {"id": "economy", "heading": "Economia & Fórmulas", "body": "Precificação quadrática + ajuste por trilho para escalonamento controlado.", "code": "public ulong PriceFormula(float A, float B, float C, int level, int trackMultiplier) {\n    level = level + (trackMultiplier * Game_.instance.data.track);\n    return (ulong)(A * Mathf.Pow(level, 2) + (B * level) + C);\n}", "language": "csharp"},
+    {"id": "audio", "heading": "Feedback Dinâmico", "body": "Pitch do trem baseado em velocidade para reforço auditivo.", "code": "float pitch = Mathf.Lerp(minPitch, maxPitch, speed / maxSpeed);\naudioSource.pitch = pitch;", "language": "csharp"},
+    {"id": "performance", "heading": "Otimização", "body": "Pooling UI, corrotinas para boosts, caching de componentes, câmera interpolada, saves <100ms."},
+    {"id": "resultados", "heading": "Resultados", "body": "60 FPS consistentes (Android mid-tier), memória <180MB, zero leaks em 8h teste contínuo."}
+  ]
+}
